@@ -1,0 +1,11 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	font-family: Calibri;
+	
+}
+
+td.content{
+	padding: 20px 10px 10px 20px;
+	background-color: #E7E7E7;
+}

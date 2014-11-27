@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+
+
+http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+
+
+http://www.springframework.org/schema/beans
+
+
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+
+http://www.springframework.org/schema/context
+
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+
+		<property name="mappingResources">
+			<list>
+				<value>Book.hbm.xml</value>
+				<value>Category.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>
