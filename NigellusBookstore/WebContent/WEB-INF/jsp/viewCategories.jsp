@@ -30,6 +30,7 @@
 						<th>Author</th>
 						<th>Price</th>
 						<th></th>
+						<th>Category</th>
 						<th>Action</th>
 					</tr>
 					<c:forEach items="${model.selectedCategory.books }" var="book">
@@ -37,8 +38,14 @@
 							<td>${book.title}</td>
 							<td>${book.authorList}</td>
 							<td>${book.unitPrice}</td>
+
 							<td><img alt="Nigellus Bookstore" width="100"
 								src="<c:url value="${book.imageUrl}" />" /></td>
+							<td>
+								<c:forEach items="${book.categories }" var="category">
+									${category.name}<br />
+								</c:forEach>
+							</td>
 							<td>
 								<!-- 
 						<a href="/book-online/book.do?action=deleteBook&bookId=${book.id}"

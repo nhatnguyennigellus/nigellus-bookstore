@@ -1,5 +1,8 @@
 package nigellus.bookstore.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 // Generated Nov 26, 2014 10:52:05 AM by Hibernate Tools 3.4.0.CR1
 
 /**
@@ -14,6 +17,15 @@ public class Book implements java.io.Serializable {
 	private String description;
 	private String authorList;
 	private String imageUrl;
+	private Set categories = new HashSet(0);
+
+	public Set getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set categories) {
+		this.categories = categories;
+	}
 
 	public Book() {
 	}
