@@ -24,7 +24,7 @@
 				<font color="red">No data</font>
 			</c:when>
 			<c:otherwise>
-				<table border="1" width="70%">
+				<table border="1" width="90%">
 					<tr>
 						<th>Title</th>
 						<th>Author</th>
@@ -66,8 +66,8 @@
 
 
 	</form:form>
-	<a href="addBatch">Add Category</a> |
-	<a href="addStudent">Add Book</a>
+	<a href="addCategory">Add Category</a> |
+	<a href="toAddBook">Add Book</a>
 </body>
 <script type="text/javascript">
 	function submitForm() {

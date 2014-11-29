@@ -10,26 +10,23 @@
 </head>
 <body>
 	<form:form id="mainForm" method="post" commandName="model">
-		<strong>Enter the batch name:</strong>
-		<form:input path="batch.name" />
-		<br />
-		<br />
-		<strong>Enter the student who belongs to the batch: </strong>
-		<br />
-		<strong>Student ID</strong>
-		<form:input path="student.id" />
-		<br />
-		<br />
-		<strong>Student Name</strong>
-		<form:input path="student.name" />
-		<br />
-		<br />
-		<form:button>Add Batch</form:button>
+		<table>
+			<tr>
+				<td>Category: </td>
+				<td><form:input path="category.name" /></td>
+			</tr>
+			<tr>
+				<td>Description: </td>
+				<td><form:input path="category.description" /></td>
+			</tr>
+		</table>
+		
+		<form:button>Add Category</form:button>
 	</form:form>
 	<br />
-	<a href="viewBatch">Back</a>
-	<c:if test="${sessionScope.addBatchSuccess != null}">
-		<font color="green">${sessionScope.addBatchSuccess }</font>
+	<a href="viewCategories">Back</a>
+	<c:if test="${sessionScope.addCategorySuccess != null}">
+		<font color="green">${sessionScope.addCategorySuccess }</font>
 	</c:if>
 
 </body>

@@ -10,22 +10,22 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/site.css' />"/>
 </head>
 <body>
-<table border="0" cellpadding="2" cellspacing="2" align="center" width="90%">
+<table border="0" cellpadding="2" cellspacing="2" align="center" width="95%">
 	<tr>
 		<td height="30" colspan="2" style="background-color: #FFDFDF; color: #FF5500">
 			<tiles:insertAttribute name="header"/>
 		</td>
 	</tr>
 	<tr>
-		<td height="250"  style="background-color: #C0E9FF" width="20%">
+		<td height="300"  style="background-color: #C0E9FF" width="20%">
 			<tiles:insertAttribute name="menu"/>
 		</td>
-		<td height="350" class="content" >
+		<td class="content" >
 			<tiles:insertAttribute name="body" />
 		</td>
 	</tr>
 	<tr>
-		<td height="30" colspan="2" style="background-color: #00A2FF; color: #FFFFFF">
+		<td height="50" colspan="2" style="background-color: #00A2FF; color: #FFFFFF">
 			<tiles:insertAttribute name="footer"/>
 		</td>
 	</tr>

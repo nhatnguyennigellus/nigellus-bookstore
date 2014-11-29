@@ -18,12 +18,16 @@
 		<put-attribute name="title" value="Books"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/viewBooks.jsp"></put-attribute>
 	</definition>
-<!--	 <definition name="addBatch" extends="base.definition">
-		<put-attribute name="title" value="Add Batch"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/jsp/addBatch.jsp"></put-attribute>
+	<definition name="index" extends="base.definition">
+		<put-attribute name="title" value="Nigellus Bookstore - Homepage"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp"></put-attribute>
 	</definition>
-	<definition name="addStudent" extends="base.definition">
-		<put-attribute name="title" value="Add Student"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/jsp/addStudent.jsp"></put-attribute>
-	</definition>  -->
+	 <definition name="addCategory" extends="base.definition">
+		<put-attribute name="title" value="Add Category"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/addCategory.jsp"></put-attribute>
+	</definition>
+	<definition name="addBook" extends="base.definition">
+		<put-attribute name="title" value="Add Book"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/addBook.jsp"></put-attribute>
+	</definition> 
 </tiles-definitions>

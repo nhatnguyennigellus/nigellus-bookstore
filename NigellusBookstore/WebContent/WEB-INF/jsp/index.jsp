@@ -9,7 +9,7 @@
 <title>Nigellus Bookstore - Homepage</title>
 </head>
 <body>
-	<table border="0" cellpadding="2" cellspacing="2" align="center"
+<!-- 	<table border="0" cellpadding="2" cellspacing="2" align="center"
 		width="95%">
 		<tr>
 			<td height="30" colspan="2"
@@ -19,15 +19,15 @@
 		<tr>
 			<td height="1000" style="background-color: #C0E9FF" width="20%"><jsp:include
 					page="/WEB-INF/jsp/menu.jsp"></jsp:include></td>
-			<td height="1000" style="background-color: #E7E7E7">
+			<td height="1000" style="background-color: #E7E7E7"> -->
 				<h1>Welcome</h1>
-			</td>
+	<!-- 		</td>
 		</tr>
 		<tr>
 			<td height="50" colspan="2"
 				style="background-color: #00A2FF; color: #FFFFFF;"><jsp:include
 					page="/WEB-INF/jsp/footer.jsp"></jsp:include></td>
 		</tr>
-	</table>
+	</table> -->
 </body>
 </html>

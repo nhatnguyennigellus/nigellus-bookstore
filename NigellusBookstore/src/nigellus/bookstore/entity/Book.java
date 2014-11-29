@@ -11,7 +11,6 @@ import java.util.Set;
 public class Book implements java.io.Serializable {
 
 	private Integer id;
-	private Category category;
 	private String title;
 	private float unitPrice;
 	private String description;
@@ -30,18 +29,18 @@ public class Book implements java.io.Serializable {
 	public Book() {
 	}
 
-	public Book(Category category, String title, float unitPrice,
+	public Book(Set category, String title, float unitPrice,
 			String authorList, String imageUrl) {
-		this.category = category;
+		this.categories = category;
 		this.title = title;
 		this.unitPrice = unitPrice;
 		this.authorList = authorList;
 		this.imageUrl = imageUrl;
 	}
 
-	public Book(Category category, String title, float unitPrice,
+	public Book(Set category, String title, float unitPrice,
 			String description, String authorList, String imageUrl) {
-		this.category = category;
+		this.categories = category;
 		this.title = title;
 		this.unitPrice = unitPrice;
 		this.description = description;
@@ -55,14 +54,6 @@ public class Book implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Category getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 
 	public String getTitle() {

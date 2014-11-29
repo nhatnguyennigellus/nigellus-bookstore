@@ -35,6 +35,7 @@ http://www.springframework.org/schema/context
 			<list>
 				<value>Book.hbm.xml</value>
 				<value>Category.hbm.xml</value>
+				<value>Admin.hbm.xml</value>
 			</list>
 		</property>
 	</bean>

@@ -25,4 +25,8 @@ http://www.springframework.org/schema/context
 	<bean id="bookDAO" class="nigellus.bookstore.dao.BookDAO">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="adminDAO" class="nigellus.bookstore.dao.AdminDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 </beans>  

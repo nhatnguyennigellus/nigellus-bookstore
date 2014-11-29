@@ -8,7 +8,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class CategoryDAO extends HibernateDaoSupport{
 	@SuppressWarnings("unchecked")
-	public List<Category> getBatchList() {
+	public List<Category> getCategoryList() {
 		String query = "select c from Category c";
 		return getHibernateTemplate().find(query);
 	}
