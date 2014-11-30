@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 30, 2014 2:46:01 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="nigellus.bookstore.entity.Customer" table="customer" catalog="bookonline">
+        <id name="username" type="string">
+            <column name="Username" length="30" />
+            <generator class="assigned" />
+        </id>
+        <property name="password" type="string">
+            <column name="Password" length="30" not-null="true" />
+        </property>
+        <property name="fullname" type="string">
+            <column name="Fullname" length="50" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="Address" length="70" />
+        </property>
+        <property name="email" type="string">
+            <column name="Email" length="50" />
+        </property>
+        <property name="phone" type="string">
+            <column name="Phone" length="20" />
+        </property>
+        <set name="orders" table="order" inverse="false" lazy="false" fetch="select">
+            <key>
+                <column name="CustomerId" length="30" not-null="true" />
+            </key>
+            <one-to-many class="nigellus.bookstore.entity.Order" />
+        </set>
+    </class>
+</hibernate-mapping>

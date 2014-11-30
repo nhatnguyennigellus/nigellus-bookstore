@@ -29,4 +29,15 @@ http://www.springframework.org/schema/context
 	<bean id="adminDAO" class="nigellus.bookstore.dao.AdminDAO">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="customerDAO" class="nigellus.bookstore.dao.CustomerDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="orderDAO" class="nigellus.bookstore.dao.OrderDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="orderDetailDAO" class="nigellus.bookstore.dao.OrderDetailDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 </beans>  

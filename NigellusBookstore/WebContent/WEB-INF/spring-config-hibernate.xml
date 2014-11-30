@@ -36,6 +36,9 @@ http://www.springframework.org/schema/context
 				<value>Book.hbm.xml</value>
 				<value>Category.hbm.xml</value>
 				<value>Admin.hbm.xml</value>
+				<value>Order.hbm.xml</value>
+				<value>Orderdetails.hbm.xml</value>
+				<value>Customer.hbm.xml</value>
 			</list>
 		</property>
 	</bean>

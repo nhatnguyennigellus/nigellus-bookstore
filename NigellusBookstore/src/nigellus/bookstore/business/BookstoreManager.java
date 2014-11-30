@@ -2,17 +2,20 @@ package nigellus.bookstore.business;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import nigellus.bookstore.dao.AdminDAO;
 import nigellus.bookstore.dao.BookDAO;
 import nigellus.bookstore.dao.CategoryDAO;
+import nigellus.bookstore.dao.CustomerDAO;
+import nigellus.bookstore.dao.OrderDAO;
+import nigellus.bookstore.dao.OrderDetailDAO;
 import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.Category;
+import nigellus.bookstore.entity.Customer;
 import nigellus.bookstore.model.AddBookModel;
-import nigellus.bookstore.model.AdminLoginModel;
 import nigellus.bookstore.model.BookstoreModel;
+import nigellus.bookstore.model.LoginModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,6 +29,39 @@ public class BookstoreManager {
 	@Autowired
 	private AdminDAO adminDAO;
 
+	@Autowired
+	private CustomerDAO customerDAO;
+
+	@Autowired
+	private OrderDAO orderDAO;
+
+	public OrderDAO getOrderDAO() {
+		return orderDAO;
+	}
+
+	public void setOrderDAO(OrderDAO orderDAO) {
+		this.orderDAO = orderDAO;
+	}
+
+	public OrderDetailDAO getOrderDetailDAO() {
+		return orderDetailDAO;
+	}
+
+	public void setOrderDetailDAO(OrderDetailDAO orderDetailDAO) {
+		this.orderDetailDAO = orderDetailDAO;
+	}
+
+	@Autowired
+	private OrderDetailDAO orderDetailDAO;
+	
+	public CustomerDAO getCustomerDAO() {
+		return customerDAO;
+	}
+
+	public void setCustomerDAO(CustomerDAO customerDAO) {
+		this.customerDAO = customerDAO;
+	}
+
 	public AdminDAO getAdminDAO() {
 		return adminDAO;
 	}
@@ -34,8 +70,7 @@ public class BookstoreManager {
 		this.adminDAO = adminDAO;
 	}
 
-	public boolean adminLogin(AdminLoginModel adLogModel) {
-
+	public boolean adminLogin(LoginModel adLogModel) {
 		if (adminDAO.isAuthenticated(adLogModel.getUsername(),
 				adLogModel.getPassword())) {
 			return true;
@@ -44,6 +79,19 @@ public class BookstoreManager {
 
 	}
 
+	public boolean customerLogin(LoginModel cusLogModel) {
+		if (customerDAO.isAuthenticated(cusLogModel.getUsername(),
+				cusLogModel.getPassword())) {
+			return true;
+		}
+		return false;
+
+	}
+	
+	public boolean existedUsername(String username) {
+		return customerDAO.existedUsername(username);
+	}
+	
 	public void getCategoryInfo(BookstoreModel storeModel) {
 		Category selectedCategory = storeModel.getSelectedCategory();
 		List<Category> categories = categoryDAO.getCategoryList();
@@ -78,31 +126,6 @@ public class BookstoreManager {
 		
 		return selCates;
 	}
-/*
-	public void getCategoryInfo(AddBookModel addBookModel) {
-		List<Category> selectedCategories = addBookModel
-				.getSelectedCategories();
-		List<Category> categories = categoryDAO.getCategoryList();
-		if (selectedCategories != null) {
-			for (Category selCate : categories) {
-
-				Integer cateId = selCate.getId();
-				for (Category category : categories) {
-					if (category.getId().equals(cateId)) {
-						selCate = category;
-						break;
-					}
-				}
-
-			}
-
-		} else {
-
-		}
-		addBookModel.setCategories(categories);
-		addBookModel.setSelectedCategories(selectedCategories);
-	}
-*/
 	public void getCategoryList(AddBookModel addBookModel) {
 		List<Category> categories = categoryDAO.getCategoryList();
 		addBookModel.setCategories(categories);
@@ -137,6 +160,10 @@ public class BookstoreManager {
 		return bookDAO.getBook(id);
 	}
 	
+	public Customer getCustomerInfo(String username) {
+		return customerDAO.getCustomerInfo(username);
+	}
+	
 	public void updateBook(Book book)
 	{
 		bookDAO.updateBook(book);
@@ -155,5 +182,13 @@ public class BookstoreManager {
 	public void addBook(List<Category> selectedCategories, Book book) {
 		book.setCategories(new HashSet<Category>(selectedCategories));
 		bookDAO.addBook(book);
+	}
+	
+	public void addCustomer(Customer customer, String username) {
+		customerDAO.addCustomer(customer, username);
+	}
+	
+	public void updateCustomer(Customer customer) {
+		customerDAO.updateCustomer(customer);
 	}
 }

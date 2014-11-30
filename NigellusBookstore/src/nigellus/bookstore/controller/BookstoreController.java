@@ -19,9 +19,10 @@ import nigellus.bookstore.business.BookstoreManager;
 import nigellus.bookstore.dao.BookDAO;
 import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.Category;
+import nigellus.bookstore.entity.Customer;
 import nigellus.bookstore.model.AddBookModel;
 import nigellus.bookstore.model.AddCategoryModel;
-import nigellus.bookstore.model.AdminLoginModel;
+import nigellus.bookstore.model.LoginModel;
 import nigellus.bookstore.model.BookstoreModel;
 
 import org.apache.commons.fileupload.FileItem;
@@ -53,13 +54,27 @@ public class BookstoreController {
 	}
 
 	@RequestMapping(value = "/index")
-	public ModelAndView index() {
+	public ModelAndView index(HttpServletRequest request) {
+		request.getSession().removeAttribute("changePassError");
+		request.getSession().removeAttribute("changePassSuccess");
+		request.getSession().removeAttribute("registerSuccess");
+		request.getSession().removeAttribute("editProfileSuccess");
 		return new ModelAndView("index");
+	}
+
+	@RequestMapping(value = "/admin")
+	public ModelAndView admin() {
+		return new ModelAndView("admin");
 	}
 
 	@RequestMapping(value = "/toChangeImage")
 	public ModelAndView toChangeImage() {
 		return new ModelAndView("changeImage");
+	}
+
+	@RequestMapping(value = "/toRegister")
+	public ModelAndView toRegister() {
+		return new ModelAndView("register");
 	}
 
 	@RequestMapping(value = "/uploadSuccess")
@@ -69,7 +84,7 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/login", method = GET)
 	public String login(@RequestParam("user") String username,
-			@RequestParam("pass") String password, AdminLoginModel adLogModel,
+			@RequestParam("pass") String password, LoginModel adLogModel,
 			HttpServletRequest request) {
 
 		adLogModel.setUsername(username);
@@ -82,14 +97,40 @@ public class BookstoreController {
 		} else {
 			request.getSession().setAttribute("adminLoginErr", "Invalid login");
 		}
+		return "redirect:admin";
+
+	}
+
+	@RequestMapping(value = "/loginUser", method = GET)
+	public String loginUser(@RequestParam("user") String username,
+			@RequestParam("pass") String password, LoginModel cusLogModel,
+			HttpServletRequest request) {
+
+		cusLogModel.setUsername(username);
+		cusLogModel.setPassword(password);
+		if (storeManager.customerLogin(cusLogModel)) {
+			request.getSession().setAttribute("customer",
+					cusLogModel.getUsername());
+			request.getSession().removeAttribute("customerLoginErr");
+
+		} else {
+			request.getSession().setAttribute("customerLoginErr",
+					"Invalid login");
+		}
 		return "redirect:index";
 
 	}
 
 	@RequestMapping(value = "/logout")
-	public ModelAndView logout(HttpServletRequest request) {
+	public String logout(HttpServletRequest request) {
 		request.getSession().invalidate();
-		return index();
+		return "redirect:admin";
+	}
+
+	@RequestMapping(value = "/logoutUser")
+	public String logoutUser(HttpServletRequest request) {
+		request.getSession().invalidate();
+		return "redirect:index";
 	}
 
 	@RequestMapping(value = "/viewCategories")
@@ -104,6 +145,15 @@ public class BookstoreController {
 		if (request.getSession().getAttribute("addBookSuccess") != null) {
 			request.getSession().removeAttribute("addBookSuccess");
 		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/CustomerViewCategories")
+	public ModelAndView customerViewCategories(BookstoreModel storeModel,
+			HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("CustomerViewCategories", "model",
+				storeModel);
+		storeManager.getCategoryInfo(storeModel);
 		return mav;
 	}
 
@@ -163,8 +213,6 @@ public class BookstoreController {
 				request.getSession().setAttribute("ChangeImgError",
 						"Failed to upload!");
 				request.getSession().removeAttribute("ChangeImgSuccess");
-				// return "You failed to upload " + name + " => " +
-				// e.getMessage();
 				e.printStackTrace();
 			}
 		} else {
@@ -189,7 +237,7 @@ public class BookstoreController {
 		book.setTitle(title);
 		book.setAuthorList(author);
 		book.setUnitPrice(price);
-		book.setImageUrl("");
+		book.setImageUrl("/resources/images/noimage.png");
 		book.setDescription(description);
 		List<Category> selCates = storeManager
 				.getSelectedCateList(selectedCateId);
@@ -199,6 +247,104 @@ public class BookstoreController {
 		return new ModelAndView("addBook");
 	}
 
+	@RequestMapping(value = "/register")
+	public ModelAndView register(HttpServletRequest request) {
+		String username = request.getParameter("username");
+		if (storeManager.existedUsername(username)) {
+			request.getSession().setAttribute("registerFail",
+					"This username has already been used!");
+		}
+		else {
+			String fullname = request.getParameter("fullname");
+			String password = request.getParameter("password");
+			String address = request.getParameter("address");
+			String phone = request.getParameter("phone");
+			String email = request.getParameter("email");
+			
+			Customer customer = new Customer();
+			
+			customer.setPassword(password);
+			customer.setFullname(fullname);
+			customer.setAddress(address);
+			customer.setEmail(email);
+			customer.setPhone(phone);
+			customer.setUsername(username);
+			storeManager.addCustomer(customer, username);
+			request.getSession().setAttribute("registerSuccess",
+					"Account registered successfully! \nYou can login using username"
+					+ " and password.");
+		}
+
+		return toRegister();
+	}
+	
+
+	@RequestMapping(value = "/toEditProfile")
+	public ModelAndView toEditProfile(HttpServletRequest request,
+			BookstoreModel storeModel) {
+		String username = (String) request.getSession().getAttribute("customer");
+		Customer c = storeManager.getCustomerInfo(username);
+		request.getSession().setAttribute("CUSTOMER", c);
+		return new ModelAndView("editProfile");
+	}
+	
+	@RequestMapping(value = "/editProfile")
+	public ModelAndView editProfile(HttpServletRequest request,
+			BookstoreModel storeModel) {
+		String username = (String) request.getSession().getAttribute("customer");
+		Customer c = storeManager.getCustomerInfo(username);
+		
+		String fullname = request.getParameter("fullname");
+		String address = request.getParameter("address");
+		String phone = request.getParameter("phone");
+		String email = request.getParameter("email");
+		c.setAddress(address);
+		c.setEmail(email);
+		c.setFullname(fullname);
+		c.setPhone(phone);
+		
+		storeManager.updateCustomer(c);
+		request.getSession().setAttribute("editProfileSuccess",
+				"Profile updated successfully!");
+		return new ModelAndView("editProfile");
+	}
+
+	@RequestMapping(value = "/toChangePassword")
+	public ModelAndView toChangePassword(HttpServletRequest request) {
+		String username = (String) request.getSession().getAttribute("customer");
+		Customer c = storeManager.getCustomerInfo(username);
+		request.getSession().setAttribute("CUSTOMER", c);
+		return new ModelAndView("changePassword");
+	}
+	
+	@RequestMapping(value = "/changePassword")
+	public ModelAndView changePassword(HttpServletRequest request, 
+			LoginModel cusLogModel) {
+		
+		String username = (String) request.getSession().getAttribute("customer");
+		Customer c = storeManager.getCustomerInfo(username);
+		
+		String oldPass= request.getParameter("oldPassword");
+		cusLogModel.setUsername(username);
+		cusLogModel.setPassword(oldPass);
+		if (!storeManager.customerLogin(cusLogModel)) {
+			request.getSession().setAttribute("changePassError",
+					"Invalid password!");
+			
+		}
+		else {
+			String newPass= request.getParameter("newPassword");
+			c.setPassword(newPass);
+			
+			storeManager.updateCustomer(c);
+			request.getSession().removeAttribute("changePassError");
+			request.getSession().setAttribute("changePassSuccess",
+					"Password changed successfully!");
+		}
+		
+		return new ModelAndView("changePassword");
+	}
+	
 	@RequestMapping(value = "/toAddBook")
 	public ModelAndView toAddBook(HttpServletRequest request,
 			BookstoreModel storeModel) {
@@ -222,15 +368,16 @@ public class BookstoreController {
 
 		List<Category> selCates = new ArrayList<Category>(b.getCategories());
 		List<String> selCatesName = new ArrayList<String>();
-		
+
 		for (Category c : selCates) {
 			selCatesName.add(c.getName());
 		}
-		
+
 		request.getSession().setAttribute("selCates", selCatesName);
 
 		return new ModelAndView("updateBook");
 	}
+
 	
 	@RequestMapping(value = "/updateBook")
 	public String updateBook(HttpServletRequest request) {
@@ -240,7 +387,7 @@ public class BookstoreController {
 		String author = request.getParameter("authorList");
 		String description = request.getParameter("description");
 		String[] selectedCateId = request.getParameterValues("selectedCate");
-		
+
 		Book b = storeManager.getBookById(id);
 		b.setTitle(title);
 		b.setUnitPrice(price);
@@ -253,7 +400,7 @@ public class BookstoreController {
 				"Updated book successfully!");
 		return "redirect:uploadSuccess";
 	}
-	
+
 	@RequestMapping(value = "/deleteBook")
 	public String deleteBook(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -275,6 +422,16 @@ public class BookstoreController {
 		if (request.getSession().getAttribute("addBookSuccess") != null) {
 			request.getSession().removeAttribute("addBookSuccess");
 		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/CustomerViewBooks")
+	public ModelAndView customerViewBooks(BookstoreModel storeModel,
+			HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("CustomerViewBooks", "model",
+				storeModel);
+		String key = request.getParameter("key");
+		storeManager.getBookInfo(storeModel, key);
 		return mav;
 	}
 }

@@ -3,43 +3,77 @@
 	"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
 	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-	<definition name="base.definition" template="/WEB-INF/jsp/layout.jsp">
+	<!-- ADMIN'S PAGES -->
+	<definition name="base.admin" template="/WEB-INF/jsp/layout.jsp">
 		<put-attribute name="title" value=""></put-attribute>
 		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp"></put-attribute>
 		<put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp"></put-attribute>
 		<put-attribute name="body" value=""></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"></put-attribute>
 	</definition>
-	<definition name="viewCategories" extends="base.definition">
+	<definition name="viewCategories" extends="base.admin">
 		<put-attribute name="title" value="Category"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/viewCategories.jsp"></put-attribute>
 	</definition>
-	<definition name="viewBooks" extends="base.definition">
+	<definition name="viewBooks" extends="base.admin">
 		<put-attribute name="title" value="Books"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/viewBooks.jsp"></put-attribute>
 	</definition>
-	<definition name="index" extends="base.definition">
+	<definition name="index" extends="base.user">
 		<put-attribute name="title" value="Nigellus Bookstore - Homepage"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp"></put-attribute>
 	</definition>
-	 <definition name="addCategory" extends="base.definition">
+	<definition name="admin" extends="base.admin">
+		<put-attribute name="title" value="Nigellus Bookstore - Homepage"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/admin.jsp"></put-attribute>
+	</definition>
+	 <definition name="addCategory" extends="base.admin">
 		<put-attribute name="title" value="Add Category"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/addCategory.jsp"></put-attribute>
 	</definition>
-	<definition name="addBook" extends="base.definition">
+	<definition name="addBook" extends="base.admin">
 		<put-attribute name="title" value="Add Book"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/addBook.jsp"></put-attribute>
 	</definition>
-	<definition name="changeImage" extends="base.definition">
+	<definition name="changeImage" extends="base.admin">
 		<put-attribute name="title" value="Change Image"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/changeImage.jsp"></put-attribute>
 	</definition>
-	<definition name="updateBook" extends="base.definition">
+	<definition name="updateBook" extends="base.admin">
 		<put-attribute name="title" value="Update book"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/updateBook.jsp"></put-attribute>
 	</definition>
-	<definition name="uploadSuccess" extends="base.definition">
+	<definition name="uploadSuccess" extends="base.admin">
 		<put-attribute name="title" value="Upload success"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/uploadSuccess.jsp"></put-attribute>
 	</definition>  
+	
+	<!-- USER'S PAGES -->
+	<definition name="base.user" template="/WEB-INF/jsp/layoutUser.jsp">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp"></put-attribute>
+		<put-attribute name="menu" value="/WEB-INF/jsp/menuUser.jsp"></put-attribute>
+		<put-attribute name="body" value=""></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"></put-attribute>
+	</definition>
+	<definition name="CustomerViewCategories" extends="base.user">
+		<put-attribute name="title" value="Category"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/CustomerViewCategories.jsp"></put-attribute>
+	</definition>
+	<definition name="CustomerViewBooks" extends="base.user">
+		<put-attribute name="title" value="Books"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/CustomerViewBooks.jsp"></put-attribute>
+	</definition>
+	<definition name="register" extends="base.user">
+		<put-attribute name="title" value="Register account"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/register.jsp"></put-attribute>
+	</definition>
+	<definition name="editProfile" extends="base.user">
+		<put-attribute name="title" value="Edit profile"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/editProfile.jsp"></put-attribute>
+	</definition>
+	<definition name="changePassword" extends="base.user">
+		<put-attribute name="title" value="Change Password"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/changePassword.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
