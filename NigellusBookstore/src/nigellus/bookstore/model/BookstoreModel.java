@@ -7,7 +7,8 @@ import nigellus.bookstore.entity.Category;
 
 public class BookstoreModel {
 	private Category selectedCategory;
-	private Book book;	private List<Category> categories;
+	private Book book;	
+	private List<Category> categories;
 	private List<Book> books;
 
 	public List<Book> getBooks() {

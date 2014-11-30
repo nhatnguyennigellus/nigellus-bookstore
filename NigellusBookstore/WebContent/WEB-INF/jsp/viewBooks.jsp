@@ -10,9 +10,9 @@
 </head>
 <body>
 	<form action="viewBooks">
-		<input name="key" /> <input type="submit" value="Search"/>
+		<input name="key" /> <input type="submit" value="Search" />
 	</form>
-	<br/>
+	<br />
 	<form:form id="mainForm" method="post" commandName="model">
 
 		<table border="1" width="100%">
@@ -30,24 +30,29 @@
 					<td>${book.authorList}</td>
 					<td>${book.unitPrice}</td>
 					<td><img alt="Nigellus Bookstore" width="100"
-						src="<c:url value="${book.imageUrl}" />" /></td>
+						src="<c:url value="${book.imageUrl}" />" />
+						<br/>
+						<c:url var="url" value="toChangeImage">
+							<c:param name="id" value="${book.id}" />
+							<c:param name="title" value="${book.title}" />
+							<c:param name="author" value="${book.authorList}" />
+						</c:url>
+						<a href="${url }">Edit Image</a>
+						</td>
 					<td><c:forEach items="${book.categories }" var="category">
 							${category.name}<br />
-						</c:forEach> <c:if test="${book.categories.size() == 0 }">
+						</c:forEach> 
+						<c:if test="${book.categories.size() == 0 }">
 							<i>Uncategorized</i>
 						</c:if></td>
 					<td>
+						<a href="deleteBook?id=${book.id }" onclick="confirm('Are you sure?')">
+							Delete</a>
+					
 						
-						<a href="deleteBook"
-							onclick="confirm('Are you sure?')">Delete</a>
 						<c:url var="url" value="toUpdateBook">
 							<c:param name="id" value="${book.id}" />
-							<c:param name="title" value="${book.title}" />
-							<c:param name="unitPrice" value="${book.unitPrice}" />
-							<c:param name="description" value="${book.description}" />
-						</c:url>
-						<a href="${url}">Update</a> 
-					</td>
+						</c:url> <a href="${url}">Update</a></td>
 				</tr>
 			</c:forEach>
 		</table>

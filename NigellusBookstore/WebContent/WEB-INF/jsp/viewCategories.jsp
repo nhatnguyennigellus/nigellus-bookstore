@@ -40,12 +40,15 @@
 							<td>${book.unitPrice}</td>
 
 							<td><img alt="Nigellus Bookstore" width="100"
-								src="<c:url value="${book.imageUrl}" />" /></td>
-							<td>
-								<c:forEach items="${book.categories }" var="category">
+								src="<c:url value="${book.imageUrl}" />" /> <br /> <c:url
+									var="url" value="toChangeImage">
+									<c:param name="id" value="${book.id}" />
+									<c:param name="title" value="${book.title}" />
+									<c:param name="author" value="${book.authorList}" />
+								</c:url> <a href="${url }">Edit Image</a></td>
+							<td><c:forEach items="${book.categories }" var="category">
 									${category.name}<br />
-								</c:forEach>
-							</td>
+								</c:forEach></td>
 							<td>
 								<!-- 
 						<a href="/book-online/book.do?action=deleteBook&bookId=${book.id}"

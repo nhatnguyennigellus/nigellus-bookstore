@@ -22,6 +22,9 @@ http://www.springframework.org/schema/context
 	<context:component-scan base-package="nigellus.bookstore.controller" />
 	<mvc:annotation-driven />
 
-
+	<bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000000"></property>
+	</bean>
 
 </beans>  

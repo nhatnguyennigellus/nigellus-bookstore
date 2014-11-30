@@ -132,6 +132,25 @@ public class BookstoreManager {
 	public void addCategory(Category category) {
 		categoryDAO.addCategory(category);
 	}
+	
+	public Book getBookById(int id) {
+		return bookDAO.getBook(id);
+	}
+	
+	public void updateBook(Book book)
+	{
+		bookDAO.updateBook(book);
+	}
+	
+	public void deleteBook(int id)
+	{
+		bookDAO.deleteBook(id);
+	}
+	public void updateBook(List<Category> selectedCategories, Book book)
+	{
+		book.setCategories(new HashSet<Category>(selectedCategories));
+		bookDAO.updateBook(book);
+	}
 
 	public void addBook(List<Category> selectedCategories, Book book) {
 		book.setCategories(new HashSet<Category>(selectedCategories));

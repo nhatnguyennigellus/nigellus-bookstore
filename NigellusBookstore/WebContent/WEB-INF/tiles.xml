@@ -29,5 +29,17 @@
 	<definition name="addBook" extends="base.definition">
 		<put-attribute name="title" value="Add Book"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/addBook.jsp"></put-attribute>
-	</definition> 
+	</definition>
+	<definition name="changeImage" extends="base.definition">
+		<put-attribute name="title" value="Change Image"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/changeImage.jsp"></put-attribute>
+	</definition>
+	<definition name="updateBook" extends="base.definition">
+		<put-attribute name="title" value="Update book"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/updateBook.jsp"></put-attribute>
+	</definition>
+	<definition name="uploadSuccess" extends="base.definition">
+		<put-attribute name="title" value="Upload success"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/uploadSuccess.jsp"></put-attribute>
+	</definition>  
 </tiles-definitions>
