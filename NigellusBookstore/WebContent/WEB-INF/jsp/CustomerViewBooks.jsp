@@ -9,38 +9,39 @@
 <title>Our products</title>
 </head>
 <body>
-	<form action="viewBooks">
-		<input name="key" /> <input type="submit" value="Search" />
+	<form action="CustomerViewBooks">
+		Title: <input name="key" /> &nbsp; Author: <input name="author" /> 
+		<p><input type="submit" value="Search" /></p>
 	</form>
 	<br />
+	<c:if test="${sessionScope.loginRequire != null }">
+		<font color="red">${sessionScope.loginRequire }</font>
+	</c:if>
 	<form:form id="mainForm" method="post" commandName="model">
 
-		<table border="1" width="100%">
-			<tr>
-				<th>Title</th>
-				<th>Author</th>
-				<th>Price</th>
-				<th></th>
-				<th>Category</th>
-				<th>Action</th>
-			</tr>
+		<table width="95%">
+
 			<c:forEach items="${model.books }" var="book">
 				<tr>
-					<td>${book.title}</td>
-					<td>${book.authorList}</td>
-					<td>${book.unitPrice}</td>
-					<td><img alt="Nigellus Bookstore" width="100"
-						src="<c:url value="${book.imageUrl}" />" />
-						
-						</td>
-					<td><c:forEach items="${book.categories }" var="category">
-							${category.name}<br />
-						</c:forEach> 
-						<c:if test="${book.categories.size() == 0 }">
-							<i>Uncategorized</i>
-						</c:if></td>
-					<td>
-						<a href="addToCart">Add to cart</a>
+					<td id="data" align="center" width="35%"><img
+						alt="Nigellus Bookstore" width="150"
+						src="<c:url value="${book.imageUrl}" />" /></td>
+
+					<td id="data">
+						<h2>${book.title}</h2> <i>${book.authorList}</i><br /> <u>Category:</u>
+						<c:forEach items="${book.categories }" var="category">
+									${category.name}&nbsp;
+								</c:forEach>
+						<h2 style="color: green; font-weight: bold; text-align: right;">${book.unitPrice}
+							VND</h2> <c:url var="urlCart" value="addToCart">
+							<c:param name="bookId" value="${book.id}" />
+						</c:url>
+						<div style="text-align: right;">
+							<img alt="Nigellus Bookstore" width="30"
+								src="<c:url value="/resources/images/basket.png" />" /> <a
+								href="${urlCart}">Add to cart</a>
+						</div>
+
 					</td>
 				</tr>
 			</c:forEach>

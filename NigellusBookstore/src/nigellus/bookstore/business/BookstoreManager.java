@@ -13,6 +13,8 @@ import nigellus.bookstore.dao.OrderDetailDAO;
 import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
+import nigellus.bookstore.entity.Order;
+import nigellus.bookstore.entity.OrderDetail;
 import nigellus.bookstore.model.AddBookModel;
 import nigellus.bookstore.model.BookstoreModel;
 import nigellus.bookstore.model.LoginModel;
@@ -131,8 +133,8 @@ public class BookstoreManager {
 		addBookModel.setCategories(categories);
 	}
 
-	public void getBookInfo(BookstoreModel storeModel, String key) {
-		List<Book> books = bookDAO.getBookList(key);
+	public void getBookInfo(BookstoreModel storeModel, String key, String author) {
+		List<Book> books = bookDAO.getBookList(key, author);
 		storeModel.setBooks(books);
 	}
 
@@ -190,5 +192,16 @@ public class BookstoreManager {
 	
 	public void updateCustomer(Customer customer) {
 		customerDAO.updateCustomer(customer);
+	}
+	
+	public void submitOrder(Order order, List<OrderDetail> lstDetail) {
+		orderDAO.addOrder(order);
+		for (OrderDetail orderDetail : lstDetail) {
+			orderDetailDAO.addDetail(orderDetail);
+		}
+	}
+	
+	public List<Order> getOrderByUser(String username){
+		return orderDAO.getOrderByUser(username);
 	}
 }

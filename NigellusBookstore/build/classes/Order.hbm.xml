@@ -17,6 +17,18 @@
         <property name="totalAmount" type="float">
             <column name="TotalAmount" precision="12" scale="0" not-null="true" />
         </property>
+        <property name="fullname" type="string">
+            <column name="Fullname" length="50" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="Address" length="70" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="Email" length="50" not-null="true" />
+        </property>
+        <property name="phone" type="string">
+            <column name="Phone" length="20" not-null="true" />
+        </property>
         <set name="orderdetails" table="orderdetails" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="OrderId" not-null="true" />

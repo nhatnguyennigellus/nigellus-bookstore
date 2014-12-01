@@ -1,42 +1,37 @@
 package nigellus.bookstore.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import nigellus.bookstore.business.BookstoreManager;
 import nigellus.bookstore.dao.BookDAO;
+import nigellus.bookstore.dao.CartDAO;
 import nigellus.bookstore.entity.Book;
+import nigellus.bookstore.entity.Cart;
 import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
-import nigellus.bookstore.model.AddBookModel;
+import nigellus.bookstore.entity.Order;
+import nigellus.bookstore.entity.OrderDetail;
 import nigellus.bookstore.model.AddCategoryModel;
-import nigellus.bookstore.model.LoginModel;
 import nigellus.bookstore.model.BookstoreModel;
+import nigellus.bookstore.model.LoginModel;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -67,13 +62,26 @@ public class BookstoreController {
 		return new ModelAndView("admin");
 	}
 
+	@RequestMapping(value = "/accessDeniedAd")
+	public String accessDeniedAd() {
+		return "redirect:accessDeniedAd";
+	}
+
 	@RequestMapping(value = "/toChangeImage")
 	public ModelAndView toChangeImage() {
 		return new ModelAndView("changeImage");
 	}
+	
+	@RequestMapping(value = "/orderSuccess")
+	public ModelAndView orderSuccess() {
+		return new ModelAndView("orderSuccess");
+	}
 
 	@RequestMapping(value = "/toRegister")
-	public ModelAndView toRegister() {
+	public ModelAndView toRegister(HttpServletRequest request) {
+		if (request.getSession().getAttribute("customer") != null) {
+			return new ModelAndView("index");
+		}
 		return new ModelAndView("register");
 	}
 
@@ -136,6 +144,9 @@ public class BookstoreController {
 	@RequestMapping(value = "/viewCategories")
 	public ModelAndView viewCategories(BookstoreModel storeModel,
 			HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
 		ModelAndView mav = new ModelAndView("viewCategories", "model",
 				storeModel);
 		storeManager.getCategoryInfo(storeModel);
@@ -160,6 +171,9 @@ public class BookstoreController {
 	@RequestMapping(value = "/addCategory")
 	public ModelAndView addCategory(AddCategoryModel addCategoryModel,
 			HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
 		ModelAndView mav = new ModelAndView("addCategory", "model",
 				addCategoryModel);
 		Category category = addCategoryModel.getCategory();
@@ -253,16 +267,15 @@ public class BookstoreController {
 		if (storeManager.existedUsername(username)) {
 			request.getSession().setAttribute("registerFail",
 					"This username has already been used!");
-		}
-		else {
+		} else {
 			String fullname = request.getParameter("fullname");
 			String password = request.getParameter("password");
 			String address = request.getParameter("address");
 			String phone = request.getParameter("phone");
 			String email = request.getParameter("email");
-			
+
 			Customer customer = new Customer();
-			
+
 			customer.setPassword(password);
 			customer.setFullname(fullname);
 			customer.setAddress(address);
@@ -270,30 +283,35 @@ public class BookstoreController {
 			customer.setPhone(phone);
 			customer.setUsername(username);
 			storeManager.addCustomer(customer, username);
-			request.getSession().setAttribute("registerSuccess",
+			request.getSession().setAttribute(
+					"registerSuccess",
 					"Account registered successfully! \nYou can login using username"
-					+ " and password.");
+							+ " and password.");
 		}
 
-		return toRegister();
+		return toRegister(request);
 	}
-	
 
 	@RequestMapping(value = "/toEditProfile")
 	public ModelAndView toEditProfile(HttpServletRequest request,
 			BookstoreModel storeModel) {
-		String username = (String) request.getSession().getAttribute("customer");
+		if (request.getSession().getAttribute("customer") == null) {
+			return new ModelAndView("accessDenied");
+		}
+		String username = (String) request.getSession()
+				.getAttribute("customer");
 		Customer c = storeManager.getCustomerInfo(username);
 		request.getSession().setAttribute("CUSTOMER", c);
 		return new ModelAndView("editProfile");
 	}
-	
+
 	@RequestMapping(value = "/editProfile")
 	public ModelAndView editProfile(HttpServletRequest request,
 			BookstoreModel storeModel) {
-		String username = (String) request.getSession().getAttribute("customer");
+		String username = (String) request.getSession()
+				.getAttribute("customer");
 		Customer c = storeManager.getCustomerInfo(username);
-		
+
 		String fullname = request.getParameter("fullname");
 		String address = request.getParameter("address");
 		String phone = request.getParameter("phone");
@@ -302,7 +320,7 @@ public class BookstoreController {
 		c.setEmail(email);
 		c.setFullname(fullname);
 		c.setPhone(phone);
-		
+
 		storeManager.updateCustomer(c);
 		request.getSession().setAttribute("editProfileSuccess",
 				"Profile updated successfully!");
@@ -311,44 +329,51 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/toChangePassword")
 	public ModelAndView toChangePassword(HttpServletRequest request) {
-		String username = (String) request.getSession().getAttribute("customer");
+		if (request.getSession().getAttribute("customer") == null) {
+			return new ModelAndView("accessDenied");
+		}
+		String username = (String) request.getSession()
+				.getAttribute("customer");
 		Customer c = storeManager.getCustomerInfo(username);
 		request.getSession().setAttribute("CUSTOMER", c);
 		return new ModelAndView("changePassword");
 	}
-	
+
 	@RequestMapping(value = "/changePassword")
-	public ModelAndView changePassword(HttpServletRequest request, 
+	public ModelAndView changePassword(HttpServletRequest request,
 			LoginModel cusLogModel) {
-		
-		String username = (String) request.getSession().getAttribute("customer");
+
+		String username = (String) request.getSession()
+				.getAttribute("customer");
 		Customer c = storeManager.getCustomerInfo(username);
-		
-		String oldPass= request.getParameter("oldPassword");
+
+		String oldPass = request.getParameter("oldPassword");
 		cusLogModel.setUsername(username);
 		cusLogModel.setPassword(oldPass);
 		if (!storeManager.customerLogin(cusLogModel)) {
 			request.getSession().setAttribute("changePassError",
 					"Invalid password!");
-			
-		}
-		else {
-			String newPass= request.getParameter("newPassword");
+
+		} else {
+			String newPass = request.getParameter("newPassword");
 			c.setPassword(newPass);
-			
+
 			storeManager.updateCustomer(c);
 			request.getSession().removeAttribute("changePassError");
 			request.getSession().setAttribute("changePassSuccess",
 					"Password changed successfully!");
 		}
-		
+
 		return new ModelAndView("changePassword");
 	}
-	
+
 	@RequestMapping(value = "/toAddBook")
 	public ModelAndView toAddBook(HttpServletRequest request,
 			BookstoreModel storeModel) {
-		// ModelAndView mav = new ModelAndView("addBook", "model", storeModel);
+
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
 		storeManager.getCategoryInfo(storeModel);
 		request.getSession().setAttribute("categories",
 				storeModel.getCategories());
@@ -359,6 +384,9 @@ public class BookstoreController {
 	@RequestMapping(value = "/toUpdateBook")
 	public ModelAndView toUpdateBook(HttpServletRequest request,
 			BookstoreModel storeModel) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
 		storeManager.getCategoryInfo(storeModel);
 		request.getSession().setAttribute("categories",
 				storeModel.getCategories());
@@ -378,7 +406,6 @@ public class BookstoreController {
 		return new ModelAndView("updateBook");
 	}
 
-	
 	@RequestMapping(value = "/updateBook")
 	public String updateBook(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -413,9 +440,13 @@ public class BookstoreController {
 	@RequestMapping(value = "/viewBooks")
 	public ModelAndView viewBooks(BookstoreModel storeModel,
 			HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
 		ModelAndView mav = new ModelAndView("viewBooks", "model", storeModel);
 		String key = request.getParameter("key");
-		storeManager.getBookInfo(storeModel, key);
+		String author = request.getParameter("author");
+		storeManager.getBookInfo(storeModel, key, author);
 		if (request.getSession().getAttribute("addCateSuccess") != null) {
 			request.getSession().removeAttribute("addCateSuccess");
 		}
@@ -431,7 +462,149 @@ public class BookstoreController {
 		ModelAndView mav = new ModelAndView("CustomerViewBooks", "model",
 				storeModel);
 		String key = request.getParameter("key");
-		storeManager.getBookInfo(storeModel, key);
+		String author = request.getParameter("author");
+		storeManager.getBookInfo(storeModel, key, author);
 		return mav;
+	}
+
+	@RequestMapping(value = "/viewCart")
+	public ModelAndView viewCart() {
+		return new ModelAndView("viewCart");
+	}
+
+	@RequestMapping(value = "/removeFromCart")
+	public ModelAndView removeFromCart(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		List<Cart> listCart = (List<Cart>) session.getAttribute("CART");
+		int bookId = Integer.parseInt(request.getParameter("bookId"));
+		for (Cart cart : listCart) {
+			if (cart.getBook().getId() == bookId) {
+				listCart.remove(cart);
+				break;
+			}
+		}
+		CartDAO daoCart = new CartDAO();
+		session.setAttribute("CART", listCart);
+		session.setAttribute("totalAmount", daoCart.totalPrice(listCart));
+		return viewCart();
+	}
+
+	@RequestMapping(value = "/addToCart") 
+	public ModelAndView addToCart(HttpServletRequest request)
+	{
+
+		HttpSession session = request.getSession();
+		
+		List<Cart> listCart = new ArrayList<Cart>();
+		// cart empty a.k.a no cart
+		// add new book to cart
+		if (session.getAttribute("CART") == null) {
+			Book book = new Book();
+			int bookId = Integer.parseInt(request.getParameter("bookId"));
+			book = storeManager.getBookById(bookId);
+			int quantity = 1;
+			Cart cart = new Cart(book, quantity);
+			listCart.add(cart);
+			
+			session.setAttribute("CART", listCart);
+		} else {
+			listCart = (List<Cart>) session.getAttribute("CART");
+			int bookId = Integer.parseInt(request.getParameter("bookId"));
+			boolean isAvail = false;
+			// consider if cart has the book
+			for (Cart item : listCart) {
+				// if yes
+				if (item.getBook().getId() == bookId) {
+					int quantity = -1;
+					
+					if (request.getParameter("quantity") != null) {
+						quantity = Integer.parseInt
+								(request.getParameter("quantity"));
+					}
+					
+					else {
+						quantity = item.getQuantity() + 1;
+					}
+					item.setQuantity(quantity);
+					isAvail = true;
+					break;
+				}
+			}
+			
+			if (!isAvail) {
+				Book book = new Book();
+				book = storeManager.getBookById(
+						Integer.parseInt(request.getParameter("bookId")));
+				int quantity = 1;
+
+				Cart cart = new Cart(book, quantity);
+				listCart.add(cart);
+				
+			}
+		}
+		
+		CartDAO daoCart = new CartDAO();
+		session.setAttribute("totalAmount",
+				daoCart.totalPrice(listCart));
+		session.setAttribute("CART", listCart);
+		return viewCart();
+	}
+	
+	@RequestMapping(value = "/toSubmitOrder") 
+	public ModelAndView toSubmitOrder(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession();
+		Customer customer = null; 
+		if (session.getAttribute("customer") == null) {
+			customer = storeManager.getCustomerInfo("guest");
+		}
+		else {
+			customer = storeManager.getCustomerInfo
+					(session.getAttribute("customer").toString());
+		}
+		session.setAttribute("CUSTOMER", customer);
+		
+		return new ModelAndView("submitOrder");
+	}
+	
+	@RequestMapping(value = "/order")
+	public ModelAndView order(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Customer customer = null; 
+		if (session.getAttribute("customer") == null) {
+			customer = storeManager.getCustomerInfo("guest");
+		}
+		else {
+			customer = storeManager.getCustomerInfo
+					(session.getAttribute("customer").toString());
+		}
+		List<Cart> listCart = (List<Cart>) session.getAttribute("CART");
+		float totalAmount = (float)session.getAttribute("totalAmount");
+		
+		Order order = new Order();
+		order.setCustomer(customer);
+		order.setTotalAmount(totalAmount);
+		order.setFullname(request.getParameter("fullname"));
+		order.setAddress(request.getParameter("address"));
+		order.setEmail(request.getParameter("email"));
+		order.setPhone(request.getParameter("phone"));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
+		order.setOrderDate(sdf.format(now));
+		
+		List<OrderDetail> lstDetail = new ArrayList<OrderDetail>();
+		for (Cart cart : listCart) {
+			OrderDetail detail = new OrderDetail();
+			detail.setBook(cart.getBook());
+			detail.setQuantity(cart.getQuantity());
+			detail.setOrder(order);
+			lstDetail.add(detail);
+		}
+		order.setOrderdetails(new HashSet<OrderDetail>(lstDetail));
+		storeManager.submitOrder(order, lstDetail);
+		
+		session.removeAttribute("CART");
+		session.removeAttribute("totalAmount");
+		return orderSuccess();
 	}
 }

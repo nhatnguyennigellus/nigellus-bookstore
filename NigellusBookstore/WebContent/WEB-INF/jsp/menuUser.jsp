@@ -11,7 +11,9 @@
 </head>
 <body>
 
-
+	<p>
+		<a href="index">Home</a>
+	</p>
 	<c:choose>
 		<c:when test="${sessionScope.customer != null}">
 			<div style="background-color: #FFA6A6; padding: 10px 10px 10px 10px">
@@ -22,9 +24,6 @@
 
 			<p>
 				<a href="viewCategories">Your orders</a>
-			</p>
-			<p>
-				<a href="viewCategories">Your cart</a>
 			</p>
 
 		</c:when>
@@ -59,11 +58,23 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
+
 	<p>
-		<a href="index">Home</a>
+	<img alt="Nigellus Bookstore" width="30"
+										src="<c:url value="/resources/images/basket.png" />" /> 
+		<a href="viewCart">Your cart</a>
+		<c:choose>
+			<c:when test="${sessionScope.CART != null }">
+				<font color="blue" style="font-weight: bold;">(${sessionScope.CART.size() })</font>
+			</c:when>
+			<c:otherwise>
+				<font color="blue" style="font-weight: bold;">(0)</font>
+			</c:otherwise>
+		</c:choose>
+		
 	</p>
 	<p>
-		<a href="CustomerViewBooks?key=">Our library</a>
+		<a href="CustomerViewBooks?key=&author=">Our library</a>
 	</p>
 	<p>
 		<a href="CustomerViewCategories">Categories</a>

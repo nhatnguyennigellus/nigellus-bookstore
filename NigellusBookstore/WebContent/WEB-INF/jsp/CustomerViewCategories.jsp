@@ -7,6 +7,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Our products</title>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/resources/css/site.css' />" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/resources/css/jquery-ui.css' />" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/resources/css/style.css' />" />
 </head>
 <body>
 	<form:form id="mainForm" method="post" commandName="model">
@@ -24,28 +30,30 @@
 				<font color="red">No data</font>
 			</c:when>
 			<c:otherwise>
-				<table border="1" width="90%">
-					<tr>
-						<th>Title</th>
-						<th>Author</th>
-						<th>Price</th>
-						<th></th>
-						<th>Category</th>
-						<th>Action</th>
-					</tr>
+				<table width="100%">
+
 					<c:forEach items="${model.selectedCategory.books }" var="book">
 						<tr>
-							<td>${book.title}</td>
-							<td>${book.authorList}</td>
-							<td>${book.unitPrice}</td>
+							<td id="data" align="center" width="35%"><img alt="Nigellus Bookstore"
+								width="150" src="<c:url value="${book.imageUrl}" />" /></td>
 
-							<td><img alt="Nigellus Bookstore" width="100"
-								src="<c:url value="${book.imageUrl}" />" /> 
-								</td>
-							<td><c:forEach items="${book.categories }" var="category">
-									${category.name}<br />
-								</c:forEach></td>
-							<td><a href="addToCart">Add to cart</a></td>
+							<td id="data">
+								<h2>${book.title}</h2> <i>${book.authorList}</i><br /> <u>Category:</u>
+								<c:forEach items="${book.categories }" var="category">
+									${category.name}&nbsp;
+								</c:forEach>
+								<h2 style="color: green; font-weight: bold; text-align: right;">${book.unitPrice} VND</h2>
+
+								<c:url var="urlCart" value="addToCart">
+									<c:param name="bookId" value="${book.id}" />
+								</c:url>
+								<div style="text-align: right;">
+									<img alt="Nigellus Bookstore" width="30"
+										src="<c:url value="/resources/images/basket.png" />" /> 
+										<a href="${urlCart}">Add to cart</a>
+								</div>
+
+							</td>
 						</tr>
 					</c:forEach>
 				</table>

@@ -8,6 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/site.css' />"/>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/jquery-ui.css' />"/>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/style.css' />"/>
 </head>
 <body>
 <table border="0" cellpadding="2" cellspacing="2" align="center" width="95%">

@@ -1,4 +1,5 @@
 package nigellus.bookstore.entity;
+
 // default package
 // Generated Nov 30, 2014 2:46:00 PM by Hibernate Tools 3.4.0.CR1
 
@@ -8,16 +9,17 @@ package nigellus.bookstore.entity;
 public class OrderDetail implements java.io.Serializable {
 
 	private Integer id;
+	private Book book;
 	private Order order;
-	private int bookId;
+
 	private int quantity;
 
 	public OrderDetail() {
 	}
 
-	public OrderDetail(Order order, int bookId, int quantity) {
-		this.order = order;
-		this.bookId = bookId;
+	public OrderDetail(Book book, int quantity) {
+
+		this.book = book;
 		this.quantity = quantity;
 	}
 
@@ -28,21 +30,13 @@ public class OrderDetail implements java.io.Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public Order getOrder() {
-		return this.order;
+		return order;
 	}
 
 	public void setOrder(Order order) {
 		this.order = order;
-	}
-
-	public int getBookId() {
-		return this.bookId;
-	}
-
-	public void setBookId(int bookId) {
-		this.bookId = bookId;
 	}
 
 	public int getQuantity() {
@@ -53,4 +47,11 @@ public class OrderDetail implements java.io.Serializable {
 		this.quantity = quantity;
 	}
 
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
 }

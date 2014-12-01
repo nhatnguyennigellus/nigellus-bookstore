@@ -30,27 +30,20 @@
 					<td>${book.authorList}</td>
 					<td>${book.unitPrice}</td>
 					<td><img alt="Nigellus Bookstore" width="100"
-						src="<c:url value="${book.imageUrl}" />" />
-						<br/>
-						<c:url var="url" value="toChangeImage">
+						src="<c:url value="${book.imageUrl}" />" /> <br /> <c:url
+							var="url" value="toChangeImage">
 							<c:param name="id" value="${book.id}" />
 							<c:param name="title" value="${book.title}" />
 							<c:param name="author" value="${book.authorList}" />
-						</c:url>
-						<a href="${url }">Edit Image</a>
-						</td>
+						</c:url> <a href="${url }">Edit Image</a></td>
 					<td><c:forEach items="${book.categories }" var="category">
 							${category.name}<br />
-						</c:forEach> 
-						<c:if test="${book.categories.size() == 0 }">
+						</c:forEach> <c:if test="${book.categories.size() == 0 }">
 							<i>Uncategorized</i>
 						</c:if></td>
-					<td>
-						<a href="deleteBook?id=${book.id }" onclick="confirm('Are you sure?')">
-							Delete</a>
-					
-						
-						<c:url var="url" value="toUpdateBook">
+					<td><a href="deleteBook?id=${book.id }"
+						onclick="confirm('Are you sure?')"> Delete</a> <c:url var="url"
+							value="toUpdateBook">
 							<c:param name="id" value="${book.id}" />
 						</c:url> <a href="${url}">Update</a></td>
 				</tr>

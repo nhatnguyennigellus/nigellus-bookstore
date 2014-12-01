@@ -20,9 +20,10 @@ public class BookDAO extends HibernateDaoSupport {
 		getHibernateTemplate().delete(getBook(id));
 	}
 	@SuppressWarnings("unchecked")
-	public List<Book> getBookList(String key) {
+	public List<Book> getBookList(String key, String author) {
 
-		String query = "select b from Book b where b.title like '%" + key + "%'";
+		String query = "select b from Book b where b.title like '%" + key + "%' "
+				+ "and b.authorList like '%" + author + "%'";
 		return getHibernateTemplate().find(query);
 	}
 	

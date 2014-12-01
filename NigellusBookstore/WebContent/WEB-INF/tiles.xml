@@ -47,6 +47,10 @@
 		<put-attribute name="title" value="Upload success"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/uploadSuccess.jsp"></put-attribute>
 	</definition>  
+	<definition name="accessDeniedAd" extends="base.admin">
+		<put-attribute name="title" value="Access denied"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/accessDeniedAdmin.jsp"></put-attribute>
+	</definition>  
 	
 	<!-- USER'S PAGES -->
 	<definition name="base.user" template="/WEB-INF/jsp/layoutUser.jsp">
@@ -76,4 +80,20 @@
 		<put-attribute name="title" value="Change Password"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/changePassword.jsp"></put-attribute>
 	</definition>
+	<definition name="accessDenied" extends="base.user">
+		<put-attribute name="title" value="Access denied"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/accessDeniedCustomer.jsp"></put-attribute>
+	</definition>  
+	<definition name="viewCart" extends="base.user">
+		<put-attribute name="title" value="Your cart"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/cart.jsp"></put-attribute>
+	</definition>  
+	<definition name="submitOrder" extends="base.user">
+		<put-attribute name="title" value="Your cart"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/submitOrder.jsp"></put-attribute>
+	</definition>  
+	<definition name="orderSuccess" extends="base.user">
+		<put-attribute name="title" value="Ordered Successfully"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/orderSuccess.jsp"></put-attribute>
+	</definition>  
 </tiles-definitions>
