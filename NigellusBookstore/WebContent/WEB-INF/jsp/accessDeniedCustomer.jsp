@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>You have to login as customer</h1>
+	<div class="col-md-10">
+
+		<h2>You have to login as customer</h2>
+	</div>
 </body>
 </html>

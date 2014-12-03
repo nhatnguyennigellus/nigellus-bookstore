@@ -9,48 +9,77 @@
 <title>Our products</title>
 </head>
 <body>
-	<form action="CustomerViewBooks">
-		Title: <input name="key" /> &nbsp; Author: <input name="author" /> 
-		<p><input type="submit" value="Search" /></p>
-	</form>
+	<div style="background-color: #F3F781; padding: 10px 10px 10px 10px">
+		<h3>SEARCH BOOK:</h3>
+		<form action="CustomerViewBooks" class="form-horizontal">
+			<div class="form-group">
+				<label for="key" class="col-sm-2 control-label">Title:</label>
+				<div class="col-sm-6">
+					<input id="key" name="key" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="author" class="col-sm-2 control-label">Author:</label>
+				<div class="col-sm-6">
+					<input id="author" name="author" class="form-control" />
+				</div>
+			</div>
+
+			<p>
+			<div class="form-group">
+
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" value="Search" class="btn btn-primary" />
+				</div>
+			</div>
+
+			</p>
+		</form>
+	</div>
 	<br />
-	<c:if test="${sessionScope.loginRequire != null }">
-		<font color="red">${sessionScope.loginRequire }</font>
-	</c:if>
-	<form:form id="mainForm" method="post" commandName="model">
+	<div class="col-md-12">
+		<form:form id="mainForm" method="post" commandName="model">
+			<c:if test="${model.books.size() == 0 }">
+				<font color="red">No data</font>
+			</c:if>
+			<table width="100%" class="table table-striped">
 
-		<table width="95%">
+				<c:forEach items="${model.books }" var="book">
+					<tr>
+						<td align="center" width="35%"><img alt="Nigellus Bookstore"
+							width="150" src="<c:url value="${book.imageUrl}" />" /></td>
 
-			<c:forEach items="${model.books }" var="book">
-				<tr>
-					<td id="data" align="center" width="35%"><img
-						alt="Nigellus Bookstore" width="150"
-						src="<c:url value="${book.imageUrl}" />" /></td>
+						<td>
+							<h2>${book.title}</h2> <i>${book.authorList}</i><br /> <u>Category:</u>
+							<c:forEach items="${book.categories }" var="category">
+									- ${category.name}
+								</c:forEach> <br /> <br /> ${book.description }<br />
+							<h2 style="color: green; font-weight: bold; text-align: right;">${book.unitPrice}
+								VND</h2> <c:url var="urlCart" value="addToCart">
+								<c:param name="bookId" value="${book.id}" />
+							</c:url>
+							<div style="text-align: right;">
+								<c:if test="${book.status == 1 }">
 
-					<td id="data">
-						<h2>${book.title}</h2> <i>${book.authorList}</i><br /> <u>Category:</u>
-						<c:forEach items="${book.categories }" var="category">
-									${category.name}&nbsp;
-								</c:forEach>
-						<h2 style="color: green; font-weight: bold; text-align: right;">${book.unitPrice}
-							VND</h2> <c:url var="urlCart" value="addToCart">
-							<c:param name="bookId" value="${book.id}" />
-						</c:url>
-						<div style="text-align: right;">
-							<img alt="Nigellus Bookstore" width="30"
-								src="<c:url value="/resources/images/basket.png" />" /> <a
-								href="${urlCart}">Add to cart</a>
-						</div>
+									<img alt="Nigellus Bookstore" width="30"
+										src="<c:url value="/resources/images/basket.png" />" />
+									<a href="${urlCart}">Add to cart</a>
 
-					</td>
-				</tr>
-			</c:forEach>
-		</table>
-		<br />
-		<a href="toAddBook">Add Book</a>
+								</c:if>
+								<c:if test="${book.status == 0 }">
+									<font color="red">Sold out</font>
+								</c:if>
+							</div>
 
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br />
 
-	</form:form>
+		</form:form>
+	</div>
+
 </body>
 <script type="text/javascript">
 	function submitForm() {

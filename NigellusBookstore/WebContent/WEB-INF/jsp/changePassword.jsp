@@ -11,37 +11,37 @@
 
 </head>
 <body>
-	<c:if test="${sessionScope.changePassError != null}">
-		<font color="red">${sessionScope.changePassError}</font>
-	</c:if>
-	<c:if test="${sessionScope.changePassSuccess != null}">
-		<font color="green">${sessionScope.changePassSuccess }</font>
-	</c:if>
-	<form action="changePassword" method="get" enctype="multipart/form-data"
-		id="frmRegister">
-		<table width="70%">
-			<tr>
-				<td>Old Password</td>
-				<td><input id="oldPassword" name="oldPassword" type="password" />*</td>
-
-			</tr>
-			<tr>
-				<td>New Password</td>
-				<td><input id="newPassword" name="newPassword" type="password" />*</td>
-
-			</tr>
-			<tr>
-				<td>Confirm Password</td>
-				<td><input name="cfmPassword" type="password" />*</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center"><input name="submit"
-					type="submit" value="Submit" /> <input name="reset" type="reset"
-					value="Reset" /></td>
-			</tr>
-		</table>
-
-	</form>
+	<div class="col-md-8">
+		<div style="padding: 10px 10px 10px 10px">
+			<c:if test="${sessionScope.changePassError != null}">
+				<font color="red">${sessionScope.changePassError}</font>
+			</c:if>
+			<c:if test="${sessionScope.changePassSuccess != null}">
+				<font color="green">${sessionScope.changePassSuccess }</font>
+				<a href="index">Home page</a>
+			</c:if>
+			<form role="form" action="changePassword" method="get"
+				enctype="multipart/form-data" id="frmRegister">
+				<div class="form-group">
+					<label for="oldPassword">Old Password</label> <input
+						class="form-control" id="oldPassword" name="oldPassword"
+						type="password" />
+				</div>
+				<div class="form-group">
+					<label for="newPassword">New Password</label> <input
+						class="form-control" id="newPassword" name="newPassword"
+						type="password" />
+				</div>
+				<div class="form-group">
+					<label for="cfmPassword">Confirm Password</label> <input
+						class="form-control" name="cfmPassword" type="password" />
+				</div>
+				<input class="btn btn-success" name="submit" type="submit"
+					value="Submit" /> <input class="btn btn-danger" name="reset"
+					type="reset" value="Reset" />
+			</form>
+		</div>
+	</div>
 </body>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.js' />"></script>

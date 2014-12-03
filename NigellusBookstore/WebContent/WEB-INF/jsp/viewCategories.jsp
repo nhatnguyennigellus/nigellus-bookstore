@@ -10,67 +10,72 @@
 </head>
 <body>
 	<form:form id="mainForm" method="post" commandName="model">
-		<strong>Choose the category:</strong>
-		<form:select path="selectedCategory.id" onchange="submitForm()">
-			<form:options items="${model.categories}" itemValue="id"
-				itemLabel="name" />
-		</form:select>
-		<br />
+		<div class="form-group form-group-sm">
+			<label for="selCate" class="col-sm-2 control-label"> Select
+				category:</label>
+			<div class="col-xs-6">
+				<form:select id="selCate" path="selectedCategory.id"
+					onchange="submitForm()" class="form-control">
 
+					<form:options items="${model.categories}" itemValue="id"
+						itemLabel="name" />
+				</form:select>
 
-		<br />
-		<c:choose>
-			<c:when test="${model.selectedCategory.books.size() == 0 }">
-				<font color="red">No data</font>
-			</c:when>
-			<c:otherwise>
-				<table border="1" width="90%">
-					<tr>
-						<th>Title</th>
-						<th>Author</th>
-						<th>Price</th>
-						<th></th>
-						<th>Category</th>
-						<th>Action</th>
-					</tr>
-					<c:forEach items="${model.selectedCategory.books }" var="book">
+			</div>
+		</div>
+		<div class="col-md-8">
+
+			<h2>BOOKS</h2>
+		</div>
+		<div class="col-md-12">
+			<a href="addCategory">Add Category</a> | <a href="toAddBook">Add
+				Book</a>
+			<c:choose>
+
+				<c:when test="${model.selectedCategory.books.size() == 0 }">
+					<font color="red">No data</font>
+				</c:when>
+				<c:otherwise>
+					<table width="100%" class="table table-striped">
 						<tr>
-							<td>${book.title}</td>
-							<td>${book.authorList}</td>
-							<td>${book.unitPrice}</td>
-
-							<td><img alt="Nigellus Bookstore" width="100"
-								src="<c:url value="${book.imageUrl}" />" /> <br /> <c:url
-									var="url" value="toChangeImage">
-									<c:param name="id" value="${book.id}" />
-									<c:param name="title" value="${book.title}" />
-									<c:param name="author" value="${book.authorList}" />
-								</c:url> <a href="${url }">Edit Image</a></td>
-							<td><c:forEach items="${book.categories }" var="category">
-									${category.name}<br />
-								</c:forEach></td>
-							<td>
-								<!-- 
-						<a href="/book-online/book.do?action=deleteBook&bookId=${book.id}"
-							onclick="confirm('Are you sure?')">Delete</a>
-						<c:url var="url" value="update.jsp">
-							<c:param name="id" value="${book.id}" />
-							<c:param name="title" value="${book.title}" />
-							
-						</c:url>
-						<a href="${url}">Update</a> -->
-							</td>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Price</th>
+							<th></th>
+							<th>Category</th>
+							<th>Action</th>
 						</tr>
-					</c:forEach>
-				</table>
-			</c:otherwise>
-		</c:choose>
+						<c:forEach items="${model.selectedCategory.books }" var="book">
+							<tr>
+								<td>${book.title}</td>
+								<td>${book.authorList}</td>
+								<td>${book.unitPrice}</td>
 
+								<td><img class="img-thumbnail" alt="Nigellus Bookstore"
+									width="100" src="<c:url value="${book.imageUrl}" />" /> <br />
+									<c:url var="url" value="toChangeImage">
+										<c:param name="id" value="${book.id}" />
+										<c:param name="title" value="${book.title}" />
+										<c:param name="author" value="${book.authorList}" />
+									</c:url> <a href="${url }">Edit Image</a></td>
+								<td><c:forEach items="${book.categories }" var="category">
+									${category.name}<br />
+									</c:forEach></td>
+								<td><a href="deleteBook?id=${book.id }"
+									onclick="confirm('Are you sure?')"> Delete</a> 
+									<c:url var="url" value="toUpdateBook">
+										<c:param name="id" value="${book.id}" />
+									</c:url> <a href="${url}">Update</a></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:otherwise>
 
+			</c:choose>
+
+		</div>
 
 	</form:form>
-	<a href="addCategory">Add Category</a> |
-	<a href="toAddBook">Add Book</a>
 </body>
 <script type="text/javascript">
 	function submitForm() {

@@ -27,6 +27,15 @@ public class BookDAO extends HibernateDaoSupport {
 		return getHibernateTemplate().find(query);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Book> getAvailableBookList(String key, String author) {
+
+		String query = "select b from Book b where b.title like '%" + key + "%' "
+				+ "and b.authorList like '%" + author + "%'"
+				+ "and b.status = 1";
+		return getHibernateTemplate().find(query);
+	}
+	
 	public Book getBook(int id) {
 
 		String query = "select b from Book b where b.id = " + id;

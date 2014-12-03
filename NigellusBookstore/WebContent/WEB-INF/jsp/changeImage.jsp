@@ -8,18 +8,30 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form method="POST" action="changeImage" enctype="multipart/form-data">
-		<input type="hidden" value="${param.id }" name="id"> File to
-		upload: <input type="file" name="file"><br /> Name: <input
-			type="text" name="name"
-			<%String title = request.getParameter("title");
+	<div class="col-md-10">
+		<h2>UPLOAD IMAGE</h2>
+		<form method="POST" role="form" action="changeImage"
+			enctype="multipart/form-data">
+			<input type="hidden" value="${param.id }" name="id">
+
+			<div class="form-group">
+				<label for="fileUpload">File to upload: </label> <input type="file"
+					id="fileUpload" name="file">
+			</div>
+			<div class="form-group">
+				<label for="name">Name</label> <input id="name" type="text"
+					name="name" class="form-control"
+					<%String title = request.getParameter("title");
 			String author = request.getParameter("author");
 			String imgName = title.toLowerCase().replace(" ", "") + "-"
 					+ author.toLowerCase().replace(" ", "");%>
-			value="<%=imgName%>"><br /> <br /> <input type="submit"
-			value="Upload"> Press here to upload the file!
-	</form>
+					value="<%=imgName%>">
+			</div>
+			<input class="btn btn-success" type="submit" value="Upload">
+			Press here to upload the file!
+		</form>
+	</div>
 	<br />
-	
+
 </body>
 </html>

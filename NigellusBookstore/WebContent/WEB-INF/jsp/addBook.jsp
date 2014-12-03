@@ -9,88 +9,102 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="addBook" id="frmAddBook" method="get" enctype="multipart/form-data">
-		<table width="70%">
-			<tr>
-				<td>Title</td>
-				<td><input name="title" id="title" /></td>
-			</tr>
-			<tr>
-				<td>Author</td>
-				<td><input name="authorList" id="authorList" /></td>
-			</tr>
-			<tr>
-				<td>Unit Price</td>
-				<td><input name="unitPrice" id="unitPrice" /></td>
-			</tr>
-			<tr>
-				<td>Description</td>
-				<td><input name="description" id="description"/></td>
-			</tr>
-			<tr>
-				<td>Category:</td>
-				<td><select name="selectedCate" multiple="multiple" size="5">
+	<div class="col-md-12">
+		<div style="padding: 10px 10px 10px 10px">
+			<form role="form" action="addBook" id="frmAddBook" method="get">
+				<div class="form-group">
+					<label for="title">Title</label> <input name="title" id="title"
+						placeholder="Title" class="form-control" />
+				</div>
+
+				<div class="form-group">
+					<label for="authorList">Author</label> <input name="authorList"
+						id="authorList" placeholder="Author" class="form-control" />
+				</div>
+
+				<div class="form-group">
+					<label for="unitPrice">Unit Price</label> <input name="unitPrice"
+						id="unitPrice" placeholder="Unit Price" class="form-control" />
+				</div>
+
+				<div class="form-group">
+					<label for="description">Description</label> <textarea rows="3"
+						name="description" id="description" placeholder="Description"
+						class="form-control" ></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="selectedCate">Category:</label> <select class="form-control"
+						id="selectedCate" name="selectedCate" multiple="multiple" size="5">
 						<c:forEach items="${sessionScope.categories }" var="cate">
 							<option value="${cate.getId() }">${cate.getName() }</option>
 						</c:forEach>
-				</select></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center"><input name="submit"
-					type="submit" value="Add" /> <input name="reset" type="reset"
-					value="Reset" /></td>
-			</tr>
-		</table>
-		<a href="viewBooks?key=">Back</a>
-		<c:if test="${sessionScope.addBookSuccess != null}">
-			<font color="green">${sessionScope.addBookSuccess }</font>
-		</c:if>
-	</form>
+					</select>
+				</div>
+
+				<input class="btn btn-success" name="submit" type="submit"
+					value="Add" /> <input name="reset" type="reset" value="Reset"
+					class="btn btn-danger" /> <a href="viewBooks?key=&author=">Back</a>
+				<c:if test="${sessionScope.addBookSuccess != null}">
+					<font color="green">${sessionScope.addBookSuccess }</font>
+				</c:if>
+			</form>
+		</div>
+
+	</div>
+
 </body>
-<script type="text/javascript" src="<c:url value='/resources/js/jquery.js' />"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/jquery-ui.js' />"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/jquery.validate.js' />"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
 <script type="text/javascript">
 	$(function() {
-		$("#frmAddBook").validate({
-			rules: {
-				title: {
-					required: true,
-					rangelength:[5,45]
-				},
-				unitPrice: {
-					required: true,
-					digits: true
-				},
-				authorList: {
-					required: true,
-					rangelength:[1,50]
-					
-				},
-				selectedCate: {
-					required: true,
-				}
-			},
-		messages: {
-				title: {
-					required: "Title is required!",
-					rangelength: "Title must be between 5 and 45 characters long."
-				} ,
-				unitPrice: {
-					required: "Unit Price is required!",
-					digits: "Please enter a number!" 
-				} ,
-				authorList: {
-					required: "Author List is required!",
-					rangelength: "Author list must be between 1 and 50 characters long."
-				},
-				selectedCate: {
-					required: "Please select a category!"
-				}
-			},
-		})
+		$("#frmAddBook")
+				.validate(
+						{
+							rules : {
+								title : {
+									required : true,
+									rangelength : [ 5, 45 ]
+								},
+								unitPrice : {
+									required : true,
+									digits : true
+								},
+								authorList : {
+									required : true,
+									rangelength : [ 1, 50 ]
+
+								},
+								selectedCate : {
+									required : true,
+								}
+							},
+							messages : {
+								title : {
+									required : "Title is required!",
+									rangelength : "Title must be between 5 and 45 characters long."
+								},
+								unitPrice : {
+									required : "Unit Price is required!",
+									digits : "Please enter a number!"
+								},
+								authorList : {
+									required : "Author List is required!",
+									rangelength : "Author list must be between 1 and 50 characters long."
+								},
+								selectedCate : {
+									required : "Please select a category!"
+								}
+							},
+						})
 	});
 </script>
 </html>

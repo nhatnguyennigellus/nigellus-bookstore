@@ -11,7 +11,7 @@
         <many-to-one name="order" class="nigellus.bookstore.entity.Order" fetch="select">
             <column name="OrderId" not-null="true" />
         </many-to-one>
-        <many-to-one name="book" class="nigellus.bookstore.entity.Book" fetch="select">
+        <many-to-one name="book" class="nigellus.bookstore.entity.Book" lazy="false" fetch="select">
             <column name="BookId" not-null="true" />
         </many-to-one>
         <property name="quantity" type="int">

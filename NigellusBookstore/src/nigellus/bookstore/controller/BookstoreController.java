@@ -188,7 +188,6 @@ public class BookstoreController {
 		return mav;
 	}
 
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/changeImage", method = RequestMethod.POST)
 	public String changeImage(@RequestParam("name") String name,
 			@RequestParam("file") MultipartFile file, HttpServletRequest request) {
@@ -208,7 +207,6 @@ public class BookstoreController {
 				stream.write(bytes);
 				stream.close();
 
-				BookDAO dao = new BookDAO();
 				int id = Integer.parseInt(request.getParameter("id"));
 
 				Book b = storeManager.getBookById(id);
@@ -253,6 +251,7 @@ public class BookstoreController {
 		book.setUnitPrice(price);
 		book.setImageUrl("/resources/images/noimage.png");
 		book.setDescription(description);
+		book.setStatus(1);
 		List<Category> selCates = storeManager
 				.getSelectedCateList(selectedCateId);
 		storeManager.addBook(selCates, book);
@@ -427,7 +426,13 @@ public class BookstoreController {
 				"Updated book successfully!");
 		return "redirect:uploadSuccess";
 	}
-
+	
+	@RequestMapping(value = "/confirmDelete") 
+	public ModelAndView toDeleteBook(HttpServletRequest request)
+	{
+		return new ModelAndView("confirmDelete");
+	}
+ 
 	@RequestMapping(value = "/deleteBook")
 	public String deleteBook(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -568,7 +573,7 @@ public class BookstoreController {
 	}
 	
 	@RequestMapping(value = "/order")
-	public ModelAndView order(HttpServletRequest request) {
+	public String order(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Customer customer = null; 
 		if (session.getAttribute("customer") == null) {
@@ -588,6 +593,7 @@ public class BookstoreController {
 		order.setAddress(request.getParameter("address"));
 		order.setEmail(request.getParameter("email"));
 		order.setPhone(request.getParameter("phone"));
+		order.setStatus("Pending");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date now = new Date();
 		order.setOrderDate(sdf.format(now));
@@ -605,6 +611,87 @@ public class BookstoreController {
 		
 		session.removeAttribute("CART");
 		session.removeAttribute("totalAmount");
-		return orderSuccess();
+		return "redirect:orderSuccess";
+	}
+	
+	@RequestMapping(value = "/customerViewOrder")
+	public ModelAndView customerViewOrder(HttpServletRequest request) {
+		String username = (String) request.getSession().getAttribute("customer");
+		List<Order> lstOrder = storeManager.getOrderByUser(username);
+				
+		request.getSession().setAttribute("ORDERHISTORY", lstOrder);
+		return new ModelAndView("customerViewOrder");
+	}
+	
+	@RequestMapping(value = "/customerViewDetails")
+	public ModelAndView customerViewDetails(HttpServletRequest request) {
+		int id = Integer.parseInt(request.getParameter("id").toString());
+		List<OrderDetail> lstOrderDetail = storeManager.getOrderDetail(id);
+				
+		request.getSession().setAttribute("DETAILS", lstOrderDetail);
+		
+		return new ModelAndView("customerViewDetails");
+	}
+	
+	@RequestMapping(value = "/viewOrder")
+	public ModelAndView viewOrder(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		List<Order> lstOrder = storeManager.getOrderList();
+				
+		request.getSession().setAttribute("ORDERLIST", lstOrder);
+		return new ModelAndView("viewOrder");
+	}
+	
+	@RequestMapping(value = "/viewOrderByCustomer")
+	public ModelAndView viewOrderByCustomer(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		String username = request.getParameter("username");
+		List<Order> lstOrder = storeManager.getOrderByUser(username);
+				
+		request.getSession().setAttribute("ORDERLIST", lstOrder);
+		return new ModelAndView("viewOrder");
+	}
+	
+	@RequestMapping(value = "/viewDetails")
+	public ModelAndView viewDetails(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		int id = Integer.parseInt(request.getParameter("id").toString());
+		List<OrderDetail> lstOrderDetail = storeManager.getOrderDetail(id);
+				
+		request.getSession().setAttribute("DETAILS", lstOrderDetail);
+		
+		return new ModelAndView("viewDetails");
+	}
+	
+	@RequestMapping(value ="/viewCustomers")
+	public ModelAndView viewCustomer(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		List<Customer> lstCustomer = storeManager.getCustomerList();
+				
+		request.getSession().setAttribute("CUSTOMERLIST", lstCustomer);
+		return new ModelAndView("viewCustomers");
+	}
+	
+	@RequestMapping(value = "/updateOrderStatus")
+	public ModelAndView updateOrderStatus(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		int id = Integer.parseInt(request.getParameter("id").toString());
+		Order order = storeManager.getOrderById(id);
+		order.setStatus(request.getParameter("status"));
+		storeManager.updateOrder(order);
+		List<Order> lstOrder = storeManager.getOrderList();
+		
+		request.getSession().setAttribute("ORDERLIST", lstOrder);
+		return new ModelAndView("viewOrder");
 	}
 }

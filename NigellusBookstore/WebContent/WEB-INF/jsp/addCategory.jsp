@@ -9,22 +9,31 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form:form id="mainForm" method="post" commandName="model">
-		<table>
-			<tr>
-				<td>Category: </td>
-				<td><form:input path="category.name" /></td>
-			</tr>
-			<tr>
-				<td>Description: </td>
-				<td><form:input path="category.description" /></td>
-			</tr>
-		</table>
-		
-		<form:button>Add Category</form:button>
-	</form:form>
-	<br />
-	<a href="viewCategories">Back</a>
+	<div class="col-md-12">
+		<div style="padding: 10px 10px 10px 10px">
+			<form:form role="form" id="mainForm" method="post" commandName="model">
+				<div class="form-group">
+					<label for="category" class="col-sm-4 control-label">Category:</label>
+					<div class="col-sm-6">
+						<form:input id="category" class="form-control"
+							path="category.name" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="description" class="col-sm-4 control-label">Description:</label>
+					<div class="col-sm-6">
+						<form:textarea id="description" class="form-control"
+							path="category.description" rows="5" />
+
+					</div>
+				</div>
+				<div class="col-md-12">
+					<form:button class="btn btn-success">Add Category</form:button>
+					<a href="viewCategories">Back</a>
+				</div>
+			</form:form>
+		</div>
+	</div>
 	<c:if test="${sessionScope.addCategorySuccess != null}">
 		<font color="green">${sessionScope.addCategorySuccess }</font>
 	</c:if>

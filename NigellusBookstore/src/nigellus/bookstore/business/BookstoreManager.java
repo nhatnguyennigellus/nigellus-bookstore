@@ -55,7 +55,7 @@ public class BookstoreManager {
 
 	@Autowired
 	private OrderDetailDAO orderDetailDAO;
-	
+
 	public CustomerDAO getCustomerDAO() {
 		return customerDAO;
 	}
@@ -89,11 +89,11 @@ public class BookstoreManager {
 		return false;
 
 	}
-	
+
 	public boolean existedUsername(String username) {
 		return customerDAO.existedUsername(username);
 	}
-	
+
 	public void getCategoryInfo(BookstoreModel storeModel) {
 		Category selectedCategory = storeModel.getSelectedCategory();
 		List<Category> categories = categoryDAO.getCategoryList();
@@ -111,11 +111,11 @@ public class BookstoreManager {
 		storeModel.setCategories(categories);
 		storeModel.setSelectedCategory(selectedCategory);
 	}
-	
+
 	public List<Category> getSelectedCateList(String[] selectedCateId) {
-		List<Category> selCates = new ArrayList<Category>() ;
+		List<Category> selCates = new ArrayList<Category>();
 		List<Category> categories = categoryDAO.getCategoryList();
-		
+
 		for (String cateID : selectedCateId) {
 			int id = Integer.parseInt(cateID);
 			for (Category category : categories) {
@@ -125,9 +125,15 @@ public class BookstoreManager {
 				}
 			}
 		}
-		
+
 		return selCates;
 	}
+
+	public List<Customer> getCustomerList() {
+		return customerDAO.getCustomerList();
+
+	}
+
 	public void getCategoryList(AddBookModel addBookModel) {
 		List<Category> categories = categoryDAO.getCategoryList();
 		addBookModel.setCategories(categories);
@@ -135,6 +141,12 @@ public class BookstoreManager {
 
 	public void getBookInfo(BookstoreModel storeModel, String key, String author) {
 		List<Book> books = bookDAO.getBookList(key, author);
+		storeModel.setBooks(books);
+	}
+
+	public void getAvailableBookInfo(BookstoreModel storeModel, String key,
+			String author) {
+		List<Book> books = bookDAO.getAvailableBookList(key, author);
 		storeModel.setBooks(books);
 	}
 
@@ -157,26 +169,24 @@ public class BookstoreManager {
 	public void addCategory(Category category) {
 		categoryDAO.addCategory(category);
 	}
-	
+
 	public Book getBookById(int id) {
 		return bookDAO.getBook(id);
 	}
-	
+
 	public Customer getCustomerInfo(String username) {
 		return customerDAO.getCustomerInfo(username);
 	}
-	
-	public void updateBook(Book book)
-	{
+
+	public void updateBook(Book book) {
 		bookDAO.updateBook(book);
 	}
-	
-	public void deleteBook(int id)
-	{
+
+	public void deleteBook(int id) {
 		bookDAO.deleteBook(id);
 	}
-	public void updateBook(List<Category> selectedCategories, Book book)
-	{
+
+	public void updateBook(List<Category> selectedCategories, Book book) {
 		book.setCategories(new HashSet<Category>(selectedCategories));
 		bookDAO.updateBook(book);
 	}
@@ -185,23 +195,39 @@ public class BookstoreManager {
 		book.setCategories(new HashSet<Category>(selectedCategories));
 		bookDAO.addBook(book);
 	}
-	
+
 	public void addCustomer(Customer customer, String username) {
 		customerDAO.addCustomer(customer, username);
 	}
-	
+
 	public void updateCustomer(Customer customer) {
 		customerDAO.updateCustomer(customer);
 	}
-	
+
+	public void updateOrder(Order order) {
+		orderDAO.updateOrder(order);
+	}
+
 	public void submitOrder(Order order, List<OrderDetail> lstDetail) {
 		orderDAO.addOrder(order);
 		for (OrderDetail orderDetail : lstDetail) {
 			orderDetailDAO.addDetail(orderDetail);
 		}
 	}
-	
-	public List<Order> getOrderByUser(String username){
+
+	public List<Order> getOrderByUser(String username) {
 		return orderDAO.getOrderByUser(username);
+	}
+
+	public Order getOrderById(int id) {
+		return orderDAO.getOrderById(id);
+	}
+
+	public List<Order> getOrderList() {
+		return orderDAO.getOrder();
+	}
+
+	public List<OrderDetail> getOrderDetail(int orderId) {
+		return orderDetailDAO.getDetailById(orderId);
 	}
 }

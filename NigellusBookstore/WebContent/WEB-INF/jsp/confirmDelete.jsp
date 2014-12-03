@@ -8,15 +8,15 @@
 </head>
 <body>
 	<div class="col-md-6">
-		<h5>
-			<c:if test="${sessionScope.ChangeImgSuccess != null}">
-				<font color="green">${sessionScope.ChangeImgSuccess }</font>
-			</c:if>
-			<c:if test="${sessionScope.ChangeImgError != null}">
-				<font color="red">${sessionScope.ChangeImgError }</font>
-			</c:if>
-			<a href="viewBooks?key=&author=">Back</a>
-		</h5>
+		<form action="deleteBook" method="post" role="form">
+			<input type="hidden" value="${param.id }" name="id"/>
+
+			<h5>Are you sure you want to remove this book?</h5>
+			<input type="submit" class="btn btn-success" value="Yes" /> <a
+				href="viewBooks?key=&author="><input type="button" class="btn btn-danger"
+				value="No" /></a>
+		</form>
+
 	</div>
 </body>
 </html>

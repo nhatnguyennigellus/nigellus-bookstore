@@ -51,6 +51,22 @@
 		<put-attribute name="title" value="Access denied"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/accessDeniedAdmin.jsp"></put-attribute>
 	</definition>  
+	<definition name="viewOrder" extends="base.admin">
+		<put-attribute name="title" value="Order History"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/viewOrder.jsp"></put-attribute>
+	</definition> 
+	<definition name="viewCustomers" extends="base.admin">
+		<put-attribute name="title" value="Customer"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/viewCustomer.jsp"></put-attribute>
+	</definition> 
+	<definition name="viewDetails" extends="base.admin">
+		<put-attribute name="title" value="Order Details"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/viewDetails.jsp"></put-attribute>
+	</definition> 
+	<definition name="confirmDelete" extends="base.admin">
+		<put-attribute name="title" value="Confirm delete"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/confirmDelete.jsp"></put-attribute>
+	</definition> 
 	
 	<!-- USER'S PAGES -->
 	<definition name="base.user" template="/WEB-INF/jsp/layoutUser.jsp">
@@ -95,5 +111,13 @@
 	<definition name="orderSuccess" extends="base.user">
 		<put-attribute name="title" value="Ordered Successfully"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/orderSuccess.jsp"></put-attribute>
-	</definition>  
+	</definition>
+	<definition name="customerViewOrder" extends="base.user">
+		<put-attribute name="title" value="Order History"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/CustomerViewOrder.jsp"></put-attribute>
+	</definition> 
+	<definition name="customerViewDetails" extends="base.user">
+		<put-attribute name="title" value="Order Details"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/CustomerViewDetails.jsp"></put-attribute>
+	</definition> 
 </tiles-definitions>

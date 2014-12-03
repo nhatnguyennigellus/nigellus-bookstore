@@ -1,5 +1,7 @@
 package nigellus.bookstore.dao;
 
+import java.util.List;
+
 import nigellus.bookstore.entity.Customer;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -30,5 +32,11 @@ public class CustomerDAO  extends HibernateDaoSupport{
 	
 	public void updateCustomer(Customer customer) {
 		getHibernateTemplate().update(customer);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Customer> getCustomerList() {
+		String query = "select c from Customer c";
+		return getHibernateTemplate().find(query);
 	}
 }

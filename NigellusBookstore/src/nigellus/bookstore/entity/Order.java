@@ -19,7 +19,16 @@ public class Order implements java.io.Serializable {
 	private String address;
 	private String email;
 	private String phone;
+	private String status;
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getFullname() {
 		return fullname;
 	}

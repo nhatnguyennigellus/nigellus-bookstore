@@ -11,81 +11,74 @@
 </head>
 <body>
 
-	<p>
-		<a href="index">Home</a>
-	</p>
 	<c:choose>
 		<c:when test="${sessionScope.customer != null}">
 			<div style="background-color: #FFA6A6; padding: 10px 10px 10px 10px">
-				Welcome, <b> ${sessionScope.customer } </b> | <a href="logoutUser">Logout</a>
-				| <a href="toEditProfile">Edit Profile</a> | <a
-					href="toChangePassword">Change Password</a>
+				Welcome, <b> ${sessionScope.customer } </b> <br /><a href="logoutUser">Logout</a>
+				<br /> <a href="toEditProfile">Edit Profile</a> <br /> <a
+					href="toChangePassword">Change Password</a><br /> <a
+					href="customerViewOrder">Order History</a>
+
 			</div>
-
-			<p>
-				<a href="viewCategories">Your orders</a>
-			</p>
-
+			<div class="col-md-12"></div>
 		</c:when>
 		<c:otherwise>
-			<div style="background-color: #FFA6A6; padding: 10px 10px 10px 10px">
-				<form action="loginUser" method="get">
-					<table width="200" style="background-color: #FFA6A6">
-						<tr>
-							<td>Username</td>
-							<td><input name="user" /></td>
-						</tr>
-						<tr>
-							<td>Password</td>
-							<td><input name="pass" type="password" /></td>
-						</tr>
-						<tr>
-							<td colspan="2" align="center"><input name="submit"
-								type="submit" value="Login" /> <input name="reset" type="reset"
-								value="Reset" /></td>
-						</tr>
-						<tr>
-							<td colspan="2">Not a member? <a href="toRegister">Register</a></td>
-						</tr>
-					</table>
-				</form>
+			<div class="col-md-12">
+				<div style="padding: 10px 10px 10px 10px;">
+					<form action="loginUser" method="get">
+						<div class="form-group">
+							<label for="user">Username</label> <input id="user"
+								placeholder="Username" class="form-control" name="user" />
+						</div>
+						<div class="form-group">
+							<label for="pass">Password</label> <input id="pass"
+								placeholder="Password" name="pass" type="password"
+								class="form-control" />
+						</div>
+						<input class="btn btn-success" name="submit" type="submit"
+							value="Login" /> <input name="reset" type="reset" value="Reset"
+							class="btn btn-danger" />
+					</form>
 
-				<c:if test="${sessionScope.customerLoginErr != null}">
-					<font color="red" style="font-style: bold">${sessionScope.customerLoginErr }</font>
+					<c:if test="${sessionScope.customerLoginErr != null}">
+						<font color="red" style="font-style: bold">${sessionScope.customerLoginErr }</font>
 
-				</c:if>
+					</c:if>
 
+				</div>
 			</div>
 		</c:otherwise>
 	</c:choose>
+	<div class="col-md-12">
+		<p>
+			<a href="index">Home</a>
+		</p>
+		<p>
+			<img alt="Nigellus Bookstore" width="30"
+				src="<c:url value="/resources/images/basket.png" />" /> <a
+				href="viewCart">Your cart</a>
+			<c:choose>
+				<c:when test="${sessionScope.CART != null }">
+					<font color="blue" style="font-weight: bold;">(${sessionScope.CART.size() })</font>
+				</c:when>
+				<c:otherwise>
+					<font color="blue" style="font-weight: bold;">(0)</font>
+				</c:otherwise>
+			</c:choose>
 
-	<p>
-	<img alt="Nigellus Bookstore" width="30"
-										src="<c:url value="/resources/images/basket.png" />" /> 
-		<a href="viewCart">Your cart</a>
-		<c:choose>
-			<c:when test="${sessionScope.CART != null }">
-				<font color="blue" style="font-weight: bold;">(${sessionScope.CART.size() })</font>
-			</c:when>
-			<c:otherwise>
-				<font color="blue" style="font-weight: bold;">(0)</font>
-			</c:otherwise>
-		</c:choose>
-		
-	</p>
-	<p>
-		<a href="CustomerViewBooks?key=&author=">Our library</a>
-	</p>
-	<p>
-		<a href="CustomerViewCategories">Categories</a>
-	</p>
-	<p>
-		<a href="viewCategories">About</a>
-	</p>
-	<p>
-		<a href="viewCategories">Contact</a>
-	</p>
-
-
+		</p>
+		<p>
+			<a href="CustomerViewBooks?key=&author=">Our library</a>
+		</p>
+		<p>
+			<a href="CustomerViewCategories">Categories</a>
+		</p>
+		<p>
+			<a href="viewCategories">About</a>
+		</p>
+		<p>
+			<a href="viewCategories">Contact</a>
+		</p>
+	</div>
 </body>
 </html>

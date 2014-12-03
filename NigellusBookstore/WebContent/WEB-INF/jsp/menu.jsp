@@ -10,48 +10,51 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
 	<c:choose>
 		<c:when test="${sessionScope.admin != null}">
 			<div style="background-color: #FFA6A6; padding: 10px 10px 10px 10px">
 				Welcome, ${sessionScope.admin } | <a href="logout">Logout</a>
 			</div>
-			
-			<p>
-				<a href="viewBooks?key=">Our library</a>
-			</p>
-			<p>
-				<a href="viewCategories">Categories</a>
-			</p>
-			<p>
-				<a href="viewCustomers">Customers</a>
-			</p>
-
+			<div style="padding: 10px 10px 10px 10px">
+				<div class="col-md-12">
+					<p>
+						<a href="viewBooks?key=&author=">Books</a>
+					</p>
+					<p>
+						<a href="viewCategories">Categories</a>
+					</p>
+					<p>
+						<a href="viewCustomers">Customers</a>
+					</p>
+					<p>
+						<a href="viewOrder">Order</a>
+					</p>
+				</div>
+			</div>
 		</c:when>
 		<c:otherwise>
-			<div style="background-color: #FFA6A6; padding: 10px 10px 10px 10px">
-				<form action="login" method="get">
-					<table width="200">
-						<tr>
-							<td>Username</td>
-							<td><input name="user" /></td>
-						</tr>
-						<tr>
-							<td>Password</td>
-							<td><input name="pass" type="password" /></td>
-						</tr>
-						<tr>
-							<td colspan="2" align="center"><input name="submit"
-								type="submit" value="Login" /> <input name="reset" type="reset"
-								value="Reset" /></td>
-						</tr>
-					</table>
-				</form>
-			</div>
-			<c:if test="${sessionScope.adminLoginErr != null}">
-				<font color="red" style="font-style: bold">${sessionScope.adminLoginErr }</font>
+			<div class="col-md-12">
+				<div style="padding: 10px 10px 10px 10px">
+					<form action="login" method="get" role="form">
+						<div class="form-group">
+							<label for="user">Username</label> <input id="user"
+								placeholder="Username" class="form-control" name="user" />
+						</div>
+						<div class="form-group">
+							<label for="pass">Password</label> <input id="pass"
+								placeholder="Password" name="pass" type="password"
+								class="form-control" />
+						</div>
+						<input class="btn btn-success" name="submit" type="submit"
+							value="Login" /> <input name="reset" type="reset" value="Reset"
+							class="btn btn-danger" />
+					</form>
+				</div>
+				<c:if test="${sessionScope.adminLoginErr != null}">
+					<font color="red" style="font-style: bold">${sessionScope.adminLoginErr }</font>
 
-			</c:if>
+				</c:if>
+			</div>
 		</c:otherwise>
 	</c:choose>
 
