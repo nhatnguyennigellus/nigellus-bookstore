@@ -28,14 +28,15 @@
 				</div>
 
 				<div class="form-group">
-					<label for="description">Description</label> <textarea rows="3"
-						name="description" id="description" placeholder="Description"
-						class="form-control" ></textarea>
+					<label for="description">Description</label>
+					<textarea rows="3" name="description" id="description" onkeyup="InsertBreak(event);"
+						placeholder="Description" class="form-control"></textarea>
 				</div>
 
 				<div class="form-group">
-					<label for="selectedCate">Category:</label> <select class="form-control"
-						id="selectedCate" name="selectedCate" multiple="multiple" size="5">
+					<label for="selectedCate">Category:</label> <select
+						class="form-control" id="selectedCate" name="selectedCate"
+						multiple="multiple" size="5">
 						<c:forEach items="${sessionScope.categories }" var="cate">
 							<option value="${cate.getId() }">${cate.getName() }</option>
 						</c:forEach>
@@ -65,6 +66,16 @@
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
 <script type="text/javascript">
+	function InsertBreak(e) {
+		//check for return key=13
+		if (parseInt(e.keyCode) == 13) {
+			//get textarea object
+			var objTxtArea;
+			objTxtArea = document.getElementById("description");
+			//insert the existing text with the <br>
+			objTxtArea.innerText = objTxtArea.value + "<br>";
+		}
+	}
 	$(function() {
 		$("#frmAddBook")
 				.validate(

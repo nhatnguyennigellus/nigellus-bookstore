@@ -13,11 +13,11 @@
 
 	<c:choose>
 		<c:when test="${sessionScope.customer != null}">
-			<div style="background-color: #FFA6A6; padding: 10px 10px 10px 10px">
-				Welcome, <b> ${sessionScope.customer } </b> <br /><a href="logoutUser">Logout</a>
-				<br /> <a href="toEditProfile">Edit Profile</a> <br /> <a
-					href="toChangePassword">Change Password</a><br /> <a
-					href="customerViewOrder">Order History</a>
+			<div style="background-color: #FFD3D3; padding: 10px 10px 10px 10px">
+				Welcome, <b> ${sessionScope.customer } </b> <br />
+				<a href="logoutUser">Logout</a> <br /> <a href="toEditProfile">Edit
+					Profile</a> <br /> <a href="toChangePassword">Change Password</a><br />
+				<a href="customerViewOrder">Order History</a>
 
 			</div>
 			<div class="col-md-12"></div>
@@ -27,17 +27,17 @@
 				<div style="padding: 10px 10px 10px 10px;">
 					<form action="loginUser" method="get">
 						<div class="form-group">
-							<label for="user">Username</label> <input id="user"
-								placeholder="Username" class="form-control" name="user" />
+						<input id="user" placeholder="Username" 
+						class="form-control input-sm" name="user" />
 						</div>
 						<div class="form-group">
-							<label for="pass">Password</label> <input id="pass"
-								placeholder="Password" name="pass" type="password"
-								class="form-control" />
+						<input id="pass" placeholder="Password" 
+						name="pass" type="password"
+								class="form-control input-sm" />
 						</div>
-						<input class="btn btn-success" name="submit" type="submit"
+						<input class="btn btn-success btn-xs" name="submit" type="submit"
 							value="Login" /> <input name="reset" type="reset" value="Reset"
-							class="btn btn-danger" />
+							class="btn btn-danger btn-xs" />
 					</form>
 
 					<c:if test="${sessionScope.customerLoginErr != null}">
@@ -50,35 +50,37 @@
 		</c:otherwise>
 	</c:choose>
 	<div class="col-md-12">
-		<p>
-			<a href="index">Home</a>
-		</p>
-		<p>
-			<img alt="Nigellus Bookstore" width="30"
-				src="<c:url value="/resources/images/basket.png" />" /> <a
-				href="viewCart">Your cart</a>
-			<c:choose>
-				<c:when test="${sessionScope.CART != null }">
-					<font color="blue" style="font-weight: bold;">(${sessionScope.CART.size() })</font>
-				</c:when>
-				<c:otherwise>
-					<font color="blue" style="font-weight: bold;">(0)</font>
-				</c:otherwise>
-			</c:choose>
+		<div style="padding: 10px 10px 10px 10px">
+			<p>
+				<a href="index">Home</a>
+			</p>
+			<p>
+				 <a	href="viewCart">
+				 <img alt="Nigellus Bookstore" width="20"
+					src="<c:url value="/resources/images/basket.png" />" /></a>
+				<c:choose>
+					<c:when test="${sessionScope.CART != null }">
+						<font color="blue" style="font-weight: bold;">(${sessionScope.CART.size() })</font>
+					</c:when>
+					<c:otherwise>
+						<font color="blue" style="font-weight: bold;">(0)</font>
+					</c:otherwise>
+				</c:choose>
 
-		</p>
-		<p>
-			<a href="CustomerViewBooks?key=&author=">Our library</a>
-		</p>
-		<p>
-			<a href="CustomerViewCategories">Categories</a>
-		</p>
-		<p>
-			<a href="viewCategories">About</a>
-		</p>
-		<p>
-			<a href="viewCategories">Contact</a>
-		</p>
+			</p>
+			<p>
+				<a href="CustomerViewBooks?key=&author=">Our library</a>
+			</p>
+			<p>
+				<a href="CustomerViewCategories">Categories</a>
+			</p>
+			<p>
+				<a href="viewCategories">About</a>
+			</p>
+			<p>
+				<a href="viewCategories">Contact</a>
+			</p>
+		</div>
 	</div>
 </body>
 </html>

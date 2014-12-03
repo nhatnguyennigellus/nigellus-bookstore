@@ -227,6 +227,10 @@ public class BookstoreManager {
 		return orderDAO.getOrder();
 	}
 
+	public List<Order> getOrderListMonthly(int month, int year) {
+		return orderDAO.getOrderMonthly(month, year);
+	}
+	
 	public List<OrderDetail> getOrderDetail(int orderId) {
 		return orderDetailDAO.getDetailById(orderId);
 	}

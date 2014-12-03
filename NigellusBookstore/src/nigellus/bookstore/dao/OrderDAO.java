@@ -23,6 +23,14 @@ public class OrderDAO extends HibernateDaoSupport{
 		String query = "select o from Order o";
 		return getHibernateTemplate().find(query);
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Order> getOrderMonthly(int month, int year) {
+		String query = "select o from Order o "
+				+ "where YEAR(o.orderDate) = " + year
+				+ " and MONTH(o.orderDate) = " + month;
+		return getHibernateTemplate().find(query);
+	}
 	
 	public Order getOrderById(int id) {
 		String query = "select o from Order o "

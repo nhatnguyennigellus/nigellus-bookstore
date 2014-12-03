@@ -11,8 +11,8 @@
         <many-to-one name="customer" class="nigellus.bookstore.entity.Customer" fetch="select">
             <column name="CustomerId" length="30" not-null="true" />
         </many-to-one>
-        <property name="orderDate" type="string">
-            <column name="OrderDate" length="30" not-null="true" />
+        <property name="orderDate" type="timestamp">
+            <column name="OrderDate" not-null="true" length="19"/>
         </property>
         <property name="totalAmount" type="float">
             <column name="TotalAmount" precision="12" scale="0" not-null="true" />

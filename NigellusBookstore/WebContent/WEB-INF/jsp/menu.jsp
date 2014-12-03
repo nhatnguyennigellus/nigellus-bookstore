@@ -37,17 +37,16 @@
 				<div style="padding: 10px 10px 10px 10px">
 					<form action="login" method="get" role="form">
 						<div class="form-group">
-							<label for="user">Username</label> <input id="user"
-								placeholder="Username" class="form-control" name="user" />
+							<input id="user" placeholder="Username" 
+							class="form-control input-sm" name="user" />
 						</div>
 						<div class="form-group">
-							<label for="pass">Password</label> <input id="pass"
-								placeholder="Password" name="pass" type="password"
-								class="form-control" />
+						<input id="pass" placeholder="Password" 
+							name="pass" type="password" class="form-control input-sm" />
 						</div>
-						<input class="btn btn-success" name="submit" type="submit"
+						<input class="btn btn-success btn-xs" name="submit" type="submit"
 							value="Login" /> <input name="reset" type="reset" value="Reset"
-							class="btn btn-danger" />
+							class="btn btn-danger btn-xs" />
 					</form>
 				</div>
 				<c:if test="${sessionScope.adminLoginErr != null}">

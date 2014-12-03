@@ -594,9 +594,9 @@ public class BookstoreController {
 		order.setEmail(request.getParameter("email"));
 		order.setPhone(request.getParameter("phone"));
 		order.setStatus("Pending");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date now = new Date();
-		order.setOrderDate(sdf.format(now));
+		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//Date now = new Date();
+		order.setOrderDate(new Date());
 		
 		List<OrderDetail> lstDetail = new ArrayList<OrderDetail>();
 		for (Cart cart : listCart) {
@@ -651,6 +651,21 @@ public class BookstoreController {
 		}
 		String username = request.getParameter("username");
 		List<Order> lstOrder = storeManager.getOrderByUser(username);
+				
+		request.getSession().setAttribute("ORDERLIST", lstOrder);
+		return new ModelAndView("viewOrder");
+	}
+	
+	@RequestMapping(value = "/viewOrderMonthly")
+	public ModelAndView viewOrderBetweenDays(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		
+		int month = Integer.parseInt(request.getParameter("month"));
+		int year = Integer.parseInt(request.getParameter("year"));
+		List<Order> lstOrder ;
+			lstOrder = storeManager.getOrderListMonthly(month, year);
 				
 		request.getSession().setAttribute("ORDERLIST", lstOrder);
 		return new ModelAndView("viewOrder");

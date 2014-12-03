@@ -2,6 +2,7 @@ package nigellus.bookstore.entity;
 // default package
 // Generated Nov 30, 2014 2:46:00 PM by Hibernate Tools 3.4.0.CR1
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public class Order implements java.io.Serializable {
 
 	private Integer id;
 	private Customer customer;
-	private String orderDate;
+	private Date orderDate;
 	private float totalAmount;
 
 	private String fullname;
@@ -74,13 +75,13 @@ public class Order implements java.io.Serializable {
 	public Order() {
 	}
 
-	public Order(Customer customer, String orderDate, float totalAmount) {
+	public Order(Customer customer, Date orderDate, float totalAmount) {
 		this.customer = customer;
 		this.orderDate = orderDate;
 		this.totalAmount = totalAmount;
 	}
 
-	public Order(Customer customer, String orderDate, float totalAmount,
+	public Order(Customer customer, Date orderDate, float totalAmount,
 			Set orderdetailses) {
 		this.customer = customer;
 		this.orderDate = orderDate;
@@ -104,11 +105,11 @@ public class Order implements java.io.Serializable {
 		this.customer = customer;
 	}
 
-	public String getOrderDate() {
+	public Date getOrderDate() {
 		return this.orderDate;
 	}
 
-	public void setOrderDate(String orderDate) {
+	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 

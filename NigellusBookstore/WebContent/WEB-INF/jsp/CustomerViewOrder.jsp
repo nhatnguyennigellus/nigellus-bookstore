@@ -2,6 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,6 +12,7 @@
 <body>
 	<div class="col-md-12">
 		<h2>ORDER HISTORY</h2>
+		<a href="javascript:history.go(-1)">Back</a>
 		<table class="table table-striped" width="100%">
 			<tr>
 				<th>No</th>
@@ -26,7 +28,7 @@
 				varStatus="no">
 				<tr>
 					<td>${no.count }</td>
-					<td>${order.orderDate}</td>
+					<td><fmt:formatDate value="${order.orderDate}" pattern="dd.MM.yyyy HH:mm:ss" /></td>
 					<td>${order.totalAmount}</td>
 					<td>${order.address}</td>
 					<td>${order.phone}</td>

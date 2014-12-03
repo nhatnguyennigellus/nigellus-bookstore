@@ -7,9 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Our products</title>
+
 </head>
 <body>
-	<div style="background-color: #F3F781; padding: 10px 10px 10px 10px">
+	<div style="background-color: #FEFFD3; padding: 10px 10px 10px 10px">
 		<h3>SEARCH BOOK:</h3>
 		<form action="CustomerViewBooks" class="form-horizontal">
 			<div class="form-group">

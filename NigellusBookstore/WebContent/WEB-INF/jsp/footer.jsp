@@ -8,6 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Copyright 2014
+	<div class="col-md-6">
+		2014 - Developing Java for Distributed System Project
+		<br/> Nguyen Minh Nhat - 1012278 
+	</div>
+	
 </body>
 </html>
