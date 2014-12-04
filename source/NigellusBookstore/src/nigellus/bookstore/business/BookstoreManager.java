@@ -122,7 +122,7 @@ public class BookstoreManager {
 		storeModel.setSelectedCategory(selectedCategory);
 	}
 
-	public List<Category> getSelectedCateList(String[] selectedCateId) {
+	public List<Category> getSelectedCateById(String[] selectedCateId) {
 		List<Category> selCates = new ArrayList<Category>();
 		List<Category> categories = categoryDAO.getCategoryList();
 
@@ -130,6 +130,22 @@ public class BookstoreManager {
 			int id = Integer.parseInt(cateID);
 			for (Category category : categories) {
 				if (category.getId() == id) {
+					selCates.add(category);
+					break;
+				}
+			}
+		}
+
+		return selCates;
+	}
+	
+	public List<Category> getSelectedCateByName(String[] selectedCateName) {
+		List<Category> selCates = new ArrayList<Category>();
+		List<Category> categories = categoryDAO.getCategoryList();
+
+		for (String cateName : selectedCateName) {
+			for (Category category : categories) {
+				if (category.getName().equals(cateName)) {
 					selCates.add(category);
 					break;
 				}
@@ -240,6 +256,10 @@ public class BookstoreManager {
 	public List<Order> getOrderList() {
 		return orderDAO.getOrder();
 	}
+	
+	public List<Book> getBookList() {
+		return bookDAO.getBookList("", "");
+	}
 
 	public List<Order> getOrderListMonthly(int month, int year) {
 		return orderDAO.getOrderMonthly(month, year);
@@ -279,6 +299,44 @@ public class BookstoreManager {
 
             // Now set the actual message
             message.setText("Your order confirmation code is: " + code);
+
+            // Send message
+            Transport.send(message);
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
+	}
+	
+	public void sendRecoveredPassword(String email, String password) {
+		Properties props = new Properties();
+        props.put("mail.smtp.starttls.enable", true);
+        props.put("mail.smtp.auth", true);
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        
+        Session mailSession = Session.getInstance(props, new Authenticator() {
+
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("icecreamweb2013@gmail.com", "voyygkkgbeqepgbw");
+            }
+        });
+        
+        try {
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage(mailSession);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress("icecreamweb2013@gmail.com"));
+
+            // Set To: header field of the header.
+            message.addRecipient(Message.RecipientType.TO,
+                    new InternetAddress(email));
+
+            // Set Subject: header field
+            message.setSubject("[Nigellus Bookstore] Password Recovery");
+
+            // Now set the actual message
+            message.setText("Your order confirmation code is: " + password);
 
             // Send message
             Transport.send(message);

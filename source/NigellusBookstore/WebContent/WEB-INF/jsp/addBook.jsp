@@ -9,8 +9,27 @@
 <title>Insert title here</title>
 </head>
 <body>
+	
 	<div class="col-md-12">
+		<h3>ADD BOOK</h3>
 		<div style="padding: 10px 10px 10px 10px">
+
+			<input class="btn btn-default" id="btnForm" type="button"
+				onclick="openForm()" value="Add by form" /> <input id="btnCSV"
+				type="button" value="Add by CSV" onclick="openCSVImport()"
+				class="btn btn-default" />
+		</div>
+	</div>
+	<div class="col-md-12">
+
+		<div style="padding: 10px 10px 10px 10px">
+			<c:if test="${sessionScope.csvError != null}">
+				<font color="red" style="font-style: bold">${sessionScope.csvError  }</font>
+
+			</c:if>
+			<c:if test="${sessionScope.addBookSuccess != null}">
+					<font color="green">${sessionScope.addBookSuccess }</font>
+				</c:if>
 			<form role="form" action="addBook" id="frmAddBook" method="get">
 				<div class="form-group">
 					<label for="title">Title</label> <input name="title" id="title"
@@ -30,7 +49,8 @@
 				<div class="form-group">
 					<label for="description">Description</label>
 					<textarea rows="3" name="description" id="description"
-						placeholder="[Use HTML tag to edit] Description" class="form-control"></textarea>
+						placeholder="[Use HTML tag to edit] Description"
+						class="form-control"></textarea>
 				</div>
 
 				<div class="form-group">
@@ -46,9 +66,19 @@
 				<input class="btn btn-success" name="submit" type="submit"
 					value="Add" /> <input name="reset" type="reset" value="Reset"
 					class="btn btn-danger" /> <a href="viewBooks?key=&author=">Back</a>
-				<c:if test="${sessionScope.addBookSuccess != null}">
-					<font color="green">${sessionScope.addBookSuccess }</font>
-				</c:if>
+				
+			</form>
+			<form role="form" action="importCSV" id="frmImportCSV" method="post"
+				enctype="multipart/form-data" >
+				<font color="blue" style="font-size:x-small ;"><b>Note:</b> Line of data in CSV File must be: 
+				[title],[price],[description],[author],[imageUrl],[category1;category2;...;]</font>
+				<div class="form-group">
+					<label for="fileUpload">File to upload: </label> <input type="file"
+						id="fileUpload" name="file">
+				</div>
+
+				<input class="btn btn-success" type="submit" value="Import">
+
 			</form>
 		</div>
 
@@ -66,17 +96,18 @@
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
 <script type="text/javascript">
-	function InsertBreak(e) {
-		//check for return key=13
-		if (parseInt(e.keyCode) == 13) {
-			//get textarea object
-			var objTxtArea;
-			objTxtArea = document.getElementById("description");
-			//insert the existing text with the <br>
-			objTxtArea.innerText = objTxtArea.value + "<br>";
-		}
+	
+	function openForm() {
+		$('#frmAddBook').fadeIn();
+		$('#frmImportCSV').fadeOut();
+	}
+
+	function openCSVImport() {
+		$('#frmAddBook').fadeOut();
+		$('#frmImportCSV').fadeIn();
 	}
 	$(function() {
+		$("#frmImportCSV").hide();
 		$("#frmAddBook")
 				.validate(
 						{

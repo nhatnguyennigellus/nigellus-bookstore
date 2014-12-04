@@ -37,8 +37,7 @@
 						<input class="btn btn-success btn-xs" name="submit" type="submit"
 							value="Login" /> <input name="reset" type="reset" value="Reset"
 							class="btn btn-danger btn-xs" />
-					</form>
-
+					</form><a href="forgotPassword">Forgot Password?</a>
 					<c:if test="${sessionScope.customerLoginErr != null}">
 						<font color="red" style="font-style: bold">${sessionScope.customerLoginErr }</font>
 

@@ -3,9 +3,14 @@ package nigellus.bookstore.controller;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import nigellus.bookstore.business.BookstoreManager;
-import nigellus.bookstore.dao.BookDAO;
 import nigellus.bookstore.dao.CartDAO;
+import nigellus.bookstore.dao.CategoryDAO;
 import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.Cart;
 import nigellus.bookstore.entity.Category;
@@ -77,6 +82,7 @@ public class BookstoreController {
 		request.getSession().removeAttribute("uploadSuccess");
 		request.getSession().removeAttribute("addBookSuccess");
 		request.getSession().removeAttribute("changeImgSuccess");
+		request.getSession().removeAttribute("exportSuccess");
 		return new ModelAndView("admin");
 	}
 
@@ -86,7 +92,11 @@ public class BookstoreController {
 	}
 
 	@RequestMapping(value = "/toChangeImage")
-	public ModelAndView toChangeImage() {
+	public ModelAndView toChangeImage(HttpServletRequest request) {
+		request.getSession().removeAttribute("uploadSuccess");
+		request.getSession().removeAttribute("addBookSuccess");
+		request.getSession().removeAttribute("changeImgSuccess");
+		request.getSession().removeAttribute("exportSuccess");
 		return new ModelAndView("changeImage");
 	}
 
@@ -162,6 +172,10 @@ public class BookstoreController {
 	@RequestMapping(value = "/viewCategories")
 	public ModelAndView viewCategories(BookstoreModel storeModel,
 			HttpServletRequest request) {
+		request.getSession().removeAttribute("uploadSuccess");
+		request.getSession().removeAttribute("addBookSuccess");
+		request.getSession().removeAttribute("changeImgSuccess");
+		request.getSession().removeAttribute("exportSuccess");
 		if (request.getSession().getAttribute("admin") == null) {
 			return new ModelAndView("accessDeniedAd");
 		}
@@ -205,7 +219,90 @@ public class BookstoreController {
 		}
 		return mav;
 	}
+	
+	@RequestMapping(value ="/importCSV", method = RequestMethod.POST)
+	public String importCSV(@RequestParam("file") MultipartFile file, HttpServletRequest request)
+	{
+		if (!file.isEmpty()) {
+			BufferedReader br = null;
+			String line = "";
+			
+			try {
+				InputStream inputStream = file.getInputStream();
+				br = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = br.readLine()) != null) {
+					line  = line.substring(1, line.length() - 1);
+					String[] bookData = line.split(",");
+					String title = bookData[0];
+					float unitPrice = Float.parseFloat(bookData[1]);
+					
+					String description = bookData[2];
+					String authorList = bookData[3];
+					String imageUrl = bookData[4];
+					String categories = bookData[5];
+					String[] category = categories.split(";");
+					
+					List<Category> selCates = storeManager.getSelectedCateByName(category); 
+					System.out.println(categories);
+					System.out.println(category.length);
+					Book book = new Book();
+					book.setTitle(title);
+					book.setUnitPrice(unitPrice);
+					book.setDescription(description);
+					book.setAuthorList(authorList);
+					book.setImageUrl(imageUrl);
+					book.setStatus(1);
 
+					storeManager.addBook(selCates, book);
+					request.getSession().removeAttribute("csvError");
+					request.getSession().setAttribute("addBookSuccess",
+							"Imported books successfully!");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.getSession().setAttribute
+				("csvError", "Import error: " + e.getMessage());
+			}
+		} else {
+			request.getSession().removeAttribute("csvError");
+			request.getSession().setAttribute("csvError",
+					"File was empty!");
+		}
+		return "redirect:toAddBook";
+	}
+
+	@RequestMapping(value = "/exportCSV")
+	public String exportCSV(HttpServletRequest request) {
+		try
+		{
+		    FileWriter writer = new FileWriter("D:\\Books.csv");
+		    List<Book> list = storeManager.getBookList();
+		    for (Book book : list) {
+				writer.append(book.getTitle() + ",");
+				writer.append(book.getUnitPrice() + ",");
+				writer.append(book.getDescription() + ",");
+				writer.append(book.getAuthorList() + ",");
+				writer.append(book.getImageUrl() + ",");
+				List<Category> listCate = new ArrayList<Category>(book.getCategories());
+				for (Category c : listCate) {
+					writer.append(c.getName());
+					if (listCate.indexOf(c) != listCate.size() - 1) {
+						writer.append(";");
+					}
+				}
+				writer.append("\n");
+			}
+		    writer.flush();
+		    writer.close();
+		    request.getSession().setAttribute("exportSuccess",
+					"Exported data successfully!");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:viewBooks?key=&author=";
+	}
+	
 	@RequestMapping(value = "/changeImage", method = RequestMethod.POST)
 	public String changeImage(@RequestParam("name") String name,
 			@RequestParam("file") MultipartFile file, HttpServletRequest request) {
@@ -271,7 +368,7 @@ public class BookstoreController {
 		book.setDescription(description);
 		book.setStatus(1);
 		List<Category> selCates = storeManager
-				.getSelectedCateList(selectedCateId);
+				.getSelectedCateById(selectedCateId);
 		storeManager.addBook(selCates, book);
 		request.getSession().setAttribute("addBookSuccess",
 				"Added book successfully!");
@@ -383,6 +480,39 @@ public class BookstoreController {
 
 		return new ModelAndView("changePassword");
 	}
+	
+	@RequestMapping(value = "/forgotPassword")
+	public ModelAndView forgotPassword() {
+		return new ModelAndView("forgotPassword");
+	}
+	
+	@RequestMapping(value = "/recoverPassword")
+	public ModelAndView recoverPassword(HttpServletRequest request) {
+		String username = request.getParameter("username");
+		Customer customer = storeManager.getCustomerInfo(username) ; 
+		if (customer == null) {
+			request.getSession().setAttribute("usernameError",
+					"This username does not exist!");
+			
+		}
+		else {
+			request.getSession().removeAttribute("usernameError");
+			StringBuffer buffer = new StringBuffer();
+	        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	        for (int i = 0; i < 20; i++) {
+	            double index = Math.random() * characters.length();
+	            buffer.append(characters.charAt((int) index));
+
+	        }
+	        String password = buffer.toString();
+	        customer.setPassword(password);
+	        storeManager.updateCustomer(customer);
+	        storeManager.sendRecoveredPassword(customer.getEmail(), password);
+	        request.getSession().setAttribute("passRecovered",
+					"Your new password has been sent via your registered email!");
+		}
+		return new ModelAndView("forgotPassword");
+	}
 
 	@RequestMapping(value = "/toAddBook")
 	public ModelAndView toAddBook(HttpServletRequest request,
@@ -438,7 +568,7 @@ public class BookstoreController {
 		b.setAuthorList(author);
 		b.setDescription(description);
 		List<Category> selCates = storeManager
-				.getSelectedCateList(selectedCateId);
+				.getSelectedCateById(selectedCateId);
 		storeManager.updateBook(selCates, b);
 		request.getSession().setAttribute("ChangeImgSuccess",
 				"Updated book successfully!");

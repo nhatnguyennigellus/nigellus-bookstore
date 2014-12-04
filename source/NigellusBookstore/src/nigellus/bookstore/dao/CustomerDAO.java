@@ -25,9 +25,14 @@ public class CustomerDAO  extends HibernateDaoSupport{
 	}
 	
 	public Customer getCustomerInfo(String username) {
-		String query = "select c from Customer c"
-				+ " where c.username = '" + username + "'";
-		return (Customer) getHibernateTemplate().find(query).get(0);
+		try {
+			String query = "select c from Customer c"
+					+ " where c.username = '" + username + "'";
+			return (Customer) getHibernateTemplate().find(query).get(0);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+		
 	}
 	
 	public void updateCustomer(Customer customer) {

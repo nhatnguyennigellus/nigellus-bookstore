@@ -19,7 +19,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div style="background-color: #F3F781; padding: 10px 10px 10px 10px">
+	<div style="background-color: #F3F781; padding: 5px 5px 5px 10px">
 		<h3>SEARCH BOOK:</h3>
 		<form action="viewBooks" class="form-horizontal">
 			<div class="form-group">
@@ -49,8 +49,10 @@
 	<br />
 	<div class="col-md-12">
 
-		<a href="toAddBook">Add Book</a>
-
+		<a href="toAddBook">Add Book</a> <a href="exportCSV">Export CSV</a>
+		<c:if test="${sessionScope.exportSuccess != null}">
+			<font color="green">${sessionScope.exportSuccess }</font>
+		</c:if>
 		<form:form id="mainForm" method="post" commandName="model">
 			<c:choose>
 
@@ -72,9 +74,9 @@
 								<td>${book.title}</td>
 								<td>${book.authorList}</td>
 								<td>${book.unitPrice}</td>
-								<td><img class="img-thumbnail" alt="Nigellus Bookstore" width="100"
-									src="<c:url value="${book.imageUrl}" />" /> <br /> <c:url
-										var="url" value="toChangeImage">
+								<td><img class="img-thumbnail" alt="Nigellus Bookstore"
+									width="100" src="<c:url value="${book.imageUrl}" />" /> <br />
+									<c:url var="url" value="toChangeImage">
 										<c:param name="id" value="${book.id}" />
 										<c:param name="title" value="${book.title}" />
 										<c:param name="author" value="${book.authorList}" />
@@ -84,8 +86,8 @@
 									</c:forEach> <c:if test="${book.categories.size() == 0 }">
 										<i>Uncategorized</i>
 									</c:if></td>
-								<td><a href="confirmDelete?id=${book.id }"> Delete</a> <c:url var="url"
-										value="toUpdateBook">
+								<td><a href="confirmDelete?id=${book.id }"> Delete</a> <c:url
+										var="url" value="toUpdateBook">
 										<c:param name="id" value="${book.id}" />
 									</c:url> <a href="${url}">Update</a></td>
 							</tr>

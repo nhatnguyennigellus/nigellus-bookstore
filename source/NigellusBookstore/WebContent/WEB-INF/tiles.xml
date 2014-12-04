@@ -136,4 +136,8 @@
 		<put-attribute name="title" value="Confirm order"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/confirmOrder.jsp"></put-attribute>
 	</definition> 
+	<definition name="forgotPassword" extends="base.user">
+		<put-attribute name="title" value="Recover password"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp"></put-attribute>
+	</definition> 
 </tiles-definitions>

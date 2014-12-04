@@ -18,6 +18,9 @@
 			<div style="padding: 10px 10px 10px 10px">
 				<div class="col-md-12">
 					<p>
+						<a href="admin">Home</a>
+					</p>
+					<p>
 						<a href="viewBooks?key=&author=">Books</a>
 					</p>
 					<p>
