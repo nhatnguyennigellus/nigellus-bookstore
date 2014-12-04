@@ -33,7 +33,10 @@
 					<td>${order.address}</td>
 					<td>${order.phone}</td>
 					<td>${order.email}</td>
-					<td>${order.status}</td>
+					<td><font color="<c:if test="${order.status == 'Delivered'}">green</c:if>
+				<c:if test="${order.status == 'Pending'}">#C41307</c:if>
+				<c:if test="${order.status == 'Submitted'}">blue</c:if>">
+									${order.status} </font></td>
 					<td><c:url var="url" value="customerViewDetails">
 							<c:param name="id" value="${order.id}" />
 							<c:param name="total" value="${order.totalAmount}" />

@@ -119,5 +119,17 @@
 	<definition name="customerViewDetails" extends="base.user">
 		<put-attribute name="title" value="Order Details"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/CustomerViewDetails.jsp"></put-attribute>
+	</definition>
+	<definition name="contact" extends="base.user">
+		<put-attribute name="title" value="Contact us"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/contact.jsp"></put-attribute>
+	</definition>  
+	<definition name="term" extends="base.user">
+		<put-attribute name="title" value="Term - Condition"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/term.jsp"></put-attribute>
+	</definition> 
+	<definition name="about" extends="base.user">
+		<put-attribute name="title" value="About us"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp"></put-attribute>
 	</definition> 
 </tiles-definitions>

@@ -39,7 +39,7 @@
 				<div class="form-group">
 					<label for="description">Description</label>
 					<textarea rows="3" name="description" id="description"
-						placeholder="Description" class="form-control">${sessionScope.book.getDescription() }</textarea>
+						placeholder="[Use HTML tag to edit] Description" class="form-control">${sessionScope.book.getDescription() }</textarea>
 				</div>
 
 				<div class="form-group">

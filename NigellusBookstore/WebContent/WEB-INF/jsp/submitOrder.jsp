@@ -90,11 +90,29 @@
 					</tr>
 
 				</c:forEach>
+				<c:if test="${sessionScope.customer != null }">
+					<tr>
+						<td colspan="4" align="right">Membership discount (-5%):</td>
+						<td colspan="2" align="right">-${sessionScope.totalAmount * 5 / 100}</td>
+
+					</tr>
+
+				</c:if>
+				<tr>
+					<td colspan="4" align="right">Shipping fee (10%):</td>
+					<td colspan="2" align="right">${sessionScope.totalAmount * 10 / 100}</td>
+
+				</tr>
 				<tr>
 					<td colspan="4" align="right">Total:</td>
 					<td colspan="2"
 						style="color: green; font-weight: bold; font-size: 20px"
-						align="right">${sessionScope.totalAmount}</td>
+						align="right"><c:choose>
+							<c:when test="${sessionScope.customer != null }">
+								${sessionScope.totalAmount * 105 / 100}
+							</c:when>
+							<c:otherwise>${sessionScope.totalAmount * 110 / 100}</c:otherwise>
+						</c:choose></td>
 
 				</tr>
 

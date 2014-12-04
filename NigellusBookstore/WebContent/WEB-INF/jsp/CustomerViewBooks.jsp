@@ -10,6 +10,7 @@
 
 </head>
 <body>
+	<!-- 
 	<div style="background-color: #FEFFD3; padding: 10px 10px 10px 10px">
 		<h3>SEARCH BOOK:</h3>
 		<form action="CustomerViewBooks" class="form-horizontal">
@@ -36,8 +37,13 @@
 
 			</p>
 		</form>
-	</div>
+	</div> -->
 	<br />
+
+	<div class="col-md-8">
+
+		<h2>BOOKS</h2>
+	</div>
 	<div class="col-md-12">
 		<form:form id="mainForm" method="post" commandName="model">
 			<c:if test="${model.books.size() == 0 }">

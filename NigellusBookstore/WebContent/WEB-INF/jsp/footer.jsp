@@ -12,6 +12,8 @@
 		2014 - Developing Java for Distributed System Project
 		<br/> Nguyen Minh Nhat - 1012278 
 	</div>
-	
+				<a style="color: white" href="about">About</a> | 
+				<a style="color: white" href="contact">Contact</a> |
+				<a style="color: white" href="term">Term & Condition</a>
 </body>
 </html>

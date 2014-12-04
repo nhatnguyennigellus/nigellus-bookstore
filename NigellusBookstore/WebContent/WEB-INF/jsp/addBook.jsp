@@ -29,8 +29,8 @@
 
 				<div class="form-group">
 					<label for="description">Description</label>
-					<textarea rows="3" name="description" id="description" onkeyup="InsertBreak(event);"
-						placeholder="Description" class="form-control"></textarea>
+					<textarea rows="3" name="description" id="description"
+						placeholder="[Use HTML tag to edit] Description" class="form-control"></textarea>
 				</div>
 
 				<div class="form-group">

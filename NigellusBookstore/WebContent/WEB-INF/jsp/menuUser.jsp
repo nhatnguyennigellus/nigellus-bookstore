@@ -14,8 +14,8 @@
 	<c:choose>
 		<c:when test="${sessionScope.customer != null}">
 			<div style="background-color: #FFD3D3; padding: 10px 10px 10px 10px">
-				Welcome, <b> ${sessionScope.customer } </b> <br />
-				<a href="logoutUser">Logout</a> <br /> <a href="toEditProfile">Edit
+				Welcome, <b> ${sessionScope.customer } </b> <br /> <a
+					href="logoutUser">Logout</a> <br /> <a href="toEditProfile">Edit
 					Profile</a> <br /> <a href="toChangePassword">Change Password</a><br />
 				<a href="customerViewOrder">Order History</a>
 
@@ -27,13 +27,12 @@
 				<div style="padding: 10px 10px 10px 10px;">
 					<form action="loginUser" method="get">
 						<div class="form-group">
-						<input id="user" placeholder="Username" 
-						class="form-control input-sm" name="user" />
+							<input id="user" placeholder="Username"
+								class="form-control input-sm" name="user" />
 						</div>
 						<div class="form-group">
-						<input id="pass" placeholder="Password" 
-						name="pass" type="password"
-								class="form-control input-sm" />
+							<input id="pass" placeholder="Password" name="pass"
+								type="password" class="form-control input-sm" />
 						</div>
 						<input class="btn btn-success btn-xs" name="submit" type="submit"
 							value="Login" /> <input name="reset" type="reset" value="Reset"
@@ -51,12 +50,28 @@
 	</c:choose>
 	<div class="col-md-12">
 		<div style="padding: 10px 10px 10px 10px">
+			<label >Search</label>
+			<form action="CustomerViewBooks" class="form-inline">
+				<div class="form-group form-group-sm">
+					<div class="col-md-12">
+						<input id="key" placeholder="Title"
+						 name="key" class="form-control input-sm" />
+					</div>
+				</div>
+				<div class="form-group form-group-sm">
+					<div class="col-md-12">
+						<input id="author" placeholder="Author" 
+						name="author" class="form-control input-sm" />
+					</div>
+				</div>
+				<p>
+				</p>
+			</form>
 			<p>
 				<a href="index">Home</a>
 			</p>
 			<p>
-				 <a	href="viewCart">
-				 <img alt="Nigellus Bookstore" width="20"
+				<a href="viewCart"> <img alt="Nigellus Bookstore" width="20"
 					src="<c:url value="/resources/images/basket.png" />" /></a>
 				<c:choose>
 					<c:when test="${sessionScope.CART != null }">
@@ -74,12 +89,8 @@
 			<p>
 				<a href="CustomerViewCategories">Categories</a>
 			</p>
-			<p>
-				<a href="viewCategories">About</a>
-			</p>
-			<p>
-				<a href="viewCategories">Contact</a>
-			</p>
+			
+			
 		</div>
 	</div>
 </body>

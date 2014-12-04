@@ -36,11 +36,11 @@
 							value="${item.quantity}" /></td>
 						<td align="right">${item.book.unitPrice * item.quantity}</td>
 						<td><input type="submit" value="Submit"
-							class="btn btn-success" /> <c:url var="urlRmvCart"
+							class="btn btn-success btn-sm" /> <c:url var="urlRmvCart"
 								value="removeFromCart">
 								<c:param name="bookId" value="${item.book.id}" />
 							</c:url> <a href="${urlRmvCart}"> 
-								<input type="button" class="btn btn-danger" value="Remove">
+								<input type="button" class="btn btn-danger btn-sm" value="Remove">
 							</a></td>
 					</form>
 
