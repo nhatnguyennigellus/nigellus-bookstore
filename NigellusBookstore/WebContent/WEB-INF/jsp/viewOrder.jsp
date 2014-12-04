@@ -99,7 +99,7 @@
 							<td><fmt:formatDate value="${order.orderDate}"
 									pattern="dd.MM.yyyy HH:mm:ss" /></td>
 							<td align="right">${order.totalAmount}</td>
-							<td><font
+							<td><font style="font-weight: bold;"
 								color="<c:if test="${order.status == 'Delivered'}">green</c:if>
 				<c:if test="${order.status == 'Pending'}">#C41307</c:if>
 				<c:if test="${order.status == 'Submitted'}">blue</c:if>">

@@ -586,7 +586,7 @@ public class BookstoreController {
 	}
 
 	@RequestMapping(value = "/order")
-	public String order(HttpServletRequest request) {
+	public ModelAndView order(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Customer customer = null;
 		if (session.getAttribute("customer") == null) {
@@ -610,7 +610,15 @@ public class BookstoreController {
 		order.setPhone(request.getParameter("phone"));
 		order.setStatus("Pending");
 		order.setOrderDate(new Date());
+		StringBuffer buffer = new StringBuffer();
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        for (int i = 0; i < 15; i++) {
+            double index = Math.random() * characters.length();
+            buffer.append(characters.charAt((int) index));
 
+        }
+        order.setConfirmCode(buffer.toString());
+        session.setAttribute("cfmCode", order.getConfirmCode());
 		List<OrderDetail> lstDetail = new ArrayList<OrderDetail>();
 		for (Cart cart : listCart) {
 			OrderDetail detail = new OrderDetail();
@@ -621,9 +629,27 @@ public class BookstoreController {
 		}
 		order.setOrderdetails(new HashSet<OrderDetail>(lstDetail));
 		storeManager.submitOrder(order, lstDetail);
-
+System.out.println(order.getEmail());
+		storeManager.sendConfirmEmail(order.getEmail(), order.getConfirmCode());
 		session.removeAttribute("CART");
 		session.removeAttribute("totalAmount");
+		return new ModelAndView("confirmOrder");
+	}
+	
+	@RequestMapping(value = "/confirmOrder")
+	public String confirmOrder(HttpServletRequest request) 
+	{
+		String code = request.getParameter("code");
+		if (code.equals(request.getSession().getAttribute("cfmCode"))) {
+			request.getSession().removeAttribute("cfmCode");
+			request.getSession().removeAttribute("confirmError");
+			Order order = storeManager.getOrderByCode(code);
+			order.setStatus("Submitted");
+			storeManager.updateOrder(order);
+		} else {
+			request.getSession().setAttribute("confirmError", "Invalid code");
+			return "redirect:confirmOrder";
+		}
 		return "redirect:orderSuccess";
 	}
 

@@ -21,7 +21,16 @@ public class Order implements java.io.Serializable {
 	private String email;
 	private String phone;
 	private String status;
+	private String confirmCode;
 	
+	public String getConfirmCode() {
+		return confirmCode;
+	}
+
+	public void setConfirmCode(String confirmCode) {
+		this.confirmCode = confirmCode;
+	}
+
 	public String getStatus() {
 		return status;
 	}

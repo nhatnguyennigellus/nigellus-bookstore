@@ -38,6 +38,11 @@ public class OrderDAO extends HibernateDaoSupport{
 		return (Order) getHibernateTemplate().find(query).get(0);
 	}
 	
+	public Order getOrderByCode(String code) {
+		String query = "select o from Order o "
+				+ "where o.confirmCode = '" + code + "'";
+		return (Order) getHibernateTemplate().find(query).get(0);
+	}
 	public void updateOrder(Order order) {
 		getHibernateTemplate().update(order);
 	}

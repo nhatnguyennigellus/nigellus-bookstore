@@ -132,4 +132,8 @@
 		<put-attribute name="title" value="About us"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp"></put-attribute>
 	</definition> 
+	<definition name="confirmOrder" extends="base.user">
+		<put-attribute name="title" value="Confirm order"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/confirmOrder.jsp"></put-attribute>
+	</definition> 
 </tiles-definitions>

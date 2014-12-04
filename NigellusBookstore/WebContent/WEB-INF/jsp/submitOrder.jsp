@@ -11,6 +11,7 @@
 <body>
 	<div class="col-md-12">
 		<div style="padding: 10px 10px 10px 10px">
+			<h3>SUBMIT ORDER</h3>
 			<form action="order" method="get" enctype="multipart/form-data"
 				id="frmOrder" role="form">
 				<input type="hidden" name="username"

@@ -3,6 +3,16 @@ package nigellus.bookstore.business;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import nigellus.bookstore.dao.AdminDAO;
 import nigellus.bookstore.dao.BookDAO;
@@ -222,6 +232,10 @@ public class BookstoreManager {
 	public Order getOrderById(int id) {
 		return orderDAO.getOrderById(id);
 	}
+	
+	public Order getOrderByCode(String code) {
+		return orderDAO.getOrderByCode(code);
+	}
 
 	public List<Order> getOrderList() {
 		return orderDAO.getOrder();
@@ -233,5 +247,43 @@ public class BookstoreManager {
 	
 	public List<OrderDetail> getOrderDetail(int orderId) {
 		return orderDetailDAO.getDetailById(orderId);
+	}
+
+	public void sendConfirmEmail(String email, String code) {
+		Properties props = new Properties();
+        props.put("mail.smtp.starttls.enable", true);
+        props.put("mail.smtp.auth", true);
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        
+        Session mailSession = Session.getInstance(props, new Authenticator() {
+
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("icecreamweb2013@gmail.com", "voyygkkgbeqepgbw");
+            }
+        });
+        
+        try {
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage(mailSession);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress("icecreamweb2013@gmail.com"));
+
+            // Set To: header field of the header.
+            message.addRecipient(Message.RecipientType.TO,
+                    new InternetAddress(email));
+
+            // Set Subject: header field
+            message.setSubject("[Nigellus Bookstore] Confirm order");
+
+            // Now set the actual message
+            message.setText("Your order confirmation code is: " + code);
+
+            // Send message
+            Transport.send(message);
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
 	}
 }
