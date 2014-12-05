@@ -12,7 +12,7 @@
 </head>
 <body>
 
-	<div class="col-md-12">
+	<div class="col-md-8">
 
 		<div style="padding: 10px 10px 10px 10px">
 			<c:if test="${sessionScope.editProfileSuccess != null}">

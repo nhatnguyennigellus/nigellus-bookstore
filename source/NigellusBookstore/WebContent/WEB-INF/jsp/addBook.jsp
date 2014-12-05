@@ -32,35 +32,35 @@
 				</c:if>
 			<form role="form" action="addBook" id="frmAddBook" method="get">
 				<div class="form-group">
-					<label for="title">Title</label> <input name="title" id="title"
-						placeholder="Title" class="form-control" />
+					<label for="title">Title</label> <font color="red"> <input name="title" id="title"
+						placeholder="Title" class="form-control" /></font>
 				</div>
 
 				<div class="form-group">
-					<label for="authorList">Author</label> <input name="authorList"
-						id="authorList" placeholder="Author" class="form-control" />
+					<label for="authorList">Author</label> <font color="red"><input name="authorList"
+						id="authorList" placeholder="Author" class="form-control" /></font>
 				</div>
 
 				<div class="form-group">
-					<label for="unitPrice">Unit Price</label> <input name="unitPrice"
-						id="unitPrice" placeholder="Unit Price" class="form-control" />
+					<label for="unitPrice">Unit Price</label> <font color="red"><input name="unitPrice"
+						id="unitPrice" placeholder="Unit Price" class="form-control" /></font>
 				</div>
 
 				<div class="form-group">
 					<label for="description">Description</label>
-					<textarea rows="3" name="description" id="description"
+					<font color="red"><textarea rows="3" name="description" id="description"
 						placeholder="[Use HTML tag to edit] Description"
-						class="form-control"></textarea>
+						class="form-control"></textarea></font>
 				</div>
 
 				<div class="form-group">
-					<label for="selectedCate">Category:</label> <select
+					<label for="selectedCate">Category:</label> <font color="red"><select
 						class="form-control" id="selectedCate" name="selectedCate"
 						multiple="multiple" size="5">
 						<c:forEach items="${sessionScope.categories }" var="cate">
 							<option value="${cate.getId() }">${cate.getName() }</option>
 						</c:forEach>
-					</select>
+					</select></font>
 				</div>
 
 				<input class="btn btn-success" name="submit" type="submit"

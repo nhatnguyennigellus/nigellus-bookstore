@@ -36,7 +36,14 @@
 					<td><font color="<c:if test="${order.status == 'Delivered'}">green</c:if>
 				<c:if test="${order.status == 'Pending'}">#C41307</c:if>
 				<c:if test="${order.status == 'Submitted'}">blue</c:if>">
-									${order.status} </font></td>
+									${order.status} </font><br/>
+									<c:if test="${order.status == 'Pending'}">
+									<c:url value="resendEmail" var="urlResend">
+										<c:param name="id">${order.id }</c:param>
+									</c:url>
+									<a href="toConfirmOrder?id=${order.id }">Confirm order</a><br/>
+									<a href="${urlResend }">Resend confirm Email</a>
+									</c:if></td>
 					<td><c:url var="url" value="customerViewDetails">
 							<c:param name="id" value="${order.id}" />
 							<c:param name="total" value="${order.totalAmount}" />

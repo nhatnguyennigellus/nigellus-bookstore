@@ -17,8 +17,9 @@
 </head>
 <body>
 
-	<div style="background-color: #FEFFD3; padding: 10px 10px 10px 10px">
-		<h3>SEARCH BOOK:</h3>
+	<div style="background-color: #FEFFD3; padding: 3px 3px 3px 3px">
+		<h3>SEARCH BOOK <img alt="Nigellus Bookstore"
+				src="<c:url value="/resources/images/search_icon.png" />" /></h3>
 		<form action="CustomerViewBooks" class="form-horizontal">
 			<div class="form-group">
 				<label for="key" class="col-sm-2 control-label">Title:</label>
@@ -31,6 +32,7 @@
 				<div class="col-sm-6">
 					<input id="author" name="author" class="form-control" />
 				</div>
+				<input type="submit" value="Search" class="btn btn-primary" />
 			</div>
 
 		</form>

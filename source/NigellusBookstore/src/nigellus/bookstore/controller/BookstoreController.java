@@ -826,10 +826,29 @@ public class BookstoreController {
 		}
 		order.setOrderdetails(new HashSet<OrderDetail>(lstDetail));
 		storeManager.submitOrder(order, lstDetail);
-System.out.println(order.getEmail());
+		System.out.println(order.getEmail());
 		storeManager.sendConfirmEmail(order.getEmail(), order.getConfirmCode());
 		session.removeAttribute("CART");
 		session.removeAttribute("totalAmount");
+		return new ModelAndView("confirmOrder");
+	}
+	
+	@RequestMapping(value = "/toConfirmOrder")
+	public ModelAndView toConfirmOrder(HttpServletRequest request) 
+	{
+		int orderId = Integer.parseInt(request.getParameter("id"));
+		Order order = storeManager.getOrderById(orderId);
+		request.getSession().setAttribute("cfmCode", order.getConfirmCode());
+		return new ModelAndView("confirmOrder");
+	}
+	
+	@RequestMapping(value = "/resendEmail")
+	public ModelAndView resendEmail(HttpServletRequest request) 
+	{
+		int orderId = Integer.parseInt(request.getParameter("id"));
+		Order order = storeManager.getOrderById(orderId);
+		storeManager.sendConfirmEmail(order.getEmail(), order.getConfirmCode());
+		request.getSession().setAttribute("cfmCode", order.getConfirmCode());
 		return new ModelAndView("confirmOrder");
 	}
 	

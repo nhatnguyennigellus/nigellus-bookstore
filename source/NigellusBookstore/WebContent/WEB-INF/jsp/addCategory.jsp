@@ -10,13 +10,13 @@
 </head>
 <body>
 	<div class="col-md-12">
-		<h3>ADD CATEGORY</h3>
+		<h3>ADD CATEGORY</h3><a href="javascript:history.go(-1);">Back</a>
 		<div style="padding: 10px 10px 10px 10px">
 			
 			<input class="btn btn-default" id="btnForm" type="button"
 				onclick="openForm()" value="Add by form" /> <input id="btnCSV"
 				type="button" value="Add by CSV" onclick="openCSVImport()"
-				class="btn btn-default" /><a href="javascript:history.go(-1);">Back</a>
+				class="btn btn-default" />
 			<c:if test="${sessionScope.addCateSuccess != null}">
 				<font color="green">${sessionScope.addCateSuccess }</font>
 			</c:if>
@@ -91,7 +91,7 @@
 	}
 	$(function() {
 		$("#frmImportCSV").hide();
-		$("#frmAddBook")
+		$("#mainForm")
 				.validate(
 						{
 							rules : {

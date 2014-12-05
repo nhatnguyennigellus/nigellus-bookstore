@@ -13,7 +13,7 @@
 			<h3>CONFIRM ORDER</h3>
 			<p>Please enter the code which was sent you via email:</p>
 			<form action="confirmOrder" method="get">
-				<div class="form-group">
+				<div class="form-group col-md-6">
 					<input id="cfmCode" placeholder="Confirm code" class="form-control"
 						name="code" />
 				</div>

@@ -28,10 +28,14 @@
 			<h2>BOOKS</h2>
 		</div>
 		<div class="col-md-12">
-			<a href="addCategory">Add Category</a> <a href="exportCSVCate">Export CSV</a> 
-		<c:if test="${sessionScope.exportSuccess != null}">
-			<font color="green">${sessionScope.exportSuccess }</font>
-		</c:if>
+			<a href="addCategory"><img alt="Nigellus Bookstore"
+				src="<c:url value="/resources/images/img_add.gif" />" /> Add
+				Category</a> <a href="exportCSVCate"> <img alt="Nigellus Bookstore"
+				src="<c:url value="/resources/images/221.png" />" /> Export CSV
+			</a>
+			<c:if test="${sessionScope.exportSuccess != null}">
+				<font color="green">${sessionScope.exportSuccess }</font>
+			</c:if>
 			<c:choose>
 
 				<c:when test="${model.selectedCategory.books.size() == 0 }">
@@ -64,8 +68,8 @@
 									${category.name}<br />
 									</c:forEach></td>
 								<td><a href="deleteBook?id=${book.id }"
-									onclick="confirm('Are you sure?')"> Delete</a> 
-									<c:url var="url" value="toUpdateBook">
+									onclick="confirm('Are you sure?')"> Delete</a> <c:url var="url"
+										value="toUpdateBook">
 										<c:param name="id" value="${book.id}" />
 									</c:url> <a href="${url}">Update</a></td>
 							</tr>

@@ -10,7 +10,8 @@
 </head>
 <body>
 	<div style="background-color: #F3F781; padding: 5px 5px 5px 10px">
-		<h3>SEARCH BOOK:</h3>
+		<h3>SEARCH BOOK <img alt="Nigellus Bookstore"
+				src="<c:url value="/resources/images/search_icon.png" />" /></h3>
 		<form action="viewBooks" class="form-horizontal">
 			<div class="form-group">
 				<label for="key" class="col-sm-2 control-label">Title:</label>
@@ -39,7 +40,10 @@
 	<br />
 	<div class="col-md-12">
 
-		<a href="toAddBook">Add Book</a> <a href="exportCSV">Export CSV</a>
+		<a href="toAddBook"><img alt="Nigellus Bookstore" 
+		src="<c:url value="/resources/images/img_add.gif" />" /> Add Book</a> 
+		<a href="exportCSV"><img alt="Nigellus Bookstore" 
+		src="<c:url value="/resources/images/221.png" />" /> Export CSV</a>
 		<c:if test="${sessionScope.exportSuccess != null}">
 			<font color="green">${sessionScope.exportSuccess }</font>
 		</c:if>
@@ -76,10 +80,14 @@
 									</c:forEach> <c:if test="${book.categories.size() == 0 }">
 										<i>Uncategorized</i>
 									</c:if></td>
-								<td><a href="confirmDelete?id=${book.id }"> Delete</a> <c:url
+								<td><a href="confirmDelete?id=${book.id }">
+								<img alt="Nigellus Bookstore"
+				src="<c:url value="/resources/images/del_icon.png" />" /> Delete</a> <c:url
 										var="url" value="toUpdateBook">
 										<c:param name="id" value="${book.id}" />
-									</c:url> <a href="${url}">Update</a></td>
+									</c:url> <a href="${url}">
+									<img alt="Nigellus Bookstore"
+				src="<c:url value="/resources/images/edit-icon.png" />" />Update</a></td>
 							</tr>
 						</c:forEach>
 					</table>

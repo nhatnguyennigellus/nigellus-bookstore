@@ -32,7 +32,9 @@
 
 					<td><c:url var="url" value="viewOrderByCustomer">
 							<c:param name="username" value="${customer.username}" />
-						</c:url> <a href="${url }">Order History</a></td>
+						</c:url> <a href="${url }">
+						<img alt="Nigellus Bookstore" width="16"
+				src="<c:url value="/resources/images/205.png" />" /> Order History</a></td>
 
 				</tr>
 			</c:forEach>

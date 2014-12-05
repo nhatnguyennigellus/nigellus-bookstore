@@ -20,18 +20,18 @@
 	href="<c:url value='/resources/css/jquery-ui.css' />" />
 </head>
 <body
-	style="padding-top: 15px; background-repeat: no-repeat; background-attachment: fixed;"
+	style="padding-top: 5px; background-repeat: no-repeat; background-attachment: fixed;"
 	background="<c:url value='/resources/images/background.jpg'/>">
 	<table border="0" style="border-style:solid ; margin-bottom: 5px" cellpadding="2"
 		cellspacing="2" align="center" width="90%">
 		<tr>
 			<td height="30" colspan="2"
-				style="background-color: #FFDFDF; color: #FF5500"><tiles:insertAttribute
+				style="background-color: #FFDFDF;"><tiles:insertAttribute
 					name="header" /></td>
 		</tr>
 		<tr>
 			<td height="300"
-				style="background-color: #C0E9FF; vertical-align: top;" width="20%">
+				style="background-color: #FFFFB7; vertical-align: top;" width="17%">
 				<tiles:insertAttribute name="menu" />
 			</td>
 			<td style="vertical-align: top; background-color: #FFFFFF;"><tiles:insertAttribute
@@ -39,7 +39,7 @@
 		</tr>
 		<tr>
 			<td height="50" colspan="2"
-				style="background-color: #00A2FF; color: #FFFFFF"><tiles:insertAttribute
+				style="background-color: #145CAE; color: #FFFFFF"><tiles:insertAttribute
 					name="footer" /></td>
 		</tr>
 	</table>

@@ -29,17 +29,17 @@
 	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
 </head>
 <body
-	style="padding-top: 15px; background-repeat: no-repeat; background-attachment: fixed;"
+	style="padding-top: 5px; background-repeat: no-repeat; background-attachment: fixed;"
 	background="<c:url value='/resources/images/background.jpg'/>">
 	<table border="1" style="border-style: ridge; margin-bottom: 5px" cellpadding="2"
 		cellspacing="2" align="center" width="90%">
 		<tr>
-			<td height="30" colspan="2"><tiles:insertAttribute
+			<td height="30" colspan="2" style="background-color: #FFDFDF; color: #FF5500;"><tiles:insertAttribute
 					name="header" /></td>
 		</tr>
 		<tr>
-			<td height="300" class="content"
-				style="background-color: #C0E9FF; vertical-align: top;" width="20%">
+			<td height="350" class="content"
+				style="background-color: #FF9F9F; vertical-align: top;" width="15%">
 				<tiles:insertAttribute name="menu" />
 			</td>
 			<td style="vertical-align: top; background-color: #FFFFFF;"><tiles:insertAttribute
@@ -47,7 +47,7 @@
 		</tr>
 		<tr>
 			<td height="50" colspan="2"
-				style="background-color: #00A2FF; color: #FFFFFF"><tiles:insertAttribute
+				style="background-color: #145CAE; color: #FFFFFF"><tiles:insertAttribute
 					name="footer" /></td>
 		</tr>
 	</table>

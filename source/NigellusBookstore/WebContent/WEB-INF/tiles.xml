@@ -6,7 +6,7 @@
 	<!-- ADMIN'S PAGES -->
 	<definition name="base.admin" template="/WEB-INF/jsp/layout.jsp">
 		<put-attribute name="title" value=""></put-attribute>
-		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp"></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/jsp/headerAdmin.jsp"></put-attribute>
 		<put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp"></put-attribute>
 		<put-attribute name="body" value=""></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"></put-attribute>
@@ -24,7 +24,7 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp"></put-attribute>
 	</definition>
 	<definition name="admin" extends="base.admin">
-		<put-attribute name="title" value="Nigellus Bookstore - Homepage"></put-attribute>
+		<put-attribute name="title" value="Nigellus Bookstore - Admin page"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/admin.jsp"></put-attribute>
 	</definition>
 	 <definition name="addCategory" extends="base.admin">
@@ -71,7 +71,7 @@
 	<!-- USER'S PAGES -->
 	<definition name="base.user" template="/WEB-INF/jsp/layoutUser.jsp">
 		<put-attribute name="title" value=""></put-attribute>
-		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp"></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/jsp/headerUser.jsp"></put-attribute>
 		<put-attribute name="menu" value="/WEB-INF/jsp/menuUser.jsp"></put-attribute>
 		<put-attribute name="body" value=""></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"></put-attribute>

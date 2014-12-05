@@ -112,7 +112,9 @@
 									<c:param name="email" value="${order.email}" />
 									<c:param name="total" value="${order.totalAmount}" />
 									<c:param name="status" value="${order.status}" />
-								</c:url> <a href="${url }">Detail</a></td>
+								</c:url> <a href="${url }">
+								<img alt="Nigellus Bookstore"
+				src="<c:url value="/resources/images/221.png" />" /> Detail</a></td>
 
 						</tr>
 					</c:forEach>
