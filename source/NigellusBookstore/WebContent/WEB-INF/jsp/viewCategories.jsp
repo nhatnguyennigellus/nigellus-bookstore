@@ -28,8 +28,10 @@
 			<h2>BOOKS</h2>
 		</div>
 		<div class="col-md-12">
-			<a href="addCategory">Add Category</a> | <a href="toAddBook">Add
-				Book</a>
+			<a href="addCategory">Add Category</a> <a href="exportCSVCate">Export CSV</a> 
+		<c:if test="${sessionScope.exportSuccess != null}">
+			<font color="green">${sessionScope.exportSuccess }</font>
+		</c:if>
 			<c:choose>
 
 				<c:when test="${model.selectedCategory.books.size() == 0 }">

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import nigellus.bookstore.business.BookstoreManager;
+import nigellus.bookstore.dao.BookDAO;
 import nigellus.bookstore.dao.CartDAO;
 import nigellus.bookstore.dao.CategoryDAO;
 import nigellus.bookstore.entity.Book;
@@ -59,6 +60,13 @@ public class BookstoreController {
 		request.getSession().removeAttribute("changePassSuccess");
 		request.getSession().removeAttribute("registerSuccess");
 		request.getSession().removeAttribute("editProfileSuccess");
+		//BookDAO daoBook = new BookDAO();
+		List<Book> lstBook = storeManager.getBookList();
+		
+		CategoryDAO daoCate = storeManager.getCategoryDAO();
+		List<Category> lstCate = daoCate.getCategoryList(); 
+		request.getSession().setAttribute("BOOKINDEX", lstBook);
+		request.getSession().setAttribute("CATEINDEX", lstCate);
 		return new ModelAndView("index");
 	}
 
@@ -175,7 +183,6 @@ public class BookstoreController {
 		request.getSession().removeAttribute("uploadSuccess");
 		request.getSession().removeAttribute("addBookSuccess");
 		request.getSession().removeAttribute("changeImgSuccess");
-		request.getSession().removeAttribute("exportSuccess");
 		if (request.getSession().getAttribute("admin") == null) {
 			return new ModelAndView("accessDeniedAd");
 		}
@@ -270,6 +277,44 @@ public class BookstoreController {
 		}
 		return "redirect:toAddBook";
 	}
+	
+	@RequestMapping(value ="/importCSVCate", method = RequestMethod.POST)
+	public String importCSVCate(@RequestParam("file") MultipartFile file, HttpServletRequest request)
+	{
+		if (!file.isEmpty()) {
+			BufferedReader br = null;
+			String line = "";
+			
+			try {
+				InputStream inputStream = file.getInputStream();
+				br = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = br.readLine()) != null) {
+					//line  = line.substring(1, line.length() - 1);
+					String[] cateData = line.split(",");
+					String name = cateData[0];
+					String description = cateData[1];
+					
+					Category cate = new Category();
+					cate.setName(name);
+					cate.setDescription(description);
+					storeManager.addCategory(cate);
+
+					request.getSession().removeAttribute("csvError");
+					request.getSession().setAttribute("addCateSuccess",
+							"Imported category successfully!");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.getSession().setAttribute
+				("csvError", "Import error: " + e.getMessage());
+			}
+		} else {
+			request.getSession().removeAttribute("csvError");
+			request.getSession().setAttribute("csvError",
+					"File was empty!");
+		}
+		return "redirect:addCategory";
+	}
 
 	@RequestMapping(value = "/exportCSV")
 	public String exportCSV(HttpServletRequest request) {
@@ -301,6 +346,28 @@ public class BookstoreController {
 			e.printStackTrace();
 		}
 		return "redirect:viewBooks?key=&author=";
+	}
+	
+	@RequestMapping(value = "/exportCSVCate")
+	public String exportCSVCate(HttpServletRequest request) {
+		try
+		{
+		    FileWriter writer = new FileWriter("D:\\Categories.csv");
+		    List<Category> list = storeManager.getCategoryList();
+		    for (Category cate : list) {
+				writer.append(cate.getName() + ",");
+				writer.append(cate.getDescription());
+				writer.append("\n");
+			}
+		    writer.flush();
+		    writer.close();
+		    request.getSession().setAttribute("exportSuccess",
+					"Exported data successfully!");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:viewCategories";
 	}
 	
 	@RequestMapping(value = "/changeImage", method = RequestMethod.POST)

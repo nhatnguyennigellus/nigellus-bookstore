@@ -22,7 +22,7 @@ public class Category implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Category(String name, String description, Integer parentId, Set books) {
+	public Category(String name, String description, Set books) {
 		this.name = name;
 		this.description = description;
 		this.books = books;

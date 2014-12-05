@@ -8,9 +8,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Our products</title>
 
+<script type="text/javascript"
+	src="<c:url value='/resources/js/tablesorter.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/tablesorter_filter.js' /> "></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.tablesorter.pager.js' />"></script>
 </head>
 <body>
-	<!-- 
+
 	<div style="background-color: #FEFFD3; padding: 10px 10px 10px 10px">
 		<h3>SEARCH BOOK:</h3>
 		<form action="CustomerViewBooks" class="form-horizontal">
@@ -27,17 +33,8 @@
 				</div>
 			</div>
 
-			<p>
-			<div class="form-group">
-
-				<div class="col-sm-offset-2 col-sm-10">
-					<input type="submit" value="Search" class="btn btn-primary" />
-				</div>
-			</div>
-
-			</p>
 		</form>
-	</div> -->
+	</div>
 	<br />
 
 	<div class="col-md-8">
@@ -49,7 +46,9 @@
 			<c:if test="${model.books.size() == 0 }">
 				<font color="red">No data</font>
 			</c:if>
-			<table width="100%" class="table table-striped">
+
+			<table width="100%" class="table table-striped tablesorter"
+				id="tableBook">
 
 				<c:forEach items="${model.books }" var="book">
 					<tr>

@@ -159,6 +159,11 @@ public class BookstoreManager {
 		return customerDAO.getCustomerList();
 
 	}
+	
+	public List<Category> getCategoryList() {
+		return categoryDAO.getCategoryList();
+
+	}
 
 	public void getCategoryList(AddBookModel addBookModel) {
 		List<Category> categories = categoryDAO.getCategoryList();

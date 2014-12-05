@@ -11,6 +11,7 @@
 	href="<c:url value='/resources/images/logo.png'/>" />
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap.min.css'/> ">
+	
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap-theme.min.css'/> ">
 <script src="<c:url value='/resources/js/bootstrap.min.js'/> "></script>
@@ -22,7 +23,7 @@
 	style="padding-top: 15px; background-repeat: no-repeat; background-attachment: fixed;"
 	background="<c:url value='/resources/images/background.jpg'/>">
 	<table border="0" style="border-style:solid ; margin-bottom: 5px" cellpadding="2"
-		cellspacing="2" align="center" width="80%">
+		cellspacing="2" align="center" width="90%">
 		<tr>
 			<td height="30" colspan="2"
 				style="background-color: #FFDFDF; color: #FF5500"><tiles:insertAttribute

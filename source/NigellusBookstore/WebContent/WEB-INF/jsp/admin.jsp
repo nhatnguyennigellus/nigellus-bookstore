@@ -10,7 +10,41 @@
 <body>
 	<div class="col-md-12">
 		<h1>Administrator page</h1>
+		<c:if test="${sessionScope.admin == null }">
+			<div class="col-md-6">You have to login as administrator</div>
+		</c:if>
+		<c:if test="${sessionScope.admin != null }">
+			<div class="col-md-6">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">MANAGEMENT</h3>
+					</div>
+					<div class="panel-body">
+						<p>
+							<a href="viewBooks?key=&author=">Books</a>
+						</p>
+						<p>
+							<a href="viewCategories">Categories</a>
+						</p>
+						<p>
+							<a href="viewCustomers">Customers</a>
+						</p>
+						<p>
+							<a href="viewOrder">Order</a>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">REPORT</h3>
+					</div>
+					<div class="panel-body">Underconstructor</div>
+				</div>
+			</div>
+		</c:if>
 	</div>
-	
+
 </body>
 </html>
