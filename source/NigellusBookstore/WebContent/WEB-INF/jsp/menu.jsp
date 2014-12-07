@@ -34,6 +34,10 @@
 						<p>
 							<a href="viewOrder">Order</a>
 						</p>
+						<p>
+							<a href="viewPromotions">Coupons
+							</a>
+						</p>
 					</div>
 				</div>
 			</div>

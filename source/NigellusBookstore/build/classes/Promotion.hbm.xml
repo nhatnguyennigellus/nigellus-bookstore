@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 6, 2014 11:22:12 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="nigellus.bookstore.entity.Promotion" table="promotion" catalog="bookonline">
+        <id name="id" type="java.lang.Integer">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <property name="promotionCode" type="string">
+            <column name="PromotionCode" length="25" not-null="true" />
+        </property>
+        <property name="discountType" type="string">
+            <column name="DiscountType" length="10" not-null="true" />
+        </property>
+        <property name="discountAmount" type="float">
+            <column name="DiscountAmount" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="Description" length="100" />
+        </property>
+        <property name="startDate" type="timestamp">
+            <column name="StartDate" length="19" not-null="true" />
+        </property>
+        <property name="endDate" type="timestamp">
+            <column name="EndDate" length="19" not-null="true" />
+        </property>
+        <property name="status" type="string">
+            <column name="Status" length="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

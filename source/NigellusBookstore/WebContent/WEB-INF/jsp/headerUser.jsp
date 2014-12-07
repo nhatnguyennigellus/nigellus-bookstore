@@ -10,9 +10,10 @@
 </head>
 <body>
 	<div class="col-md-12">
-		<c:choose>
-			<c:when test="${sessionScope.customer != null}">
-				<div style="padding: 3px 3px 3px 3px">
+		<div style="padding: 5px 5px 5px 5px">
+			<c:choose>
+				<c:when test="${sessionScope.customer != null}">
+				
 					Welcome, <b> ${sessionScope.customer } </b> | <a href="logoutUser">Logout</a>
 					| <a href="toEditProfile">Edit Profile</a> | <a
 						href="toChangePassword">Change Password</a> | <a
@@ -30,40 +31,35 @@
 						</c:otherwise>
 					</c:choose>
 
-				</div>
-				<div class="col-md-12"></div>
-			</c:when>
-			<c:otherwise>
-				<div class="col-md-12">
-					<div style="padding: 3px 3px 3px 3px;">
+				</c:when>
+				<c:otherwise>
+					<form action="loginUser" method="get" class="form-inline">
+						<label>Login</label>
+						<div class="form-group">
+							<input id="user" placeholder="Username"
+								class="form-control input-sm" name="user" />
+						</div>
+						<div class="form-group">
+							<input id="pass" placeholder="Password" name="pass"
+								type="password" class="form-control input-sm" />
+						</div>
+						<input class="btn btn-success btn-xs" name="submit" type="submit"
+							value="Login" /> <input name="reset" type="reset" value="Reset"
+							class="btn btn-danger btn-xs" /> <a href="forgotPassword">Forgot
+							Password?</a> <a href="toRegister">Register</a>
+					</form>
 
-						<form action="loginUser" method="get" class="form-inline">
-							<label>Login</label>
-							<div class="form-group">
-								<input id="user" placeholder="Username"
-									class="form-control input-sm" name="user" />
-							</div>
-							<div class="form-group">
-								<input id="pass" placeholder="Password" name="pass"
-									type="password" class="form-control input-sm" />
-							</div>
-							<input class="btn btn-success btn-xs" name="submit" type="submit"
-								value="Login" /> <input name="reset" type="reset" value="Reset"
-								class="btn btn-danger btn-xs" /> <a href="forgotPassword">Forgot
-								Password?</a> <a href="toRegister">Register</a>
-						</form>
+					<c:if test="${sessionScope.customerLoginErr != null}">
+						<font color="red" style="font-style: bold">${sessionScope.customerLoginErr }</font>
 
-						<c:if test="${sessionScope.customerLoginErr != null}">
-							<font color="red" style="font-style: bold">${sessionScope.customerLoginErr }</font>
+					</c:if>
 
-						</c:if>
-
-					</div>
-				</div>
-			</c:otherwise>
-		</c:choose>
+				</c:otherwise>
+			</c:choose>
+		</div>
 
 	</div>
+
 	<img alt="Nigellus Bookstore" width="100%"
 		src="<c:url value="/resources/images/banner.gif"/>" />
 </body>

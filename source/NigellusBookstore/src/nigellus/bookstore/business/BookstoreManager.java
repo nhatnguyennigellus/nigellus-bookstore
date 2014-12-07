@@ -20,11 +20,13 @@ import nigellus.bookstore.dao.CategoryDAO;
 import nigellus.bookstore.dao.CustomerDAO;
 import nigellus.bookstore.dao.OrderDAO;
 import nigellus.bookstore.dao.OrderDetailDAO;
+import nigellus.bookstore.dao.PromotionDAO;
 import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
 import nigellus.bookstore.entity.Order;
 import nigellus.bookstore.entity.OrderDetail;
+import nigellus.bookstore.entity.Promotion;
 import nigellus.bookstore.model.AddBookModel;
 import nigellus.bookstore.model.BookstoreModel;
 import nigellus.bookstore.model.LoginModel;
@@ -46,6 +48,9 @@ public class BookstoreManager {
 
 	@Autowired
 	private OrderDAO orderDAO;
+	
+	@Autowired
+	private PromotionDAO promotionDAO;
 
 	public OrderDAO getOrderDAO() {
 		return orderDAO;
@@ -262,6 +267,10 @@ public class BookstoreManager {
 		return orderDAO.getOrder();
 	}
 	
+	public List<Promotion> getPromotionList() {
+		return promotionDAO.getPromotionList();
+	}
+	
 	public List<Book> getBookList() {
 		return bookDAO.getBookList("", "");
 	}
@@ -273,7 +282,27 @@ public class BookstoreManager {
 	public List<OrderDetail> getOrderDetail(int orderId) {
 		return orderDetailDAO.getDetailById(orderId);
 	}
+	
+	public Promotion getPromoteByCode(String code) {
+		return promotionDAO.getPromotionByCode(code);
+	}
 
+	public Promotion getPromoteById(int id) {
+		return promotionDAO.getPromotionById(id);
+	}
+	
+	public void addPromotion(Promotion promote) {
+		promotionDAO.addPromotion(promote);
+	}
+	
+	public void updatePromotion(Promotion promote) {
+		promotionDAO.updatePromotion(promote);
+	}
+	
+	public void deletePromotion(String code) {
+		promotionDAO.deletePromotion(code);
+	}
+	
 	public void sendConfirmEmail(String email, String code) {
 		Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", true);

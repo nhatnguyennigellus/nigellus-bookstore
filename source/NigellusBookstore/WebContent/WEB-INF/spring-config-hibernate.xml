@@ -39,6 +39,7 @@ http://www.springframework.org/schema/context
 				<value>Order.hbm.xml</value>
 				<value>Orderdetails.hbm.xml</value>
 				<value>Customer.hbm.xml</value>
+				<value>Promotion.hbm.xml</value>
 			</list>
 		</property>
 	</bean>

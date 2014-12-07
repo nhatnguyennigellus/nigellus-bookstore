@@ -44,6 +44,7 @@
 							value="${sessionScope.CUSTOMER.getPhone() }" />
 					</div>
 				</div>
+
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<div class="checkbox">
@@ -64,7 +65,9 @@
 			</form>
 			<div class="col-md-6">
 				<h2>CART ITEMS</h2>
+
 			</div>
+
 			<table class="table table-striped" width="100%">
 				<tr>
 					<th>No</th>
@@ -104,20 +107,81 @@
 					<td colspan="2" align="right">${sessionScope.totalAmount * 10 / 100}</td>
 
 				</tr>
+				<c:if test="${sessionScope.promote != null }">
+					<tr>
+						<td colspan="4" align="right">Promotion discount
+							(${sessionScope.promote.discountAmount} <c:if
+								test="${sessionScope.promote.discountType eq 'Fee' }">VND
+						</c:if> <c:if test="${sessionScope.promote.discountType eq 'Percent' }">%
+						</c:if>)
+						</td>
+						<td colspan="2" align="right"><c:if
+								test="${sessionScope.promote.discountType eq 'Fee' }">
+							-${sessionScope.promote.discountAmount }
+						</c:if> <c:if test="${sessionScope.promote.discountType eq 'Percent' }">
+							-${sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}
+						</c:if></td>
+
+					</tr>
+				</c:if>
 				<tr>
 					<td colspan="4" align="right">Total:</td>
 					<td colspan="2"
 						style="color: green; font-weight: bold; font-size: 20px"
 						align="right"><c:choose>
 							<c:when test="${sessionScope.customer != null }">
+								<c:if test="${sessionScope.promote == null}">
 								${sessionScope.totalAmount * 105 / 100}
+								</c:if>
+								<c:if test="${sessionScope.promote.discountType eq 'Fee' }">
+						${sessionScope.totalAmount * 105 / 100 - sessionScope.promote.discountAmount}
+								</c:if>
+								<c:if test="${sessionScope.promote.discountType eq 'Percent' }">
+						${sessionScope.totalAmount * 105 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}
+								</c:if>
 							</c:when>
-							<c:otherwise>${sessionScope.totalAmount * 110 / 100}</c:otherwise>
+							<c:otherwise>
+								<c:if test="${sessionScope.promote == null}">
+								${sessionScope.totalAmount * 110 / 100}
+								</c:if>
+								<c:if test="${sessionScope.promote.discountType eq 'Fee' }">
+						${sessionScope.totalAmount * 110 / 100 - sessionScope.promote.discountAmount}
+								</c:if>
+								<c:if test="${sessionScope.promote.discountType eq 'Percent' }">
+						${sessionScope.totalAmount * 110 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}
+								</c:if>
+
+							</c:otherwise>
 						</c:choose></td>
 
+
+					<c:if test="${sessionScope.promote.discountType eq 'Fee' }">
+							- ${sessionScope.promote.discountAmount }
+						</c:if>
+					<c:if test="${sessionScope.promote.discountType eq 'Percent' }">
+							- ${sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}
+						</c:if>
 				</tr>
 
+
 			</table>
+			<c:if test="${sessionScope.promote == null }">
+				<div class="panel panel-info">
+					<div class="panel-body">
+						If you have a promotion code, please enter below and click
+						"Verify"
+						<form action="verifyCode" class="form-inline">
+							<label for="proCode">Promotion Code</label>
+							<div class="form-group">
+								<input name="proCode" id="proCode" class="form-control input-sm" />
+							</div>
+							<input name="btnVerifyCode" id="btnVerifyCode" type="submit"
+								value="Verify" class="btn btn-success btn-sm" />
+						</form>
+						<font color="red">${sessionScope.promoteError }</font>
+					</div>
+				</div>
+			</c:if>
 		</div>
 	</div>
 

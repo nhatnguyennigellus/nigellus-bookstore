@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Our products</title>
+<title>Orders</title>
 </head>
 <body>
 	<div style="padding: 5px 10px 10px 10px">

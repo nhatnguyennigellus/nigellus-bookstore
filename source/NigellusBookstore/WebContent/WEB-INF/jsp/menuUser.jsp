@@ -12,12 +12,18 @@
 <body>
 	<div class="col-md-12">
 		<div style="padding: 10px 0px 10px 0px">
-			<img alt="Nigellus Bookstore"
-				src="<c:url value="/resources/images/search_icon.png" />" /> <label>Search</label>
+
 			<form action="CustomerViewBooks">
 				<div class="form-group form-group-sm">
-					<input id="key" placeholder="Title" name="key"
-						class="form-control input-sm" />
+					<div class="input-group">
+						
+						<input id="key" placeholder="Title" name="key"
+							class="form-control input-sm" />
+							<div class="input-group-addon">
+							<img alt="Nigellus Bookstore" height="16px"
+								src="<c:url value="/resources/images/search_icon.png" />" />
+						</div>
+					</div>
 				</div>
 				<div class="form-group form-group-sm">
 					<input type="hidden" id="author" placeholder="Author" name="author"
@@ -45,8 +51,10 @@
 					</p>
 				</div>
 			</div>
-
+			<img alt="Nigellus Bookstore" height="180"
+								src="<c:url value="/resources/images/member_discount.jpg" />"
 		</div>
+		
 	</div>
 </body>
 </html>

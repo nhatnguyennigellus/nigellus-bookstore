@@ -31,7 +31,7 @@
 		</tr>
 		<tr>
 			<td height="300"
-				style="background-color: #FFFFB7; vertical-align: top;" width="17%">
+				style="background-color: #FFFFB7; vertical-align: top;" width="20%">
 				<tiles:insertAttribute name="menu" />
 			</td>
 			<td style="vertical-align: top; background-color: #FFFFFF;"><tiles:insertAttribute

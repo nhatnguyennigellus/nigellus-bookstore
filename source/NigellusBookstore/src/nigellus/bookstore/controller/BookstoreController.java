@@ -6,11 +6,10 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import nigellus.bookstore.business.BookstoreManager;
-import nigellus.bookstore.dao.BookDAO;
 import nigellus.bookstore.dao.CartDAO;
 import nigellus.bookstore.dao.CategoryDAO;
 import nigellus.bookstore.entity.Book;
@@ -29,6 +27,7 @@ import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
 import nigellus.bookstore.entity.Order;
 import nigellus.bookstore.entity.OrderDetail;
+import nigellus.bookstore.entity.Promotion;
 import nigellus.bookstore.model.AddCategoryModel;
 import nigellus.bookstore.model.BookstoreModel;
 import nigellus.bookstore.model.LoginModel;
@@ -60,11 +59,11 @@ public class BookstoreController {
 		request.getSession().removeAttribute("changePassSuccess");
 		request.getSession().removeAttribute("registerSuccess");
 		request.getSession().removeAttribute("editProfileSuccess");
-		//BookDAO daoBook = new BookDAO();
+		// BookDAO daoBook = new BookDAO();
 		List<Book> lstBook = storeManager.getBookList();
-		
+
 		CategoryDAO daoCate = storeManager.getCategoryDAO();
-		List<Category> lstCate = daoCate.getCategoryList(); 
+		List<Category> lstCate = daoCate.getCategoryList();
 		request.getSession().setAttribute("BOOKINDEX", lstBook);
 		request.getSession().setAttribute("CATEINDEX", lstCate);
 		return new ModelAndView("index");
@@ -91,6 +90,8 @@ public class BookstoreController {
 		request.getSession().removeAttribute("addBookSuccess");
 		request.getSession().removeAttribute("changeImgSuccess");
 		request.getSession().removeAttribute("exportSuccess");
+		request.getSession().removeAttribute("addPromoteSuccess");
+		request.getSession().removeAttribute("updatePromoteSuccess");
 		return new ModelAndView("admin");
 	}
 
@@ -105,6 +106,8 @@ public class BookstoreController {
 		request.getSession().removeAttribute("addBookSuccess");
 		request.getSession().removeAttribute("changeImgSuccess");
 		request.getSession().removeAttribute("exportSuccess");
+		request.getSession().removeAttribute("addPromoteSuccess");
+		request.getSession().removeAttribute("updatePromoteSuccess");
 		return new ModelAndView("changeImage");
 	}
 
@@ -183,6 +186,7 @@ public class BookstoreController {
 		request.getSession().removeAttribute("uploadSuccess");
 		request.getSession().removeAttribute("addBookSuccess");
 		request.getSession().removeAttribute("changeImgSuccess");
+		request.getSession().removeAttribute("addPromoteSuccess");
 		if (request.getSession().getAttribute("admin") == null) {
 			return new ModelAndView("accessDeniedAd");
 		}
@@ -226,30 +230,31 @@ public class BookstoreController {
 		}
 		return mav;
 	}
-	
-	@RequestMapping(value ="/importCSV", method = RequestMethod.POST)
-	public String importCSV(@RequestParam("file") MultipartFile file, HttpServletRequest request)
-	{
+
+	@RequestMapping(value = "/importCSV", method = RequestMethod.POST)
+	public String importCSV(@RequestParam("file") MultipartFile file,
+			HttpServletRequest request) {
 		if (!file.isEmpty()) {
 			BufferedReader br = null;
 			String line = "";
-			
+
 			try {
 				InputStream inputStream = file.getInputStream();
 				br = new BufferedReader(new InputStreamReader(inputStream));
 				while ((line = br.readLine()) != null) {
-					line  = line.substring(1, line.length() - 1);
+					line = line.substring(1, line.length() - 1);
 					String[] bookData = line.split(",");
 					String title = bookData[0];
 					float unitPrice = Float.parseFloat(bookData[1]);
-					
+
 					String description = bookData[2];
 					String authorList = bookData[3];
 					String imageUrl = bookData[4];
 					String categories = bookData[5];
 					String[] category = categories.split(";");
-					
-					List<Category> selCates = storeManager.getSelectedCateByName(category); 
+
+					List<Category> selCates = storeManager
+							.getSelectedCateByName(category);
 					System.out.println(categories);
 					System.out.println(category.length);
 					Book book = new Book();
@@ -267,33 +272,32 @@ public class BookstoreController {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.getSession().setAttribute
-				("csvError", "Import error: " + e.getMessage());
+				request.getSession().setAttribute("csvError",
+						"Import error: " + e.getMessage());
 			}
 		} else {
 			request.getSession().removeAttribute("csvError");
-			request.getSession().setAttribute("csvError",
-					"File was empty!");
+			request.getSession().setAttribute("csvError", "File was empty!");
 		}
 		return "redirect:toAddBook";
 	}
-	
-	@RequestMapping(value ="/importCSVCate", method = RequestMethod.POST)
-	public String importCSVCate(@RequestParam("file") MultipartFile file, HttpServletRequest request)
-	{
+
+	@RequestMapping(value = "/importCSVCate", method = RequestMethod.POST)
+	public String importCSVCate(@RequestParam("file") MultipartFile file,
+			HttpServletRequest request) {
 		if (!file.isEmpty()) {
 			BufferedReader br = null;
 			String line = "";
-			
+
 			try {
 				InputStream inputStream = file.getInputStream();
 				br = new BufferedReader(new InputStreamReader(inputStream));
 				while ((line = br.readLine()) != null) {
-					//line  = line.substring(1, line.length() - 1);
+					// line = line.substring(1, line.length() - 1);
 					String[] cateData = line.split(",");
 					String name = cateData[0];
 					String description = cateData[1];
-					
+
 					Category cate = new Category();
 					cate.setName(name);
 					cate.setDescription(description);
@@ -305,30 +309,29 @@ public class BookstoreController {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.getSession().setAttribute
-				("csvError", "Import error: " + e.getMessage());
+				request.getSession().setAttribute("csvError",
+						"Import error: " + e.getMessage());
 			}
 		} else {
 			request.getSession().removeAttribute("csvError");
-			request.getSession().setAttribute("csvError",
-					"File was empty!");
+			request.getSession().setAttribute("csvError", "File was empty!");
 		}
 		return "redirect:addCategory";
 	}
 
 	@RequestMapping(value = "/exportCSV")
 	public String exportCSV(HttpServletRequest request) {
-		try
-		{
-		    FileWriter writer = new FileWriter("D:\\Books.csv");
-		    List<Book> list = storeManager.getBookList();
-		    for (Book book : list) {
+		try {
+			FileWriter writer = new FileWriter("D:\\Books.csv");
+			List<Book> list = storeManager.getBookList();
+			for (Book book : list) {
 				writer.append(book.getTitle() + ",");
 				writer.append(book.getUnitPrice() + ",");
 				writer.append(book.getDescription() + ",");
 				writer.append(book.getAuthorList() + ",");
 				writer.append(book.getImageUrl() + ",");
-				List<Category> listCate = new ArrayList<Category>(book.getCategories());
+				List<Category> listCate = new ArrayList<Category>(
+						book.getCategories());
 				for (Category c : listCate) {
 					writer.append(c.getName());
 					if (listCate.indexOf(c) != listCate.size() - 1) {
@@ -337,39 +340,36 @@ public class BookstoreController {
 				}
 				writer.append("\n");
 			}
-		    writer.flush();
-		    writer.close();
-		    request.getSession().setAttribute("exportSuccess",
+			writer.flush();
+			writer.close();
+			request.getSession().setAttribute("exportSuccess",
 					"Exported data successfully!");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:viewBooks?key=&author=";
 	}
-	
+
 	@RequestMapping(value = "/exportCSVCate")
 	public String exportCSVCate(HttpServletRequest request) {
-		try
-		{
-		    FileWriter writer = new FileWriter("D:\\Categories.csv");
-		    List<Category> list = storeManager.getCategoryList();
-		    for (Category cate : list) {
+		try {
+			FileWriter writer = new FileWriter("D:\\Categories.csv");
+			List<Category> list = storeManager.getCategoryList();
+			for (Category cate : list) {
 				writer.append(cate.getName() + ",");
 				writer.append(cate.getDescription());
 				writer.append("\n");
 			}
-		    writer.flush();
-		    writer.close();
-		    request.getSession().setAttribute("exportSuccess",
+			writer.flush();
+			writer.close();
+			request.getSession().setAttribute("exportSuccess",
 					"Exported data successfully!");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:viewCategories";
 	}
-	
+
 	@RequestMapping(value = "/changeImage", method = RequestMethod.POST)
 	public String changeImage(@RequestParam("name") String name,
 			@RequestParam("file") MultipartFile file, HttpServletRequest request) {
@@ -547,36 +547,36 @@ public class BookstoreController {
 
 		return new ModelAndView("changePassword");
 	}
-	
+
 	@RequestMapping(value = "/forgotPassword")
 	public ModelAndView forgotPassword() {
 		return new ModelAndView("forgotPassword");
 	}
-	
+
 	@RequestMapping(value = "/recoverPassword")
 	public ModelAndView recoverPassword(HttpServletRequest request) {
 		String username = request.getParameter("username");
-		Customer customer = storeManager.getCustomerInfo(username) ; 
+		Customer customer = storeManager.getCustomerInfo(username);
 		if (customer == null) {
 			request.getSession().setAttribute("usernameError",
 					"This username does not exist!");
-			
-		}
-		else {
+
+		} else {
 			request.getSession().removeAttribute("usernameError");
 			StringBuffer buffer = new StringBuffer();
-	        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-	        for (int i = 0; i < 20; i++) {
-	            double index = Math.random() * characters.length();
-	            buffer.append(characters.charAt((int) index));
+			String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+			for (int i = 0; i < 20; i++) {
+				double index = Math.random() * characters.length();
+				buffer.append(characters.charAt((int) index));
 
-	        }
-	        String password = buffer.toString();
-	        customer.setPassword(password);
-	        storeManager.updateCustomer(customer);
-	        storeManager.sendRecoveredPassword(customer.getEmail(), password);
-	        request.getSession().setAttribute("passRecovered",
-					"Your new password has been sent via your registered email!");
+			}
+			String password = buffer.toString();
+			customer.setPassword(password);
+			storeManager.updateCustomer(customer);
+			storeManager.sendRecoveredPassword(customer.getEmail(), password);
+			request.getSession()
+					.setAttribute("passRecovered",
+							"Your new password has been sent via your registered email!");
 		}
 		return new ModelAndView("forgotPassword");
 	}
@@ -593,6 +593,91 @@ public class BookstoreController {
 				storeModel.getCategories());
 
 		return new ModelAndView("addBook");
+	}
+
+	@RequestMapping(value = "/addPromotion")
+	public ModelAndView addPromotion(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		String discountType = request.getParameter("type");
+		float discountAmount = Float.parseFloat(request.getParameter("amount"));
+		String description = request.getParameter("description");
+		@SuppressWarnings("deprecation")
+		Date dateStart = new Date(request.getParameter("start"));
+		@SuppressWarnings("deprecation")
+		Date dateEnd = new Date(request.getParameter("end"));
+
+		StringBuffer buffer = new StringBuffer();
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		for (int i = 0; i < 25; i++) {
+			double index = Math.random() * characters.length();
+			buffer.append(characters.charAt((int) index));
+
+		}
+		String promotionCode = buffer.toString();
+
+		Promotion promotion = new Promotion();
+		promotion.setPromotionCode(promotionCode);
+		promotion.setDiscountType(discountType);
+		promotion.setDiscountAmount(discountAmount);
+		promotion.setStartDate(dateStart);
+		promotion.setEndDate(dateEnd);
+		promotion.setDescription(description);
+		promotion.setStatus("Active");
+		storeManager.addPromotion(promotion);
+		request.getSession().setAttribute("addPromoteSuccess",
+				"Added coupons successfully!");
+		return new ModelAndView("addPromotion");
+	}
+
+	@RequestMapping(value = "/toUpdatePromotion")
+	public ModelAndView toUpdatePromotion(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		int id = Integer.parseInt(request.getParameter("id"));
+		Promotion promotion = storeManager.getPromoteById(id);
+		request.getSession().setAttribute("promotion", promotion);
+		return new ModelAndView("updatePromotion");
+	}
+
+	@RequestMapping(value = "/updatePromotion")
+	public ModelAndView updatePromotion(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		int id = Integer.parseInt(request.getParameter("id"));
+		String discountType = request.getParameter("type");
+		float discountAmount = Float.parseFloat(request.getParameter("amount"));
+		String description = request.getParameter("description");
+		@SuppressWarnings("deprecation")
+		Date dateStart = new Date(request.getParameter("start"));
+		@SuppressWarnings("deprecation")
+		Date dateEnd = new Date(request.getParameter("end"));
+		String status = request.getParameter("status");
+		Promotion promotion = storeManager.getPromoteById(id);
+		promotion.setDiscountType(discountType);
+		promotion.setDiscountAmount(discountAmount);
+		promotion.setStartDate(dateStart);
+		promotion.setEndDate(dateEnd);
+		promotion.setDescription(description);
+		promotion.setStatus(status);
+		
+		storeManager.updatePromotion(promotion);
+		request.getSession().setAttribute("updatePromoteSuccess",
+				"Updated coupons successfully!");
+		
+		return new ModelAndView("updatePromotion");
+
+	}
+
+	@RequestMapping(value = "/toAddPromotion")
+	public ModelAndView toAddBook(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		return new ModelAndView("addPromotion");
 	}
 
 	@RequestMapping(value = "/toUpdateBook")
@@ -794,10 +879,25 @@ public class BookstoreController {
 		}
 		List<Cart> listCart = (List<Cart>) session.getAttribute("CART");
 		float totalAmount = (float) session.getAttribute("totalAmount");
+		float promoteAmount = 0;
+		if (session.getAttribute("promote") != null) {
+			Promotion promote = (Promotion) session.getAttribute("promote");
+			if (promote.getDiscountType().equals("Percent")) {
+				promoteAmount = totalAmount * promote.getDiscountAmount() / 100;
+			} else if (promote.getDiscountType().equals("Fee")) {
+				promoteAmount = promote.getDiscountAmount();
+			}
+		}
+
+		float memberAmount = 0;
+		float shippingFee = totalAmount * 10 / 100;
 		if (session.getAttribute("customer") != null) {
-			totalAmount = totalAmount * 105 / 100;
-		} else
-			totalAmount = totalAmount * 110 / 100;
+			memberAmount = totalAmount * 5 / 100;
+		}
+		totalAmount = totalAmount - memberAmount - promoteAmount + shippingFee;
+		if (totalAmount < 0) {
+			totalAmount = 0;
+		}
 		Order order = new Order();
 		order.setCustomer(customer);
 		order.setTotalAmount(totalAmount);
@@ -808,14 +908,14 @@ public class BookstoreController {
 		order.setStatus("Pending");
 		order.setOrderDate(new Date());
 		StringBuffer buffer = new StringBuffer();
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        for (int i = 0; i < 15; i++) {
-            double index = Math.random() * characters.length();
-            buffer.append(characters.charAt((int) index));
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		for (int i = 0; i < 15; i++) {
+			double index = Math.random() * characters.length();
+			buffer.append(characters.charAt((int) index));
 
-        }
-        order.setConfirmCode(buffer.toString());
-        session.setAttribute("cfmCode", order.getConfirmCode());
+		}
+		order.setConfirmCode(buffer.toString());
+		session.setAttribute("cfmCode", order.getConfirmCode());
 		List<OrderDetail> lstDetail = new ArrayList<OrderDetail>();
 		for (Cart cart : listCart) {
 			OrderDetail detail = new OrderDetail();
@@ -826,35 +926,32 @@ public class BookstoreController {
 		}
 		order.setOrderdetails(new HashSet<OrderDetail>(lstDetail));
 		storeManager.submitOrder(order, lstDetail);
-		System.out.println(order.getEmail());
 		storeManager.sendConfirmEmail(order.getEmail(), order.getConfirmCode());
 		session.removeAttribute("CART");
 		session.removeAttribute("totalAmount");
+		session.removeAttribute("promote");
 		return new ModelAndView("confirmOrder");
 	}
-	
+
 	@RequestMapping(value = "/toConfirmOrder")
-	public ModelAndView toConfirmOrder(HttpServletRequest request) 
-	{
+	public ModelAndView toConfirmOrder(HttpServletRequest request) {
 		int orderId = Integer.parseInt(request.getParameter("id"));
 		Order order = storeManager.getOrderById(orderId);
 		request.getSession().setAttribute("cfmCode", order.getConfirmCode());
 		return new ModelAndView("confirmOrder");
 	}
-	
+
 	@RequestMapping(value = "/resendEmail")
-	public ModelAndView resendEmail(HttpServletRequest request) 
-	{
+	public ModelAndView resendEmail(HttpServletRequest request) {
 		int orderId = Integer.parseInt(request.getParameter("id"));
 		Order order = storeManager.getOrderById(orderId);
 		storeManager.sendConfirmEmail(order.getEmail(), order.getConfirmCode());
 		request.getSession().setAttribute("cfmCode", order.getConfirmCode());
 		return new ModelAndView("confirmOrder");
 	}
-	
+
 	@RequestMapping(value = "/confirmOrder")
-	public String confirmOrder(HttpServletRequest request) 
-	{
+	public String confirmOrder(HttpServletRequest request) {
 		String code = request.getParameter("code");
 		if (code.equals(request.getSession().getAttribute("cfmCode"))) {
 			request.getSession().removeAttribute("cfmCode");
@@ -867,6 +964,25 @@ public class BookstoreController {
 			return "redirect:confirmOrder";
 		}
 		return "redirect:orderSuccess";
+	}
+
+	@RequestMapping(value = "/verifyCode")
+	public ModelAndView verifyCode(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String code = request.getParameter("proCode");
+		Promotion promote = storeManager.getPromoteByCode(code);
+		if (promote == null) {
+			session.setAttribute("promoteError", "Invalid code!");
+		} else if (promote.getStatus().equals("Inactive")) {
+			session.setAttribute("promoteError", "This code was deactivated!");
+		} else if (promote.getEndDate().compareTo(new Date()) < 0) {
+			session.setAttribute("promoteError", "This code was expired!");
+		} else {
+			session.removeAttribute("promoteError");
+			session.setAttribute("promote", promote);
+		}
+
+		return new ModelAndView("submitOrder");
 	}
 
 	@RequestMapping(value = "/customerViewOrder")
@@ -949,6 +1065,17 @@ public class BookstoreController {
 
 		request.getSession().setAttribute("CUSTOMERLIST", lstCustomer);
 		return new ModelAndView("viewCustomers");
+	}
+
+	@RequestMapping(value = "/viewPromotions")
+	public ModelAndView viewPromotions(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		List<Promotion> lstPromotion = storeManager.getPromotionList();
+
+		request.getSession().setAttribute("PROMOTIONLIST", lstPromotion);
+		return new ModelAndView("viewPromotions");
 	}
 
 	@RequestMapping(value = "/updateOrderStatus")

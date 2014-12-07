@@ -35,6 +35,10 @@
 		<put-attribute name="title" value="Add Book"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/addBook.jsp"></put-attribute>
 	</definition>
+	<definition name="addPromotion" extends="base.admin">
+		<put-attribute name="title" value="Add Coupon"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/addPromotion.jsp"></put-attribute>
+	</definition>
 	<definition name="changeImage" extends="base.admin">
 		<put-attribute name="title" value="Change Image"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/changeImage.jsp"></put-attribute>
@@ -42,6 +46,10 @@
 	<definition name="updateBook" extends="base.admin">
 		<put-attribute name="title" value="Update book"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/updateBook.jsp"></put-attribute>
+	</definition>
+	<definition name="updatePromotion" extends="base.admin">
+		<put-attribute name="title" value="Update coupons"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/updatePromotion.jsp"></put-attribute>
 	</definition>
 	<definition name="uploadSuccess" extends="base.admin">
 		<put-attribute name="title" value="Upload success"></put-attribute>
@@ -58,6 +66,10 @@
 	<definition name="viewCustomers" extends="base.admin">
 		<put-attribute name="title" value="Customer"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/viewCustomer.jsp"></put-attribute>
+	</definition>
+	<definition name="viewPromotions" extends="base.admin">
+		<put-attribute name="title" value="Promotion Coupons"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/viewPromotions.jsp"></put-attribute>
 	</definition> 
 	<definition name="viewDetails" extends="base.admin">
 		<put-attribute name="title" value="Order Details"></put-attribute>
