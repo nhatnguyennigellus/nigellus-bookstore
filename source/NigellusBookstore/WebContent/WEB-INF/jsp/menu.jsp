@@ -14,7 +14,10 @@
 		<div style="padding: 10px 0px 10px 0px">
 			<div class="col-md-12">
 				<div class="panel panel-info">
-					<div class="panel-heading"><b>MANAGEMENT</b></div>
+					<div class="panel-heading">
+						<b>SITES</b>
+
+					</div>
 					<div class="panel-body">
 						<p>
 							<a href="index">Homepage</a>
@@ -22,6 +25,14 @@
 						<p>
 							<a href="admin">Admin page</a>
 						</p>
+					</div>
+				</div>
+
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<b>MANAGEMENT</b>
+					</div>
+					<div class="panel-body">
 						<p>
 							<a href="viewBooks?key=&author=">Books</a>
 						</p>
@@ -35,8 +46,7 @@
 							<a href="viewOrder">Order</a>
 						</p>
 						<p>
-							<a href="viewPromotions">Coupons
-							</a>
+							<a href="viewPromotions">Coupons </a>
 						</p>
 					</div>
 				</div>

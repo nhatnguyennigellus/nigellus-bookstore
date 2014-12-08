@@ -42,38 +42,44 @@
 					<font color="red">No data</font>
 				</c:when>
 				<c:otherwise>
-					<table width="100%" class="table table-striped">
-						<tr>
-							<th>Title</th>
-							<th>Author</th>
-							<th>Price</th>
-							<th></th>
-							<th>Category</th>
-							<th>Action</th>
-						</tr>
-						<c:forEach items="${model.selectedCategory.books }" var="book">
+					<table width="100%" class="table table-striped" id="myTable">
+						<thead>
 							<tr>
-								<td>${book.title}</td>
-								<td>${book.authorList}</td>
-								<td>${book.unitPrice}</td>
-
-								<td><img class="img-thumbnail" alt="Nigellus Bookstore"
-									width="100" src="<c:url value="${book.imageUrl}" />" /> <br />
-									<c:url var="url" value="toChangeImage">
-										<c:param name="id" value="${book.id}" />
-										<c:param name="title" value="${book.title}" />
-										<c:param name="author" value="${book.authorList}" />
-									</c:url> <a href="${url }">Edit Image</a></td>
-								<td><c:forEach items="${book.categories }" var="category">
-									${category.name}<br />
-									</c:forEach></td>
-								<td><a href="deleteBook?id=${book.id }"
-									onclick="confirm('Are you sure?')"> Delete</a> <c:url var="url"
-										value="toUpdateBook">
-										<c:param name="id" value="${book.id}" />
-									</c:url> <a href="${url}">Update</a></td>
+								<th>Title</th>
+								<th>Author</th>
+								<th>Price</th>
+								<th></th>
+								<th>Category</th>
+								<th>Action</th>
 							</tr>
-						</c:forEach>
+						</thead>
+						<tbody>
+							<c:forEach items="${model.selectedCategory.books }" var="book">
+								<tr>
+									<td>${book.title}</td>
+									<td>${book.authorList}</td>
+									<td>${book.unitPrice}</td>
+
+									<td><img class="img-thumbnail" alt="Nigellus Bookstore" 
+										width="100" src="<c:url value="${book.imageUrl}" />" /> <br />
+										<c:url var="url" value="toChangeImage">
+											<c:param name="id" value="${book.id}" />
+											<c:param name="title" value="${book.title}" />
+											<c:param name="author" value="${book.authorList}" />
+										</c:url> <a href="${url }">Edit Image</a></td>
+									<td><c:forEach items="${book.categories }" var="category">
+									${category.name}<br />
+										</c:forEach></td>
+									<td><a href="confirmDelete?id=${book.id }"><img
+												alt="Nigellus Bookstore"
+												src="<c:url value="/resources/images/del_icon.png" />" /></a> <c:url
+											var="url" value="toUpdateBook">
+											<c:param name="id" value="${book.id}" />
+										</c:url> <a href="${url}"><img alt="Nigellus Bookstore"
+												src="<c:url value="/resources/images/edit-icon.png" />" /></a></td>
+								</tr>
+							</c:forEach>
+						</tbody>
 					</table>
 				</c:otherwise>
 
@@ -84,6 +90,11 @@
 	</form:form>
 </body>
 <script type="text/javascript">
+	$(document).ready(function() {
+		$('#myTable').dataTable({
+			"bFilter" : false
+		});
+	});
 	function submitForm() {
 		document.getElementById('mainForm').submit();
 	}

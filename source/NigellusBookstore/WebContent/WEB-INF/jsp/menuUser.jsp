@@ -16,13 +16,13 @@
 			<form action="CustomerViewBooks">
 				<div class="form-group form-group-sm">
 					<div class="input-group">
-						
-						<input id="key" placeholder="Title" name="key"
-							class="form-control input-sm" />
-							<div class="input-group-addon">
+						<div class="input-group-addon">
 							<img alt="Nigellus Bookstore" height="16px"
 								src="<c:url value="/resources/images/search_icon.png" />" />
 						</div>
+						<input id="key" placeholder="Title" name="key"
+							class="form-control input-sm" />
+							
 					</div>
 				</div>
 				<div class="form-group form-group-sm">

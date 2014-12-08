@@ -13,14 +13,13 @@
 			<h3>PASSWORD RECOVERY</h3>
 			<p>Please enter your username:</p>
 			<form action="recoverPassword" method="get">
-				<div class="form-group">
+				<div class="form-group col-md-6">
 					<input id="username" placeholder="Username" class="form-control"
 						name="username" />
 				</div>
 
 				<input class="btn btn-success" name="submit" type="submit"
-					value="Submit" /> <input name="reset" type="reset" value="Reset"
-					class="btn btn-danger" />
+					value="Submit" />
 			</form>
 
 			<c:if test="${sessionScope.usernameError != null}">

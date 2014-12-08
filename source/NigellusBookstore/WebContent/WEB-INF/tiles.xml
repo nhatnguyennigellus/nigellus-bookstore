@@ -52,7 +52,7 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/updatePromotion.jsp"></put-attribute>
 	</definition>
 	<definition name="uploadSuccess" extends="base.admin">
-		<put-attribute name="title" value="Upload success"></put-attribute>
+		<put-attribute name="title" value="Action Success"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/uploadSuccess.jsp"></put-attribute>
 	</definition>  
 	<definition name="accessDeniedAd" extends="base.admin">

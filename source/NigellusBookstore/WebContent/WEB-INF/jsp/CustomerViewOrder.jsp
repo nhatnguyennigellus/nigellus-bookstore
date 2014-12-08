@@ -12,7 +12,8 @@
 <body>
 	<div class="col-md-12">
 		<h2>ORDER HISTORY</h2>
-		<a href="javascript:history.go(-1)">Back</a>
+		<a href="javascript:history.go(-1)"><img alt="Nigellus Bookstore" width="20px"
+					src="<c:url value="/resources/images/go-back.png" />" /> Back</a>
 		<table class="table table-striped" width="100%">
 			<tr>
 				<th>No</th>

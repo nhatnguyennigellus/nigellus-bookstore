@@ -80,60 +80,63 @@
 				</p>
 			</c:when>
 			<c:otherwise>
-				<table class="table table-striped" width="100%">
-					<tr>
-						<th>No</th>
-						<th>Customer</th>
-						<th>Fullname</th>
-						<th>Order date</th>
-						<th align="right">Total Amount</th>
-						<th>Status</th>
-						<th>View Details</th>
-					</tr>
-					<c:forEach items="${sessionScope.ORDERLIST }" var="order"
-						varStatus="no">
-						<tr>
-							<td>${no.count }</td>
-							<td>${order.customer.username}</td>
-							<td>${order.fullname}</td>
-							<td><fmt:formatDate value="${order.orderDate}"
-									pattern="dd.MM.yyyy HH:mm:ss" /></td>
-							<td align="right">${order.totalAmount}</td>
-							<td><font style="font-weight: bold;"
-								color="<c:if test="${order.status == 'Delivered'}">green</c:if>
+				<div class="table-responsive">
+					<table class="table table-striped" width="100%" id="myTable">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Customer</th>
+								<th>Fullname</th>
+								<th>Order date</th>
+								<th align="right">Total Amount</th>
+								<th>Status</th>
+								<th>View Details</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${sessionScope.ORDERLIST }" var="order"
+								varStatus="no">
+								<tr>
+									<td>${no.count }</td>
+									<td>${order.customer.username}</td>
+									<td>${order.fullname}</td>
+									<td><fmt:formatDate value="${order.orderDate}"
+											pattern="dd.MM.yyyy HH:mm:ss" /></td>
+									<td align="right">${order.totalAmount}</td>
+									<td><font style="font-weight: bold;"
+										color="<c:if test="${order.status == 'Delivered'}">green</c:if>
 				<c:if test="${order.status == 'Pending'}">#C41307</c:if>
 				<c:if test="${order.status == 'Submitted'}">blue</c:if>">
-									${order.status} </font></td>
-							<td><c:url var="url" value="viewDetails">
-									<c:param name="id" value="${order.id}" />
-									<c:param name="fullname" value="${order.fullname}" />
-									<c:param name="address" value="${order.address}" />
-									<c:param name="phone" value="${order.phone}" />
-									<c:param name="email" value="${order.email}" />
-									<c:param name="total" value="${order.totalAmount}" />
-									<c:param name="status" value="${order.status}" />
-								</c:url> <a href="${url }">
-								<img alt="Nigellus Bookstore"
-				src="<c:url value="/resources/images/221.png" />" /> Detail</a></td>
+											${order.status} </font></td>
+									<td><c:url var="url" value="viewDetails">
+											<c:param name="id" value="${order.id}" />
+											<c:param name="fullname" value="${order.fullname}" />
+											<c:param name="address" value="${order.address}" />
+											<c:param name="phone" value="${order.phone}" />
+											<c:param name="email" value="${order.email}" />
+											<c:param name="total" value="${order.totalAmount}" />
+											<c:param name="status" value="${order.status}" />
+										</c:url> <a href="${url }"> <img alt="Nigellus Bookstore"
+											src="<c:url value="/resources/images/221.png" />" /> Detail
+									</a></td>
 
-						</tr>
-					</c:forEach>
-				</table>
+								</tr>
+
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</c:otherwise>
 		</c:choose>
 
 	</div>
-	<script src="<c:url value='/resources/js/bootstrap-datepicker.js'/>"></script>
-	<script type="text/javascript">
-		// When the document is ready
-		$(document).ready(function() {
 
-			$('#from, #to').datepicker({
-				format : "yyyy-mm-dd"
-			});
-
-		});
-	</script>
 </body>
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#myTable').dataTable({
+			"bFilter" : false
+		});
+	});
+</script>
 </html>

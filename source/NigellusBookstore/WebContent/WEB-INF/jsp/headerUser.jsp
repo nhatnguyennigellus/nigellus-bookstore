@@ -46,7 +46,19 @@
 						<input class="btn btn-success btn-xs" name="submit" type="submit"
 							value="Login" /> <input name="reset" type="reset" value="Reset"
 							class="btn btn-danger btn-xs" /> <a href="forgotPassword">Forgot
-							Password?</a> <a href="toRegister">Register</a>
+							Password?</a> <a href="toRegister">Register</a> <a href="viewCart">
+							<img alt="Nigellus Bookstore" width="20"
+							src="<c:url value="/resources/images/basket.png" />" /> Shopping
+							Cart
+						</a>
+						<c:choose>
+							<c:when test="${sessionScope.CART != null }">
+								<font color="blue" style="font-weight: bold;">(${sessionScope.CART.size() })</font>
+							</c:when>
+							<c:otherwise>
+								<font color="blue" style="font-weight: bold;">(0)</font>
+							</c:otherwise>
+						</c:choose>
 					</form>
 
 					<c:if test="${sessionScope.customerLoginErr != null}">
