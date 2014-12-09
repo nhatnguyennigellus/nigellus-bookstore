@@ -11,11 +11,18 @@
 <title>Nigellus Bookstore - Homepage</title>
 </head>
 <body>
+
 	<div class="col-md-12">
 		<h1>Welcome</h1>
+		<!-- Button trigger modal -->
+		<!-- Button trigger modal -->
+		
+		<!-- /.modal -->
 		<div class="col-md-3">
 			<div class="panel panel-info">
-				<div class="panel-heading"><a href="CustomerViewCategories">CATEGORIES</a></div>
+				<div class="panel-heading">
+					<a href="CustomerViewCategories">CATEGORIES</a>
+				</div>
 				<div class="panel-body">
 					<ul>
 						<c:forEach items="${sessionScope.CATEINDEX }" var="cate">
@@ -27,16 +34,25 @@
 		</div>
 		<div class="col-md-9">
 			<div class="panel panel-info">
-				<div class="panel-heading"><a href="CustomerViewBooks?key=&author=">PRODUCTS</a></div>
+				<div class="panel-heading">
+					<a href="CustomerViewBooks?key=&author=">PRODUCTS</a>
+				</div>
 				<div class="panel-body">
-				<marquee align="left" behavior="alternate">
+					<marquee align="left" behavior="alternate">
 						<c:forEach items="${sessionScope.BOOKINDEX }" var="book">
-							<img class="img-thumbnail" alt="${book.title }"
-									width="150" src="<c:url value="${book.imageUrl}" />" />
-						</c:forEach></marquee>
+							<img class="img-thumbnail" alt="${book.title }" width="150"
+								src="<c:url value="${book.imageUrl}" />" />
+						</c:forEach>
+					</marquee>
 				</div>
 			</div>
 		</div>
-	</div>
+		<script type="text/javascript">
+	/*		$(".btn").click($(function() {
+				$('#myModal').modal({
+					keyboard : true
+				})
+			}));*/
+		</script>
 </body>
 </html>

@@ -87,14 +87,45 @@
 											</c:forEach> <c:if test="${book.categories.size() == 0 }">
 												<i>Uncategorized</i>
 											</c:if></td>
-										<td><a href="confirmDelete?id=${book.id }"> <img
-												alt="Nigellus Bookstore" 
-												src="<c:url value="/resources/images/del_icon.png" />" />
-										</a> <c:url var="url" value="toUpdateBook">
+										<td>
+											<button type="button" class="btn btn-danger btn-xs"
+												data-toggle="modal" data-target="#myModal">
+												<img alt="Nigellus Bookstore"
+													src="<c:url value="/resources/images/del_icon.png" />" />
+											</button> <!-- Modal -->
+											<div class="modal fade" id="myModal" tabindex="-1"
+												role="dialog" aria-labelledby="myModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span
+																	class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Delete
+																book</h4>
+														</div>
+														<div class="modal-body">Are you sure you want to
+															delete this book?</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default"
+																data-dismiss="modal">No</button>
+															<a href="deleteBook?id=${book.id}"><button
+																	type="button" class="btn btn-primary">Yes</button></a>
+														</div>
+													</div>
+												</div>
+											</div> <c:url var="url" value="toUpdateBook">
 												<c:param name="id" value="${book.id}" />
-											</c:url> <a href="${url}"> <img alt="Nigellus Bookstore"
-												src="<c:url value="/resources/images/edit-icon.png" />" />
-										</a></td>
+											</c:url><a href="${url}">
+												<button type="button" class="btn btn-success btn-xs">
+													<img alt="Nigellus Bookstore"
+														src="<c:url value="/resources/images/edit-icon.png" />" />
+												</button>
+
+										</a>
+										</td>
 									</tr>
 
 								</c:forEach>

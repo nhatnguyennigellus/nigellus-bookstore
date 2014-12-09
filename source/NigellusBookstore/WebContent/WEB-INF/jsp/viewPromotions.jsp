@@ -65,8 +65,10 @@
 												${promote.status} </font></td>
 										<td><c:url var="url" value="toUpdatePromotion">
 												<c:param name="id" value="${promote.id}" />
-											</c:url> <a href="${url }"> <img alt="Nigellus Bookstore"
-												src="<c:url value="/resources/images/edit-icon.png" />" /></a></td>
+											</c:url> <a href="${url }"> <button type="button" class="btn btn-success btn-xs">
+											<img alt="Nigellus Bookstore"
+												src="<c:url value="/resources/images/edit-icon.png" />" />
+												</button></a></td>
 
 									</tr>
 								</c:forEach>

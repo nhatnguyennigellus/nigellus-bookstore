@@ -108,7 +108,7 @@
 				<c:if test="${order.status == 'Pending'}">#C41307</c:if>
 				<c:if test="${order.status == 'Submitted'}">blue</c:if>">
 											${order.status} </font></td>
-									<td><c:url var="url" value="viewDetails">
+									<td align="center"><c:url var="url" value="viewDetails">
 											<c:param name="id" value="${order.id}" />
 											<c:param name="fullname" value="${order.fullname}" />
 											<c:param name="address" value="${order.address}" />
@@ -116,8 +116,9 @@
 											<c:param name="email" value="${order.email}" />
 											<c:param name="total" value="${order.totalAmount}" />
 											<c:param name="status" value="${order.status}" />
-										</c:url> <a href="${url }"> <img alt="Nigellus Bookstore"
-											src="<c:url value="/resources/images/221.png" />" /> Detail
+										</c:url> <a href="${url }"> <button type="button" class="btn btn-success">
+										<img alt="Nigellus Bookstore"
+											src="<c:url value="/resources/images/221.png" />" /> </button>
 									</a></td>
 
 								</tr>

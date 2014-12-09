@@ -75,10 +75,6 @@
 		<put-attribute name="title" value="Order Details"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/viewDetails.jsp"></put-attribute>
 	</definition> 
-	<definition name="confirmDelete" extends="base.admin">
-		<put-attribute name="title" value="Confirm delete"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/jsp/confirmDelete.jsp"></put-attribute>
-	</definition> 
 	
 	<!-- USER'S PAGES -->
 	<definition name="base.user" template="/WEB-INF/jsp/layoutUser.jsp">

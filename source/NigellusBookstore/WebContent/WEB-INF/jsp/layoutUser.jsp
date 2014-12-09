@@ -14,6 +14,7 @@
 	
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap-theme.min.css'/> ">
+<script src="<c:url value='/resources/js/jquery.js'/> "></script>
 <script src="<c:url value='/resources/js/bootstrap.min.js'/> "></script>
 
 <link rel="stylesheet" type="text/css"
@@ -44,4 +45,7 @@
 		</tr>
 	</table>
 </body>
+<script>
+   
+</script>
 </html>

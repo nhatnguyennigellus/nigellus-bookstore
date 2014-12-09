@@ -8,18 +8,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Our products</title>
 
-<script type="text/javascript"
-	src="<c:url value='/resources/js/tablesorter.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/tablesorter_filter.js' /> "></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery.tablesorter.pager.js' />"></script>
 </head>
 <body>
-
+	
 	<div style="background-color: #FEFFD3; padding: 3px 3px 3px 3px">
-		<h3>SEARCH BOOK <img alt="Nigellus Bookstore"
-				src="<c:url value="/resources/images/search_icon.png" />" /></h3>
+		<h3>
+			SEARCH BOOK <img alt="Nigellus Bookstore"
+				src="<c:url value="/resources/images/search_icon.png" />" />
+		</h3>
 		<form action="CustomerViewBooks" class="form-horizontal">
 			<div class="form-group">
 				<label for="key" class="col-sm-2 control-label">Title:</label>
@@ -38,7 +34,6 @@
 		</form>
 	</div>
 	<br />
-
 	<div class="col-md-8">
 
 		<h2>BOOKS</h2>
