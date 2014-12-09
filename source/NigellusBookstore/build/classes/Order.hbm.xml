@@ -29,11 +29,17 @@
         <property name="phone" type="string">
             <column name="Phone" length="20" not-null="true" />
         </property>
+        <property name="paymentMethod" type="string">
+            <column name="PaymentMethod" length="20" not-null="true" />
+        </property>
         <property name="confirmCode" type="string">
             <column name="ConfirmCode" length="15" not-null="true" />
         </property>
         <property name="status" type="string">
             <column name="Status" length="30" not-null="true" />
+        </property>
+        <property name="payCardId" type="string">
+            <column name="PayCardId" length="30"/>
         </property>
         <set name="orderdetails" table="orderdetails" inverse="true" lazy="false" fetch="select">
             <key>

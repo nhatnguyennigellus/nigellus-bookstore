@@ -62,10 +62,12 @@
 						<a href="viewCart">Back to cart</a>
 					</div>
 				</div>
+
 			</form>
+
+
 			<div class="col-md-6">
 				<h2>CART ITEMS</h2>
-
 			</div>
 
 			<table class="table table-striped" width="100%">
@@ -182,6 +184,7 @@
 					</div>
 				</div>
 			</c:if>
+			<br />
 		</div>
 	</div>
 

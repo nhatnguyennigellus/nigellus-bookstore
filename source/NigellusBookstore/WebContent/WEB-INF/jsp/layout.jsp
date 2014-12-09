@@ -13,8 +13,10 @@
 	href="<c:url value='/resources/css/bootstrap.css'/> ">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap.min.css'/> ">
-	<link rel="stylesheet"
+<link rel="stylesheet"
 	href="<c:url value='/resources/css/jquery.dataTables.min.css' />">
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/dataTables.bootstrap.css' />">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/jquery-ui.css'/> ">
 <link rel="stylesheet"
@@ -30,7 +32,8 @@
 	
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.dataTables.min.js' />"></script>
-	
+	<script type="text/javascript"
+	src="<c:url value='/resources/js/dataTables.bootstrap.js' />"></script>
 <script src="<c:url value='/resources/js/bootstrap.min.js'/> "></script>
 </head>
 <body

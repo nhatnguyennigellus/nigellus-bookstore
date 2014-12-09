@@ -32,8 +32,8 @@
 						<td>${no.count}</td>
 						<td>${item.book.title}</td>
 						<td>${item.book.unitPrice}</td>
-						<td><input name="quantity" type="number"
-							value="${item.quantity}" /></td>
+						<td><input name="quantity" type="number" min=1
+							value="${item.quantity}" class="form-control input-sm"/></td>
 						<td align="right">${item.book.unitPrice * item.quantity}</td>
 						<td><input type="submit" value="Submit"
 							class="btn btn-success btn-sm" /> <c:url var="urlRmvCart"

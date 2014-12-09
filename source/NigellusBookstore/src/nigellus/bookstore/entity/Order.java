@@ -22,7 +22,25 @@ public class Order implements java.io.Serializable {
 	private String phone;
 	private String status;
 	private String confirmCode;
+	private String paymentMethod;
+	private String payCardId;
 	
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getPayCardId() {
+		return payCardId;
+	}
+
+	public void setPayCardId(String payCardId) {
+		this.payCardId = payCardId;
+	}
+
 	public String getConfirmCode() {
 		return confirmCode;
 	}

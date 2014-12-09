@@ -45,8 +45,8 @@
 						</div>
 						<input class="btn btn-success btn-xs" name="submit" type="submit"
 							value="Login" /> <input name="reset" type="reset" value="Reset"
-							class="btn btn-danger btn-xs" /> <a href="forgotPassword">Forgot
-							Password?</a> <a href="toRegister">Register</a> <a href="viewCart">
+							class="btn btn-danger btn-xs" /> | <a href="forgotPassword">Forgot
+							Password?</a> | <a href="toRegister">Register</a> | <a href="viewCart">
 							<img alt="Nigellus Bookstore" width="20"
 							src="<c:url value="/resources/images/basket.png" />" /> Shopping
 							Cart

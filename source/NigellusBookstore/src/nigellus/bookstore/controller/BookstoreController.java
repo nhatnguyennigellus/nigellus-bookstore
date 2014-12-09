@@ -906,6 +906,7 @@ public class BookstoreController {
 		order.setEmail(request.getParameter("email"));
 		order.setPhone(request.getParameter("phone"));
 		order.setStatus("Pending");
+		order.setPaymentMethod("Cash");
 		order.setOrderDate(new Date());
 		StringBuffer buffer = new StringBuffer();
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -930,6 +931,22 @@ public class BookstoreController {
 		session.removeAttribute("CART");
 		session.removeAttribute("totalAmount");
 		session.removeAttribute("promote");
+		//return new ModelAndView("confirmOrder");
+		return new ModelAndView("updatePaymentMethod");
+	}
+	
+	@RequestMapping(value = "/updatePaymentMethod")
+	public ModelAndView updatePaymentMethod(HttpServletRequest request) {
+		String code = (String) request.getSession().getAttribute("cfmCode");
+		String method = request.getParameter("method");
+		Order order = storeManager.getOrderByCode(code);
+		order.setPaymentMethod(method);
+		if (!method.equals("Cash")) {
+			String card = request.getParameter("card");
+			order.setPayCardId(card);
+		}
+		
+		storeManager.updateOrder(order);
 		return new ModelAndView("confirmOrder");
 	}
 
