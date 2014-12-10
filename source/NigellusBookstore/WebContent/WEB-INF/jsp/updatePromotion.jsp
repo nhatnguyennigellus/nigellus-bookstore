@@ -54,11 +54,11 @@
 				<div class="form-group">
 					<label for="amount">Condition</label> <font color="red"><input
 						name="condition" id="condition" placeholder="Discount Condition"
-						<c:if test="${sessionScope.promotion.condition == ''}">
-							value="${sessionScope.promotion.condition }"
+						<c:if test="${sessionScope.promotion.conditionAmount == ''}">
+							value="${sessionScope.promotion.conditionAmount }"
 						</c:if>
-						<c:if test="${sessionScope.promotion.condition != ''}">
-							value="${sessionScope.promotion.condition.toString().replace(".0", "") }"
+						<c:if test="${sessionScope.promotion.conditionAmount != ''}">
+							value="${sessionScope.promotion.conditionAmount.toString().replace(".0", "") }"
 						</c:if>
 						class="form-control" /></font>
 				</div>
@@ -67,8 +67,7 @@
 					<label for="description">Description</label> <font color="red"><textarea
 							rows="3" name="description" id="description"
 							placeholder="[Use HTML tag to edit] Description"
-							class="form-control"
-							value="${sessionScope.promotion.description }"></textarea></font>
+							class="form-control"/>${sessionScope.promotion.description }</textarea></font>
 				</div>
 
 				<div class="form-group">
@@ -76,14 +75,14 @@
 						<div class="input-group date form_datetime col-md-8"
 							data-date-format="mm/dd/yyyy hh:ii:00"
 							data-link-field="dtp_input1">
-							<input class="form-control" size="16" type="text" value=""
+							<input class="form-control" size="16" type="hidden" 
 								readonly name="start" id="start" placeholder="Start date"
 								pattern="MM/dd/yyyy HH:mm:ss" /> <span
 								class="input-group-addon"><span
-								class="glyphicon glyphicon-th"></span></span> <input type="hidden"
+								class="glyphicon glyphicon-th"></span></span> <input
 								value="<fmt:formatDate value="${sessionScope.promotion.startDate }"
-									pattern="MM/dd/yyyy HH:mm:ss" />"
-								id="startDate">
+									pattern="MM/dd/yyyy HH:mm:ss" />" class="form-control"
+								id="startDate" name="startDate">
 						</div>
 					</font>
 				</div>
@@ -93,13 +92,14 @@
 						<div class="input-group date form_datetime col-md-8"
 							data-date-format="mm/dd/yyyy hh:ii:00"
 							data-link-field="dtp_input1">
-							<input class="form-control" size="16" type="text" value=""
-								readonly name="end" id="end" placeholder="End date"> <span
+							<input class="form-control" size="16" type="hidden" 
+								readonly name="end" id="end" placeholder="End date"
+								pattern="MM/dd/yyyy HH:mm:ss" /> <span
 								class="input-group-addon"><span
-								class="glyphicon glyphicon-th"></span></span> <input type="hidden"
+								class="glyphicon glyphicon-th"></span></span> <input
 								value="<fmt:formatDate value="${sessionScope.promotion.endDate }"
-									pattern="MM/dd/yyyy HH:mm:ss" />"
-								id="endDate">
+									pattern="MM/dd/yyyy HH:mm:ss" />" class="form-control"
+								id="endDate" name="endDate">
 
 						</div>
 				</div>
@@ -113,18 +113,18 @@
 					<label for="type">Status</label> <font color="red"> <select
 						name="status" id="status" class="form-control">
 							<option value="Active"
-								<c:if test="${sessionScope.promotion.status eq 'Active' }">
+								<c:if test="${sessionScope.promotion.status == 'Active' }">
 								selected
 							</c:if>>Active</option>
 							<option value="Inactive"
-								<c:if test="${sessionScope.promotion.discountType eq 'Inactive' }">
+								<c:if test="${sessionScope.promotion.status == 'Inactive' }">
 								selected
 							</c:if>>Inactive</option>
 					</select></font>
 				</div>
 				
 				<input class="btn btn-success" name="submit" type="submit"
-					value="Add" /> <input name="reset" type="reset" value="Reset"
+					value="Update" /> <input name="reset" type="reset" value="Reset"
 					class="btn btn-danger" /> <a href="viewBooks?key=&author=">Back</a>
 
 			</form>
@@ -150,35 +150,6 @@
 <script type="text/javascript"
 	src="<c:url value='/resources/js/bootstrap-datetimepicker.min.js' />"></script>
 <script type="text/javascript">
-	/*	function startValidate() {
-	 if($("#end").val() == "") {
-	 $("#end").val($("#start").val());
-	 } 
-	 else {
-	 var startDate = new Date($("#start").val());
-	 var endDate = new Date($("#end").val());
-	 if(startDate > endDate) {
-	 alert('Start date must be before end date');
-	 $("#start").val($("#end").val());
-	 }
-	 }
-	 }
-	
-	 function endValidate() {
-	 if($("#start").val() == "") {
-	 $("#start").val($("#end").val());
-	 } 
-	 else {
-	 var startDate = new Date($("#start").val());
-	 var endDate = new Date($("#end").val());
-	 if(startDate > endDate) {
-	 alert('Start date must be before end date');
-	 $("#end").val($("#start").val());
-	
-	 }
-	 }
-	 }
-	 */
 	function validateDatetime() {
 
 	}
@@ -189,10 +160,10 @@
 					required : true,
 					digits : true
 				},
-				start : {
+				startDate : {
 					required : true,
 				},
-				end : {
+				endDate : {
 					required : true,
 				},
 				type : {
@@ -204,11 +175,11 @@
 					required : "Please enter discount amount",
 					digits : "Please enter a number"
 				},
-				start : {
+				startDate : {
 					required : "Invalid date or empty field"
 
 				},
-				end : {
+				endDate : {
 					required : "Invalid date or empty field",
 				},
 				type : {
@@ -250,10 +221,6 @@
 	});
 	$("#end").datetimepicker({
 		format: "mm/dd/yyyy HH:mm:00"
-	});
-	$(function() {
-		$("#start").datetimepicker('setDate', new Date($("#startDate").val()));
-		$("#end").datetimepicker('setDate', new Date($("#endDate").val()));
 	});
 </script>
 </html>

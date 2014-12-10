@@ -656,9 +656,9 @@ public class BookstoreController {
 		float conditionAmount = Float.parseFloat(request.getParameter("condition"));
 		String description = request.getParameter("description");
 		@SuppressWarnings("deprecation")
-		Date dateStart = new Date(request.getParameter("start"));
+		Date dateStart = new Date(request.getParameter("startDate"));
 		@SuppressWarnings("deprecation")
-		Date dateEnd = new Date(request.getParameter("end"));
+		Date dateEnd = new Date(request.getParameter("endDate"));
 		String status = request.getParameter("status");
 		Promotion promotion = storeManager.getPromoteById(id);
 		promotion.setDiscountType(discountType);

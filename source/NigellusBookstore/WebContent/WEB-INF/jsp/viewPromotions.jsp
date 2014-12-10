@@ -15,82 +15,113 @@
 			<h2>
 				<b>PROMOTION COUPONS</b>
 			</h2>
-			<a href="toAddPromotion"><a href="javascript:history.go(-1)">
-					<img alt="Nigellus Bookstore" width="20px"
-					src="<c:url value="/resources/images/go-back.png" />" /> Back
-			</a> <a href="toAddPromotion"> <img alt="Nigellus Bookstore"
-					src="<c:url value="/resources/images/img_add.gif" />" /> Add Coupon
-			</a> <c:choose>
-					<c:when
-						test="${sessionScope.PROMOTIONLIST == null || sessionScope.PROMOTIONLIST.size() == 0 }">
-						<p>
-							<font color="red">No data</font>
-						</p>
-					</c:when>
-					<c:otherwise>
-						<table class="table table-striped" width="100%" id="myTable">
-							<thead>
+			<a href="toAddPromotion"> <img alt="Nigellus Bookstore"
+				src="<c:url value="/resources/images/img_add.gif" />" /> Add Coupon
+			</a>
+			<c:choose>
+				<c:when
+					test="${sessionScope.PROMOTIONLIST == null || sessionScope.PROMOTIONLIST.size() == 0 }">
+					<p>
+						<font color="red">No data</font>
+					</p>
+				</c:when>
+				<c:otherwise>
+					<table class="table table-striped" width="100%" id="myTable">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Discount Type</th>
+								<th>Start date</th>
+								<th>End date</th>
+								<th>Status</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${sessionScope.PROMOTIONLIST }" var="promote"
+								varStatus="no">
 								<tr>
-									<th>No</th>
-									<th>Promotion Code</th>
-									<th>Discount Type</th>
-									<th>Discount Amount</th>
-									<th>Condition</th>
-									<th>Start date</th>
-									<th>End date</th>
-									<th>Status</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach items="${sessionScope.PROMOTIONLIST }" var="promote"
-									varStatus="no">
-									<tr>
-										<td>${no.count }</td>
-										<td>${promote.promotionCode}</td>
-										<td>${promote.discountType}</td>
-										<td>${promote.condition}</td>
-										<td>${promote.discountAmount} <c:if
-												test="${promote.discountType eq 'Fee'}">
-									VND
-								</c:if> <c:if test="${promote.discountType eq 'Percent'}">
-									%
-								</c:if>
-										</td>
-										<td><fmt:formatDate value="${promote.startDate}"
-												pattern="dd.MM.yyyy HH:mm:ss" /></td>
-										<td><fmt:formatDate value="${promote.endDate}"
-												pattern="dd.MM.yyyy HH:mm:ss" /></td>
-										<td><font style="font-weight: bold;"
-											color="<c:if test="${promote.status == 'Active'}">green</c:if>
+									<td>${no.count }</td>
+									<td>${promote.discountType}</td>
+									<td><fmt:formatDate value="${promote.startDate}"
+											pattern="dd.MM.yyyy HH:mm:ss" /></td>
+									<td><fmt:formatDate value="${promote.endDate}"
+											pattern="dd.MM.yyyy HH:mm:ss" /></td>
+									<td><font style="font-weight: bold;"
+										color="<c:if test="${promote.status == 'Active'}">green</c:if>
 				<c:if test="${promote.status == 'Inactive'}">#9A0000</c:if>">
-												${promote.status} </font></td>
-										<td><c:url var="url" value="toUpdatePromotion">
-												<c:param name="id" value="${promote.id}" />
-											</c:url> <a href="${url }"> <button type="button" class="btn btn-success btn-xs">
-											<img alt="Nigellus Bookstore"
-												src="<c:url value="/resources/images/edit-icon.png" />" />
-												</button></a></td>
+											${promote.status} </font></td>
+									<td><c:url var="url" value="toUpdatePromotion">
+											<c:param name="id" value="${promote.id}" />
+										</c:url> <a href="${url }">
+											<button type="button" class="btn btn-success btn-xs">
+												<img alt="Nigellus Bookstore"
+													src="<c:url value="/resources/images/edit-icon.png" />" />
+											</button>
+									</a>
 
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-					</c:otherwise>
-				</c:choose>
+										<div class="modal fade" id="myModal" tabindex="-1"
+											role="dialog" aria-labelledby="myModalLabel"
+											aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" 
+														onclick="passData(${promote.promotionCode})">
+															<span aria-hidden="true">&times;</span><span
+																class="sr-only">Close</span>
+														</button>
+														<h4 class="modal-title" id="myModalLabel">DETAILS</h4>
+													</div>
+													<div class="modal-body">
+														<b>Promotion Code: </b> <p id="codeA"></p>
+														<b>Discount amount: </b> <p id="amountA"></p>
+														<b>Condition:</b> <p id="conditionA"></p>
+														<b>Description:</b><p id="descriptionA"></p>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-danger"
+															data-dismiss="modal">Close</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<button type="button" class="btn btn-primary btn-xs"
+											data-toggle="modal" data-target="#myModal" data-code="${promote.promotionCode}"
+											data-amount="${promote.discountAmount}" data-condition="${promote.conditionAmount}"
+											data-type="<c:if test="${promote.discountType eq 'Fee'}">VND</c:if>
+														<c:if test="${promote.discountType eq 'Percent'}">%</c:if>" data-desc="${promote.description}">
+											<img alt="Nigellus Bookstore"
+												src="<c:url value="/resources/images/221.png" />" />
+										</button></td>
+
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<script src="<c:url value='/resources/js/bootstrap-datepicker.js'/>"></script>
 		<script type="text/javascript">
 			// When the document is ready
 			$(document).ready(function() {
 
-				$('#from, #to').datepicker({
-					format : "yyyy-mm-dd"
-				});
 				$('#myTable').dataTable({
 					"bFilter" : false
 				});
 			});
+			
+			$(document).on("click", ".btn-primary", function () {
+				$("p#codeA").html($(this).data('code'));
+				$("p#amountA").html($(this).data('amount')+$(this).data('type'));
+				$("p#descriptionA").html($(this).data('desc'));
+				$("p#conditionA").html($(this).data('condition'));
+			});
+			
+			function passData(code){
+				$("#codeA").html(code);
+			}
 		</script>
 </body>
 

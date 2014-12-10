@@ -89,10 +89,10 @@
 											</c:if></td>
 										<td>
 											<button type="button" class="btn btn-danger btn-xs"
-												data-toggle="modal" data-target="#myModal">
+												data-toggle="modal" data-target="#myModal" data-id="${book.id}">
 												<img alt="Nigellus Bookstore"
 													src="<c:url value="/resources/images/del_icon.png" />" />
-											</button> <!-- Modal -->
+											</button> 
 											<div class="modal fade" id="myModal" tabindex="-1"
 												role="dialog" aria-labelledby="myModalLabel"
 												aria-hidden="true">
@@ -111,12 +111,12 @@
 														<div class="modal-footer">
 															<button type="button" class="btn btn-default"
 																data-dismiss="modal">No</button>
-															<a href="deleteBook?id=${book.id}"><button
+															<a id="del"><button
 																	type="button" class="btn btn-primary">Yes</button></a>
 														</div>
 													</div>
 												</div>
-											</div> <c:url var="url" value="toUpdateBook">
+											</div>  <c:url var="url" value="toUpdateBook">
 												<c:param name="id" value="${book.id}" />
 											</c:url><a href="${url}">
 												<button type="button" class="btn btn-success btn-xs">
@@ -145,6 +145,10 @@
 
 			"bFilter" : false
 		});
+	});
+	$(document).on("click", ".btn-danger", function () {
+	
+	    $("a").attr("href", "deleteBook?id=" + $(this).data('id'));
 	});
 	function submitForm() {
 		document.getElementById('mainForm').submit();
