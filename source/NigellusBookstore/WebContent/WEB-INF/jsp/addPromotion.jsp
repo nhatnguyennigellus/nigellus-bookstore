@@ -30,6 +30,7 @@
 						name="type" id="type" placeholder="Title" class="form-control">
 							<option value="Percent">%</option>
 							<option value="Fee">Fee</option>
+							<option value="Buy 1 Get 1">Buy 1 get 1 Free</option>
 					</select></font>
 				</div>
 
@@ -39,7 +40,12 @@
 						class="form-control" /></font>
 				</div>
 
-
+				<div class="form-group">
+					<label for="amount">Condition</label> <font color="red"><input
+						name="condition" id="condition" placeholder="Discount Condition"
+						 class="form-control" /></font>
+				</div>
+				
 				<div class="form-group">
 					<label for="description">Description</label> <font color="red"><textarea
 							rows="3" name="description" id="description"
@@ -102,42 +108,14 @@
 <script type="text/javascript"
 	src="<c:url value='/resources/js/bootstrap-datetimepicker.min.js' />"></script>
 <script type="text/javascript">
-/*	function startValidate() {
-		if($("#end").val() == "") {
-			$("#end").val($("#start").val());
-		} 
-		else {
-			var startDate = new Date($("#start").val());
-			var endDate = new Date($("#end").val());
-			if(startDate > endDate) {
-				alert('Start date must be before end date');
-				$("#start").val($("#end").val());
-			}
-		}
-	}
-	
-	function endValidate() {
-		if($("#start").val() == "") {
-			$("#start").val($("#end").val());
-		} 
-		else {
-			var startDate = new Date($("#start").val());
-			var endDate = new Date($("#end").val());
-			if(startDate > endDate) {
-				alert('Start date must be before end date');
-				$("#end").val($("#start").val());
-			
-			}
-		}
-	}
-	*/
-	function validateDatetime () {
-		
-	}
 	$(function() {
 		$("#frmAddPromote").validate({
 			rules : {
 				amount : {
+					required : true,
+					digits : true
+				},
+				condition : {
 					required : true,
 					digits : true
 				},
@@ -152,6 +130,10 @@
 				}
 			},
 			messages : {
+				condition : {
+					required : "Please enter condition amount",
+					digits : "Please enter a number"
+				},
 				amount : {
 					required : "Please enter discount amount",
 					digits : "Please enter a number"

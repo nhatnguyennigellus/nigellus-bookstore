@@ -99,6 +99,16 @@ public class Order implements java.io.Serializable {
 		this.orderdetails = orderdetails;
 	}
 
+	private Set orderpromotion = new HashSet(0);
+	
+	public Set getOrderpromotion() {
+		return orderpromotion;
+	}
+
+	public void setOrderpromotion(Set orderpromotion) {
+		this.orderpromotion = orderpromotion;
+	}
+
 	public Order() {
 	}
 

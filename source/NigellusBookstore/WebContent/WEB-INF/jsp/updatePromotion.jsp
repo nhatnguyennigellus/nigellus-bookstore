@@ -51,6 +51,17 @@
 						class="form-control" /></font>
 				</div>
 
+				<div class="form-group">
+					<label for="amount">Condition</label> <font color="red"><input
+						name="condition" id="condition" placeholder="Discount Condition"
+						<c:if test="${sessionScope.promotion.condition == ''}">
+							value="${sessionScope.promotion.condition }"
+						</c:if>
+						<c:if test="${sessionScope.promotion.condition != ''}">
+							value="${sessionScope.promotion.condition.toString().replace(".0", "") }"
+						</c:if>
+						class="form-control" /></font>
+				</div>
 
 				<div class="form-group">
 					<label for="description">Description</label> <font color="red"><textarea

@@ -35,6 +35,7 @@
 									<th>Promotion Code</th>
 									<th>Discount Type</th>
 									<th>Discount Amount</th>
+									<th>Condition</th>
 									<th>Start date</th>
 									<th>End date</th>
 									<th>Status</th>
@@ -48,6 +49,7 @@
 										<td>${no.count }</td>
 										<td>${promote.promotionCode}</td>
 										<td>${promote.discountType}</td>
+										<td>${promote.condition}</td>
 										<td>${promote.discountAmount} <c:if
 												test="${promote.discountType eq 'Fee'}">
 									VND

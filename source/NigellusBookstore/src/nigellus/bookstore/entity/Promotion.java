@@ -14,6 +14,7 @@ public class Promotion implements java.io.Serializable {
 	private String discountType;
 	private float discountAmount;
 	private String description;
+	private float conditionAmount;
 	private Date startDate;
 	private Date endDate;
 	private String status;
@@ -49,6 +50,15 @@ public class Promotion implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+
+	public float getConditionAmount() {
+		return conditionAmount;
+	}
+
+	public void setConditionAmount(float condition) {
+		this.conditionAmount = condition;
 	}
 
 	public String getPromotionCode() {

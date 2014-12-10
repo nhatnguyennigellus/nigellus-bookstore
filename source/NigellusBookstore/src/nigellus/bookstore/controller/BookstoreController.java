@@ -27,6 +27,7 @@ import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
 import nigellus.bookstore.entity.Order;
 import nigellus.bookstore.entity.OrderDetail;
+import nigellus.bookstore.entity.OrderPromotion;
 import nigellus.bookstore.entity.Promotion;
 import nigellus.bookstore.model.AddCategoryModel;
 import nigellus.bookstore.model.BookstoreModel;
@@ -602,6 +603,7 @@ public class BookstoreController {
 		}
 		String discountType = request.getParameter("type");
 		float discountAmount = Float.parseFloat(request.getParameter("amount"));
+		float conditionAmount = Float.parseFloat(request.getParameter("condition"));
 		String description = request.getParameter("description");
 		@SuppressWarnings("deprecation")
 		Date dateStart = new Date(request.getParameter("start"));
@@ -621,6 +623,7 @@ public class BookstoreController {
 		promotion.setPromotionCode(promotionCode);
 		promotion.setDiscountType(discountType);
 		promotion.setDiscountAmount(discountAmount);
+		promotion.setConditionAmount(conditionAmount);
 		promotion.setStartDate(dateStart);
 		promotion.setEndDate(dateEnd);
 		promotion.setDescription(description);
@@ -650,6 +653,7 @@ public class BookstoreController {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String discountType = request.getParameter("type");
 		float discountAmount = Float.parseFloat(request.getParameter("amount"));
+		float conditionAmount = Float.parseFloat(request.getParameter("condition"));
 		String description = request.getParameter("description");
 		@SuppressWarnings("deprecation")
 		Date dateStart = new Date(request.getParameter("start"));
@@ -659,6 +663,7 @@ public class BookstoreController {
 		Promotion promotion = storeManager.getPromoteById(id);
 		promotion.setDiscountType(discountType);
 		promotion.setDiscountAmount(discountAmount);
+		promotion.setConditionAmount(conditionAmount);
 		promotion.setStartDate(dateStart);
 		promotion.setEndDate(dateEnd);
 		promotion.setDescription(description);
@@ -877,15 +882,37 @@ public class BookstoreController {
 			customer = storeManager.getCustomerInfo(session.getAttribute(
 					"customer").toString());
 		}
+		
+		List<OrderPromotion> listOrdPro = new ArrayList<OrderPromotion>();
+		
+		
 		List<Cart> listCart = (List<Cart>) session.getAttribute("CART");
 		float totalAmount = (float) session.getAttribute("totalAmount");
+		
+		OrderPromotion ordpro = new OrderPromotion();
+		ordpro = new OrderPromotion();
+		ordpro.setValue(totalAmount * 10 / 100);
+		ordpro.setType("Shipping Fee");
+		ordpro.setDescription("10% Shipping Fee");
+		listOrdPro.add(ordpro);
+		
 		float promoteAmount = 0;
 		if (session.getAttribute("promote") != null) {
 			Promotion promote = (Promotion) session.getAttribute("promote");
 			if (promote.getDiscountType().equals("Percent")) {
 				promoteAmount = totalAmount * promote.getDiscountAmount() / 100;
+				ordpro = new OrderPromotion();
+				ordpro.setValue(promoteAmount);
+				ordpro.setType("Percent discount");
+				ordpro.setDescription("Discount Coupon");
+				listOrdPro.add(ordpro);
 			} else if (promote.getDiscountType().equals("Fee")) {
 				promoteAmount = promote.getDiscountAmount();
+				ordpro = new OrderPromotion();
+				ordpro.setValue(promoteAmount);
+				ordpro.setType("Fee discount");
+				ordpro.setDescription("Discount Coupon");
+				listOrdPro.add(ordpro);
 			}
 		}
 
@@ -893,6 +920,11 @@ public class BookstoreController {
 		float shippingFee = totalAmount * 10 / 100;
 		if (session.getAttribute("customer") != null) {
 			memberAmount = totalAmount * 5 / 100;
+			ordpro = new OrderPromotion();
+			ordpro.setValue(memberAmount);
+			ordpro.setType("Member Discount");
+			ordpro.setDescription("Discount 5% for member");
+			listOrdPro.add(ordpro);
 		}
 		totalAmount = totalAmount - memberAmount - promoteAmount + shippingFee;
 		if (totalAmount < 0) {
@@ -926,12 +958,17 @@ public class BookstoreController {
 			lstDetail.add(detail);
 		}
 		order.setOrderdetails(new HashSet<OrderDetail>(lstDetail));
-		storeManager.submitOrder(order, lstDetail);
+		
+		for (OrderPromotion orderPromotion : listOrdPro) {
+			orderPromotion.setOrder(order);
+			
+		}
+		storeManager.submitOrder(order, lstDetail, listOrdPro);
 		storeManager.sendConfirmEmail(order.getEmail(), order.getConfirmCode());
+		
 		session.removeAttribute("CART");
 		session.removeAttribute("totalAmount");
 		session.removeAttribute("promote");
-		//return new ModelAndView("confirmOrder");
 		return new ModelAndView("updatePaymentMethod");
 	}
 	
@@ -988,17 +1025,23 @@ public class BookstoreController {
 		HttpSession session = request.getSession();
 		String code = request.getParameter("proCode");
 		Promotion promote = storeManager.getPromoteByCode(code);
+		float totalAmount = Float.parseFloat
+				(session.getAttribute("totalAmount").toString());
 		if (promote == null) {
 			session.setAttribute("promoteError", "Invalid code!");
 		} else if (promote.getStatus().equals("Inactive")) {
 			session.setAttribute("promoteError", "This code was deactivated!");
 		} else if (promote.getEndDate().compareTo(new Date()) < 0) {
 			session.setAttribute("promoteError", "This code was expired!");
+		} else if(totalAmount < promote.getConditionAmount()) {
+			session.setAttribute("promoteError", "This coupon is applicable for "
+					+ "order total amount more than " + promote.getConditionAmount());
 		} else {
 			session.removeAttribute("promoteError");
 			session.setAttribute("promote", promote);
 		}
-
+		
+		
 		return new ModelAndView("submitOrder");
 	}
 
@@ -1016,9 +1059,10 @@ public class BookstoreController {
 	public ModelAndView customerViewDetails(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id").toString());
 		List<OrderDetail> lstOrderDetail = storeManager.getOrderDetail(id);
-
+		
+		List<OrderPromotion> lstPromoteDetail = storeManager.getPromotionByOrder(id);
+		request.getSession().setAttribute("PROMS", lstPromoteDetail);
 		request.getSession().setAttribute("DETAILS", lstOrderDetail);
-
 		return new ModelAndView("customerViewDetails");
 	}
 
@@ -1070,6 +1114,10 @@ public class BookstoreController {
 
 		request.getSession().setAttribute("DETAILS", lstOrderDetail);
 
+
+		List<OrderPromotion> lstPromoteDetail = storeManager.getPromotionByOrder(id);
+		request.getSession().setAttribute("PROMS", lstPromoteDetail);
+		
 		return new ModelAndView("viewDetails");
 	}
 

@@ -97,25 +97,24 @@
 
 				</c:forEach>
 				<c:if test="${sessionScope.customer != null }">
-					<tr>
+					<tr class="success">
 						<td colspan="4" align="right">Membership discount (-5%):</td>
 						<td colspan="2" align="right">-${sessionScope.totalAmount * 5 / 100}</td>
 
 					</tr>
 
 				</c:if>
-				<tr>
+				<tr class="warning">
 					<td colspan="4" align="right">Shipping fee (10%):</td>
 					<td colspan="2" align="right">${sessionScope.totalAmount * 10 / 100}</td>
 
 				</tr>
 				<c:if test="${sessionScope.promote != null }">
-					<tr>
-						<td colspan="4" align="right">Promotion discount
-							(${sessionScope.promote.discountAmount} <c:if
+					<tr class="success">
+						<td colspan="4" align="right">Promotion discount <c:if
 								test="${sessionScope.promote.discountType eq 'Fee' }">VND
 						</c:if> <c:if test="${sessionScope.promote.discountType eq 'Percent' }">%
-						</c:if>)
+						</c:if>
 						</td>
 						<td colspan="2" align="right"><c:if
 								test="${sessionScope.promote.discountType eq 'Fee' }">
@@ -130,39 +129,48 @@
 					<td colspan="4" align="right">Total:</td>
 					<td colspan="2"
 						style="color: green; font-weight: bold; font-size: 20px"
-						align="right"><c:choose>
+						align="right">
+						<c:choose>
 							<c:when test="${sessionScope.customer != null }">
 								<c:if test="${sessionScope.promote == null}">
-								${sessionScope.totalAmount * 105 / 100}
+						<c:set var="total" scope="application" value="${sessionScope.totalAmount * 105 / 100}"/>
 								</c:if>
 								<c:if test="${sessionScope.promote.discountType eq 'Fee' }">
-						${sessionScope.totalAmount * 105 / 100 - sessionScope.promote.discountAmount}
+						<c:set var="total" scope="application" 
+						value="${sessionScope.totalAmount * 105 / 100 - sessionScope.promote.discountAmount}"/>
+						
 								</c:if>
 								<c:if test="${sessionScope.promote.discountType eq 'Percent' }">
-						${sessionScope.totalAmount * 105 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}
+						<c:set var="total" scope="application" 
+						value="${sessionScope.totalAmount * 105 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}" />
 								</c:if>
 							</c:when>
 							<c:otherwise>
 								<c:if test="${sessionScope.promote == null}">
-								${sessionScope.totalAmount * 110 / 100}
+						<c:set var="total" scope="application" 
+						value="${sessionScope.totalAmount * 110 / 100}" />
 								</c:if>
 								<c:if test="${sessionScope.promote.discountType eq 'Fee' }">
-						${sessionScope.totalAmount * 110 / 100 - sessionScope.promote.discountAmount}
+						<c:set var="total" scope="application" 
+						value="${sessionScope.totalAmount * 110 / 100 - sessionScope.promote.discountAmount}" />
 								</c:if>
 								<c:if test="${sessionScope.promote.discountType eq 'Percent' }">
-						${sessionScope.totalAmount * 110 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}
+						<c:set var="total" scope="application" 
+						value="${sessionScope.totalAmount * 110 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}" />
 								</c:if>
 
 							</c:otherwise>
-						</c:choose></td>
-
-
-					<c:if test="${sessionScope.promote.discountType eq 'Fee' }">
-							- ${sessionScope.promote.discountAmount }
+						</c:choose>
+						<c:if test="${total <= 0}">
+							0
 						</c:if>
-					<c:if test="${sessionScope.promote.discountType eq 'Percent' }">
-							- ${sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}
+						<c:if test="${total > 0}">
+							${total }
 						</c:if>
+						
+						
+						</td>
+
 				</tr>
 
 

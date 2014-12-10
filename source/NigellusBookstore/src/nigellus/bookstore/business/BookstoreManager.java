@@ -20,12 +20,14 @@ import nigellus.bookstore.dao.CategoryDAO;
 import nigellus.bookstore.dao.CustomerDAO;
 import nigellus.bookstore.dao.OrderDAO;
 import nigellus.bookstore.dao.OrderDetailDAO;
+import nigellus.bookstore.dao.OrderPromotionDAO;
 import nigellus.bookstore.dao.PromotionDAO;
 import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
 import nigellus.bookstore.entity.Order;
 import nigellus.bookstore.entity.OrderDetail;
+import nigellus.bookstore.entity.OrderPromotion;
 import nigellus.bookstore.entity.Promotion;
 import nigellus.bookstore.model.AddBookModel;
 import nigellus.bookstore.model.BookstoreModel;
@@ -51,6 +53,17 @@ public class BookstoreManager {
 	
 	@Autowired
 	private PromotionDAO promotionDAO;
+	
+	@Autowired
+	private OrderPromotionDAO orderPromotionDAO;
+
+	public OrderPromotionDAO getOrderPromotionDAO() {
+		return orderPromotionDAO;
+	}
+
+	public void setOrderPromotionDAO(OrderPromotionDAO orderPromotionDAO) {
+		this.orderPromotionDAO = orderPromotionDAO;
+	}
 
 	public OrderDAO getOrderDAO() {
 		return orderDAO;
@@ -244,10 +257,14 @@ public class BookstoreManager {
 		orderDAO.updateOrder(order);
 	}
 
-	public void submitOrder(Order order, List<OrderDetail> lstDetail) {
+	public void submitOrder(Order order, 
+			List<OrderDetail> lstDetail, List<OrderPromotion> lstOrdPro) {
 		orderDAO.addOrder(order);
 		for (OrderDetail orderDetail : lstDetail) {
 			orderDetailDAO.addDetail(orderDetail);
+		}
+		for (OrderPromotion orderPromotion : lstOrdPro) {
+			orderPromotionDAO.addPromoteOrder(orderPromotion);
 		}
 	}
 
@@ -303,6 +320,13 @@ public class BookstoreManager {
 		promotionDAO.deletePromotion(code);
 	}
 	
+	public List<OrderPromotion> getPromotionByOrder(int orderId) {
+		return orderPromotionDAO.getOrdPromoteById(orderId);
+	}
+	
+	public void addPromoteOrder(OrderPromotion ordpro) {
+		orderPromotionDAO.addPromoteOrder(ordpro);
+	}
 	public void sendConfirmEmail(String email, String code) {
 		Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", true);

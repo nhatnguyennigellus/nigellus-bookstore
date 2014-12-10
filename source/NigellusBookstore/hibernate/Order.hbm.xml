@@ -47,5 +47,11 @@
             </key>
             <one-to-many class="nigellus.bookstore.entity.OrderDetail" />
         </set>
+        <set name="orderpromotion" table="orderpromotion" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="OrderId" not-null="true" />
+            </key>
+            <one-to-many class="nigellus.bookstore.entity.OrderPromotion" />
+        </set>
     </class>
 </hibernate-mapping>

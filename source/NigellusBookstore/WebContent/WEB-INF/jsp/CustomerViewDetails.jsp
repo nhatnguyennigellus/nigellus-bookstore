@@ -10,8 +10,9 @@
 </head>
 <body>
 	<div class="col-md-12">
-		<h2>ORDER DETAILS</h2><a href="javascript:history.go(-1)">Back</a><br/>
-		Order No: <b>${param.id}</b><br /> Customer: <b>${sessionScope.customer }</b>
+		<h2>ORDER DETAILS</h2>
+		<a href="javascript:history.go(-1)">Back</a><br /> Order No: <b>${param.id}</b><br />
+		Customer: <b>${sessionScope.customer }</b>
 		<table class="table table-striped" width="100%">
 			<tr>
 				<th>No</th>
@@ -31,6 +32,13 @@
 
 				</tr>
 			</c:forEach>
+			<c:forEach items="${sessionScope.PROMS }" var="prom" varStatus="no">
+				<tr class="info">
+					<td colspan="4" align="right">${prom.description}</td>
+					<td colspan="2"	align="right">${prom.value}</td>
+				</tr>
+			</c:forEach>
+
 			<tr>
 				<td colspan="4" align="right">Total:</td>
 				<td colspan="2"

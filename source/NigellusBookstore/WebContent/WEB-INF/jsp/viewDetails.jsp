@@ -61,6 +61,12 @@
 
 				</tr>
 			</c:forEach>
+			<c:forEach items="${sessionScope.PROMS }" var="prom" varStatus="no">
+				<tr class="info">
+					<td colspan="4" align="right">${prom.description}</td>
+					<td colspan="2"	align="right">${prom.value}</td>
+				</tr>
+			</c:forEach>
 			<tr>
 				<td colspan="4" align="right">Total:</td>
 				<td colspan="2"
