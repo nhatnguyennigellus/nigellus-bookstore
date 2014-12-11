@@ -14,6 +14,8 @@
 	
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap-theme.min.css'/> ">
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/full-slider.css'/> ">
 <script src="<c:url value='/resources/js/jquery.js'/> "></script>
 <script src="<c:url value='/resources/js/bootstrap.min.js'/> "></script>
 

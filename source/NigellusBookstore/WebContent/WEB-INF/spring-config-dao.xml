@@ -48,4 +48,9 @@ http://www.springframework.org/schema/context
 	<bean id="orderPromotionDAO" class="nigellus.bookstore.dao.OrderPromotionDAO">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="imageGalleryDAO" class="nigellus.bookstore.dao.ImageGalleryDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
 </beans>  

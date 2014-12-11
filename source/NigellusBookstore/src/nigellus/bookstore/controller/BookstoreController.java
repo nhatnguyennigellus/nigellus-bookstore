@@ -25,6 +25,7 @@ import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.Cart;
 import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
+import nigellus.bookstore.entity.ImageGallery;
 import nigellus.bookstore.entity.Order;
 import nigellus.bookstore.entity.OrderDetail;
 import nigellus.bookstore.entity.OrderPromotion;
@@ -230,6 +231,60 @@ public class BookstoreController {
 					"Added category successfully!");
 		}
 		return mav;
+	}
+	
+	@RequestMapping(value = "/toAddImage")
+	public ModelAndView toAddImage(HttpServletRequest request)
+	{
+		return new ModelAndView("addImage");
+	}
+	
+	@RequestMapping(value = "/addImage")
+	public String addImage(@RequestParam("file") MultipartFile file,
+			@RequestParam("name") String name, HttpServletRequest request)
+	{
+		int id = Integer.parseInt(request.getParameter("id"));
+		if (!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+				File serverFile = new File(request.getSession()
+						.getServletContext().getRealPath("/resources/images")
+						+ File.separator
+						+ name
+						+ file.getOriginalFilename().substring(
+								file.getOriginalFilename().lastIndexOf(".")));
+
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				Book b = storeManager.getBookById(id);
+				ImageGallery image = new ImageGallery();
+				image.setBook(b);
+				image.setImageUrl("/resources/images/"
+						+ name
+						+ file.getOriginalFilename().substring(
+								file.getOriginalFilename().lastIndexOf(".")));
+
+				storeManager.addImageToGallery(image);
+
+				request.getSession().removeAttribute("ChangeImgError");
+				request.getSession().setAttribute("ChangeImgSuccess",
+						"Uploaded successfully!");
+			} catch (Exception e) {
+				request.getSession().setAttribute("ChangeImgError",
+						"Failed to upload!");
+				request.getSession().removeAttribute("ChangeImgSuccess");
+				e.printStackTrace();
+			}
+		} else {
+			request.getSession().removeAttribute("ChangeImgError");
+			request.getSession().setAttribute("ChangeImgError",
+					"File was empty!");
+		}
+
+		return "redirect:uploadSuccess";
 	}
 
 	@RequestMapping(value = "/importCSV", method = RequestMethod.POST)
@@ -595,7 +650,7 @@ public class BookstoreController {
 
 		return new ModelAndView("addBook");
 	}
-
+	
 	@RequestMapping(value = "/addPromotion")
 	public ModelAndView addPromotion(HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null) {
@@ -678,11 +733,19 @@ public class BookstoreController {
 	}
 
 	@RequestMapping(value = "/toAddPromotion")
-	public ModelAndView toAddBook(HttpServletRequest request) {
+	public ModelAndView toAddPromotion(HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null) {
 			return new ModelAndView("accessDeniedAd");
 		}
 		return new ModelAndView("addPromotion");
+	}
+	
+	@RequestMapping(value = "/toAddBookImages")
+	public ModelAndView toAddBookImages(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		return new ModelAndView("addBookImages");
 	}
 
 	@RequestMapping(value = "/toUpdateBook")
@@ -731,12 +794,7 @@ public class BookstoreController {
 				"Updated book successfully!");
 		return "redirect:uploadSuccess";
 	}
-
-	@RequestMapping(value = "/confirmDelete")
-	public ModelAndView toDeleteBook(HttpServletRequest request) {
-		return new ModelAndView("confirmDelete");
-	}
-
+	
 	@RequestMapping(value = "/deleteBook")
 	public String deleteBook(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -762,6 +820,8 @@ public class BookstoreController {
 		if (request.getSession().getAttribute("addBookSuccess") != null) {
 			request.getSession().removeAttribute("addBookSuccess");
 		}
+		List<ImageGallery> gallery = storeManager.getImageGallery();
+		request.getSession().setAttribute("GALLERY", gallery);
 		return mav;
 	}
 
@@ -773,6 +833,8 @@ public class BookstoreController {
 		String key = request.getParameter("key");
 		String author = request.getParameter("author");
 		storeManager.getBookInfo(storeModel, key, author);
+		List<ImageGallery> gallery = storeManager.getImageGallery();
+		request.getSession().setAttribute("GALLERY", gallery);
 		return mav;
 	}
 

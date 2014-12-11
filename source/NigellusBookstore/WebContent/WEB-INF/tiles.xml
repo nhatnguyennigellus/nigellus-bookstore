@@ -75,8 +75,13 @@
 		<put-attribute name="title" value="Order Details"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/viewDetails.jsp"></put-attribute>
 	</definition> 
-	
+	<definition name="addImage" extends="base.admin">
+		<put-attribute name="title" value="Book Image Gallery"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/addImage.jsp"></put-attribute>
+	</definition> 
 	<!-- USER'S PAGES -->
+	
+	
 	<definition name="base.user" template="/WEB-INF/jsp/layoutUser.jsp">
 		<put-attribute name="title" value=""></put-attribute>
 		<put-attribute name="header" value="/WEB-INF/jsp/headerUser.jsp"></put-attribute>

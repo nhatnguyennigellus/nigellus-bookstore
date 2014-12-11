@@ -19,7 +19,8 @@
 	href="<c:url value='/resources/css/dataTables.bootstrap.css' />">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/jquery-ui.css'/> ">
-	
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/full-slider.css'/> ">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap-theme.min.css'/> ">
 

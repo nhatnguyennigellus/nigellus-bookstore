@@ -18,6 +18,7 @@ import nigellus.bookstore.dao.AdminDAO;
 import nigellus.bookstore.dao.BookDAO;
 import nigellus.bookstore.dao.CategoryDAO;
 import nigellus.bookstore.dao.CustomerDAO;
+import nigellus.bookstore.dao.ImageGalleryDAO;
 import nigellus.bookstore.dao.OrderDAO;
 import nigellus.bookstore.dao.OrderDetailDAO;
 import nigellus.bookstore.dao.OrderPromotionDAO;
@@ -25,6 +26,7 @@ import nigellus.bookstore.dao.PromotionDAO;
 import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
+import nigellus.bookstore.entity.ImageGallery;
 import nigellus.bookstore.entity.Order;
 import nigellus.bookstore.entity.OrderDetail;
 import nigellus.bookstore.entity.OrderPromotion;
@@ -57,6 +59,20 @@ public class BookstoreManager {
 	@Autowired
 	private OrderPromotionDAO orderPromotionDAO;
 
+	@Autowired
+	private OrderDetailDAO orderDetailDAO;
+	
+	@Autowired
+	private ImageGalleryDAO imageGalleryDAO;
+
+	public ImageGalleryDAO getImageGalleryDAO() {
+		return imageGalleryDAO;
+	}
+
+	public void setImageGalleryDAO(ImageGalleryDAO imageGalleryDAO) {
+		this.imageGalleryDAO = imageGalleryDAO;
+	}
+
 	public OrderPromotionDAO getOrderPromotionDAO() {
 		return orderPromotionDAO;
 	}
@@ -80,9 +96,6 @@ public class BookstoreManager {
 	public void setOrderDetailDAO(OrderDetailDAO orderDetailDAO) {
 		this.orderDetailDAO = orderDetailDAO;
 	}
-
-	@Autowired
-	private OrderDetailDAO orderDetailDAO;
 
 	public CustomerDAO getCustomerDAO() {
 		return customerDAO;
@@ -120,6 +133,15 @@ public class BookstoreManager {
 
 	public boolean existedUsername(String username) {
 		return customerDAO.existedUsername(username);
+	}
+	
+
+	public PromotionDAO getPromotionDAO() {
+		return promotionDAO;
+	}
+
+	public void setPromotionDAO(PromotionDAO promotionDAO) {
+		this.promotionDAO = promotionDAO;
 	}
 
 	public void getCategoryInfo(BookstoreModel storeModel) {
@@ -267,7 +289,7 @@ public class BookstoreManager {
 			orderPromotionDAO.addPromoteOrder(orderPromotion);
 		}
 	}
-
+	
 	public List<Order> getOrderByUser(String username) {
 		return orderDAO.getOrderByUser(username);
 	}
@@ -298,6 +320,18 @@ public class BookstoreManager {
 	
 	public List<OrderDetail> getOrderDetail(int orderId) {
 		return orderDetailDAO.getDetailById(orderId);
+	}
+	
+	public List<ImageGallery> getImageGalleryBook(int bookId) {
+		return imageGalleryDAO.getImageGalleryBook(bookId);
+	}
+	
+	public List<ImageGallery> getImageGallery() {
+		return imageGalleryDAO.getImageGallery();
+	}
+	
+	public void addImageToGallery(ImageGallery image) {
+		imageGalleryDAO.addImage(image);
 	}
 	
 	public Promotion getPromoteByCode(String code) {

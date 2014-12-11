@@ -75,13 +75,55 @@
 										<td>${book.title}</td>
 										<td>${book.authorList}</td>
 										<td>${book.unitPrice}</td>
-										<td><img class="img-thumbnail" alt="Nigellus Bookstore"
-											width="100" src="<c:url value="${book.imageUrl}" />" /> <br />
-											<c:url var="url" value="toChangeImage">
+										<td id="myCarousel" class="carousel slide">
+											<ol class="carousel-indicators">
+
+												<li data-target="#myCarousel" data-slide-to="0"
+													class="active"></li>
+												<c:forEach items="${sessionScope.GALLERY }" var="img"
+													varStatus="no">
+													<c:if test="${img.book.id == book.id }">
+														<li data-target="#myCarousel" data-slide-to="${no.count }"></li>
+													</c:if>
+												</c:forEach>
+
+											</ol> <!-- Wrapper for Slides -->
+											<div class="carousel-inner">
+												<div class="item active">
+													<!-- Set the first background image using inline CSS below. -->
+													<img alt="Nigellus Bookstore" width="150"
+														src="<c:url value="${book.imageUrl}" />" />
+
+												</div>
+												<c:forEach items="${sessionScope.GALLERY }" var="img"
+													varStatus="no">
+													<c:if test="${img.book.id == book.id }">
+														<div class="item">
+															<img alt="Nigellus Bookstore" width="150"
+																src="<c:url value="${img.imageUrl}" />" />
+														</div>
+													</c:if>
+												</c:forEach>
+
+											</div> <!-- Controls --> <a class="left carousel-control"
+											href="#myCarousel" data-slide="prev"> <span
+												class="icon-prev"></span>
+										</a> <a class="right carousel-control" href="#myCarousel"
+											data-slide="next"> <span class="icon-next"></span>
+										</a> 
+										
+										<br /> 
+										<br /> <c:url var="url" value="toChangeImage">
 												<c:param name="id" value="${book.id}" />
 												<c:param name="title" value="${book.title}" />
 												<c:param name="author" value="${book.authorList}" />
-											</c:url> <a href="${url }">Edit Image</a></td>
+											</c:url> <a href="${url }">Edit Cover Image</a> <c:url var="urlAdd"
+												value="toAddImage">
+												<c:param name="id" value="${book.id}" />
+												<c:param name="title" value="${book.title}" />
+												<c:param name="author" value="${book.authorList}" />
+											</c:url> <br /> <a href="${urlAdd }">Add Image Gallery</a>
+										</td>
 										<td><c:forEach items="${book.categories }" var="category">
 							${category.name}<br />
 											</c:forEach> <c:if test="${book.categories.size() == 0 }">
@@ -89,10 +131,11 @@
 											</c:if></td>
 										<td>
 											<button type="button" class="btn btn-danger btn-xs"
-												data-toggle="modal" data-target="#myModal" data-id="${book.id}">
+												data-toggle="modal" data-target="#myModal"
+												data-id="${book.id}">
 												<img alt="Nigellus Bookstore"
 													src="<c:url value="/resources/images/del_icon.png" />" />
-											</button> 
+											</button>
 											<div class="modal fade" id="myModal" tabindex="-1"
 												role="dialog" aria-labelledby="myModalLabel"
 												aria-hidden="true">
@@ -111,19 +154,18 @@
 														<div class="modal-footer">
 															<button type="button" class="btn btn-default"
 																data-dismiss="modal">No</button>
-															<a id="del"><button
-																	type="button" class="btn btn-primary">Yes</button></a>
+															<a id="del"><button type="button"
+																	class="btn btn-primary">Yes</button></a>
 														</div>
 													</div>
 												</div>
-											</div>  <c:url var="url" value="toUpdateBook">
+											</div> <c:url var="url" value="toUpdateBook">
 												<c:param name="id" value="${book.id}" />
 											</c:url><a href="${url}">
 												<button type="button" class="btn btn-success btn-xs">
 													<img alt="Nigellus Bookstore"
 														src="<c:url value="/resources/images/edit-icon.png" />" />
 												</button>
-
 										</a>
 										</td>
 									</tr>
@@ -146,9 +188,9 @@
 			"bFilter" : false
 		});
 	});
-	$(document).on("click", ".btn-danger", function () {
-	
-	    $("a").attr("href", "deleteBook?id=" + $(this).data('id'));
+	$(document).on("click", ".btn-danger", function() {
+
+		$("a").attr("href", "deleteBook?id=" + $(this).data('id'));
 	});
 	function submitForm() {
 		document.getElementById('mainForm').submit();
