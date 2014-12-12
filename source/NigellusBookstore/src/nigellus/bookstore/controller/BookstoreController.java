@@ -279,7 +279,7 @@ public class BookstoreController {
 				e.printStackTrace();
 			}
 		} else {
-			request.getSession().removeAttribute("ChangeImgError");
+			request.getSession().removeAttribute("ChangeImgSuccess");
 			request.getSession().setAttribute("ChangeImgError",
 					"File was empty!");
 		}
@@ -466,7 +466,7 @@ public class BookstoreController {
 				e.printStackTrace();
 			}
 		} else {
-			request.getSession().removeAttribute("ChangeImgError");
+			request.getSession().removeAttribute("ChangeImgSuccess");
 			request.getSession().setAttribute("ChangeImgError",
 					"File was empty!");
 		}
@@ -500,6 +500,9 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/register")
 	public ModelAndView register(HttpServletRequest request) {
+		if (request.getSession().getAttribute("customer") != null) {
+			return new ModelAndView("index");
+		}
 		String username = request.getParameter("username");
 		if (storeManager.existedUsername(username)) {
 			request.getSession().setAttribute("registerFail",
@@ -545,6 +548,9 @@ public class BookstoreController {
 	@RequestMapping(value = "/editProfile")
 	public ModelAndView editProfile(HttpServletRequest request,
 			BookstoreModel storeModel) {
+		if (request.getSession().getAttribute("customer") == null) {
+			return new ModelAndView("accessDenied");
+		}
 		String username = (String) request.getSession()
 				.getAttribute("customer");
 		Customer c = storeManager.getCustomerInfo(username);
@@ -579,7 +585,9 @@ public class BookstoreController {
 	@RequestMapping(value = "/changePassword")
 	public ModelAndView changePassword(HttpServletRequest request,
 			LoginModel cusLogModel) {
-
+		if (request.getSession().getAttribute("customer") == null) {
+			return new ModelAndView("accessDenied");
+		}
 		String username = (String) request.getSession()
 				.getAttribute("customer");
 		Customer c = storeManager.getCustomerInfo(username);
@@ -605,7 +613,10 @@ public class BookstoreController {
 	}
 
 	@RequestMapping(value = "/forgotPassword")
-	public ModelAndView forgotPassword() {
+	public ModelAndView forgotPassword(HttpServletRequest request) {
+		if (request.getSession().getAttribute("customer") == null) {
+			return new ModelAndView("accessDenied");
+		}
 		return new ModelAndView("forgotPassword");
 	}
 
@@ -1010,7 +1021,7 @@ public class BookstoreController {
 
 		}
 		order.setConfirmCode(buffer.toString());
-		session.setAttribute("cfmCode", order.getConfirmCode());
+		//session.setAttribute("cfmCode", order.getConfirmCode());
 		List<OrderDetail> lstDetail = new ArrayList<OrderDetail>();
 		for (Cart cart : listCart) {
 			OrderDetail detail = new OrderDetail();
@@ -1027,7 +1038,7 @@ public class BookstoreController {
 		}
 		storeManager.submitOrder(order, lstDetail, listOrdPro);
 		storeManager.sendConfirmEmail(order.getEmail(), order.getConfirmCode());
-		
+		session.setAttribute("order", order);
 		session.removeAttribute("CART");
 		session.removeAttribute("totalAmount");
 		session.removeAttribute("promote");
@@ -1036,9 +1047,8 @@ public class BookstoreController {
 	
 	@RequestMapping(value = "/updatePaymentMethod")
 	public ModelAndView updatePaymentMethod(HttpServletRequest request) {
-		String code = (String) request.getSession().getAttribute("cfmCode");
 		String method = request.getParameter("method");
-		Order order = storeManager.getOrderByCode(code);
+		Order order = (Order) request.getSession().getAttribute("order");
 		order.setPaymentMethod(method);
 		if (!method.equals("Cash")) {
 			String card = request.getParameter("card");
@@ -1053,7 +1063,8 @@ public class BookstoreController {
 	public ModelAndView toConfirmOrder(HttpServletRequest request) {
 		int orderId = Integer.parseInt(request.getParameter("id"));
 		Order order = storeManager.getOrderById(orderId);
-		request.getSession().setAttribute("cfmCode", order.getConfirmCode());
+		//request.getSession().setAttribute("cfmCode", order.getConfirmCode());
+		request.getSession().setAttribute("order", order);
 		return new ModelAndView("confirmOrder");
 	}
 
@@ -1062,17 +1073,19 @@ public class BookstoreController {
 		int orderId = Integer.parseInt(request.getParameter("id"));
 		Order order = storeManager.getOrderById(orderId);
 		storeManager.sendConfirmEmail(order.getEmail(), order.getConfirmCode());
-		request.getSession().setAttribute("cfmCode", order.getConfirmCode());
+		request.getSession().setAttribute("order", order);
 		return new ModelAndView("confirmOrder");
 	}
 
 	@RequestMapping(value = "/confirmOrder")
 	public String confirmOrder(HttpServletRequest request) {
 		String code = request.getParameter("code");
-		if (code.equals(request.getSession().getAttribute("cfmCode"))) {
-			request.getSession().removeAttribute("cfmCode");
+		Order order = (Order) request.getSession().getAttribute("order");
+		if (code.equals(order.getConfirmCode())) {
+			
+			request.getSession().removeAttribute("order");
 			request.getSession().removeAttribute("confirmError");
-			Order order = storeManager.getOrderByCode(code);
+			
 			order.setStatus("Submitted");
 			storeManager.updateOrder(order);
 		} else {
@@ -1109,6 +1122,9 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/customerViewOrder")
 	public ModelAndView customerViewOrder(HttpServletRequest request) {
+		if (request.getSession().getAttribute("customer") == null) {
+			return new ModelAndView("accessDenied");
+		}
 		String username = (String) request.getSession()
 				.getAttribute("customer");
 		List<Order> lstOrder = storeManager.getOrderByUser(username);
@@ -1119,6 +1135,9 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/customerViewDetails")
 	public ModelAndView customerViewDetails(HttpServletRequest request) {
+		if (request.getSession().getAttribute("customer") == null) {
+			return new ModelAndView("accessDenied");
+		}
 		int id = Integer.parseInt(request.getParameter("id").toString());
 		List<OrderDetail> lstOrderDetail = storeManager.getOrderDetail(id);
 		

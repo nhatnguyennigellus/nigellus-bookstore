@@ -19,8 +19,11 @@
 				</div>
 
 				<input class="btn btn-success" name="submit" type="submit"
-					value="Confirm" /> <input name="reset" type="reset" value="Reset"
-					class="btn btn-danger" />
+					value="Confirm" />
+				<c:url value="resendEmail" var="urlResend">
+					<c:param name="id">${sessionScope.order.id }</c:param>
+				</c:url>
+				<a href="${urlResend }">Resend confirm Email</a>
 			</form>
 
 			<c:if test="${sessionScope.confirmError != null}">

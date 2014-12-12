@@ -48,7 +48,9 @@
 					<td><c:url var="url" value="customerViewDetails">
 							<c:param name="id" value="${order.id}" />
 							<c:param name="total" value="${order.totalAmount}" />
-						</c:url> <a href="${url }">Detail</a></td>
+						</c:url> <a href="${url }"><button type="button" class="btn btn-success">
+										<img alt="Nigellus Bookstore"
+											src="<c:url value="/resources/images/221.png" />" /> </button></a></td>
 
 				</tr>
 			</c:forEach>

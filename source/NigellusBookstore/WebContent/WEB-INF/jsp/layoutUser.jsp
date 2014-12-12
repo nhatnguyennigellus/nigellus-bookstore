@@ -33,8 +33,8 @@
 					name="header" /></td>
 		</tr>
 		<tr>
-			<td height="300"
-				style="background-color: #FFFFB7; vertical-align: top;" width="20%">
+			<td height="600"
+				style="background-color: #FFFFB7; vertical-align: top;" width="18%">
 				<tiles:insertAttribute name="menu" />
 			</td>
 			<td style="vertical-align: top; background-color: #FFFFFF;"><tiles:insertAttribute

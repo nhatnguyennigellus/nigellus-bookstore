@@ -1,0 +1,378 @@
+<html>
+    <head>
+        <!-- MS Word on Windows doesn't realise the encoding is UTF-8 unless this meta tag is present -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <base href="http://wiki.pentaho.com" />
+        <title>Pentaho Reporting and Spring</title>
+        <style>
+            body, p, td, table, tr, .bodytext, .stepfield {
+	            font-family: Verdana, arial, sans-serif;
+            }
+            .panel {
+                margin: 10px;
+                padding: 10px;
+                border: 1px solid #999;
+                background-color: #f0f0f0;
+            }
+            .noteMacro { border-style: solid; border-width: 1px; border-color: #F0C000; background-color: #FFFFCE; text-align:left;}
+            .warningMacro { border-style: solid; border-width: 1px; border-color: #c00; background-color: #fcc; text-align:left;}
+            .infoMacro { border-style: solid; border-width: 1px; border-color: #69c; background-color: #D8E4F1; text-align:left;}
+            .tipMacro { border-style: solid; border-width: 1px; border-color: #090; background-color: #dfd; text-align:left;}
+            .informationMacroPadding { padding: 5px 0 0 5px; }
+
+            table.infoMacro td, table.warningMacro td, table.tipMacro td, table.noteMacro td, table.sectionMacro td {
+                border: none;
+            }
+
+            .grid {
+                margin: 2px 0px 5px 0px;
+                border-collapse: collapse;
+            }
+            .grid th  {
+                border: 1px solid #ccc;
+                padding: 2px 4px 2px 4px;
+                background: #f0f0f0;
+                text-align: center;
+            }
+            .grid td  {
+                border: 1px solid #ccc;
+                padding: 3px 4px 3px 4px;
+            }            
+        </style>
+    </head>
+
+    <body style="background-color: white; padding: 10px;">
+        <h1>Pentaho Reporting and Spring</h1>
+        <p>At the core of the Spring Framework is dependency injection. The benefits of dependency injection include declarative configuration and enhanced testability. You can use the Spring Framework to "wire" the various Pentaho Reporting beans that make up your embedded reporting solution. This document describes a simple example application which uses Pentaho Reporting and the Spring Framework to create a report from an existing report definition and table of data.</p>
+
+<p>A runnable version of this example is attached to this page. A zip containing an Eclipse project containing this example is also attached to this page.</p>
+
+<h1><a name="PentahoReportingandSpring-Prerequisites"></a>Prerequisites</h1>
+
+<ul>
+	<li>Java SE Development Kit (JDK) 5 or later.</li>
+	<li>Pentaho Reporting 0.8.9.8 or later and supporting libraries.</li>
+	<li>Spring Framework 2.x and supporting libraries.</li>
+</ul>
+
+
+<p>Some definitions:</p>
+<ul>
+	<li>report definition: an XML file that describes the report template</li>
+	<li>table model: an interface for accessing any data in a tabular format (i.e. rows and columns)</li>
+</ul>
+
+
+<h1><a name="PentahoReportingandSpring-Instructions"></a>Instructions</h1>
+
+<p>Let's work in a top down fashion. First, we'll create a class called <b>Main.java</b> with a <b>main()</b> method. This class creates a <b>Spring</b> application context and retrieves a bean named <b>springDemo</b>. The <b>doDemo()</b> method does the rest.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>Main.java</b></div><div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">package</span> org.pentaho.reporting.springdemo;
+
+<span class="code-keyword">import</span> org.springframework.context.support.FileSystemXmlApplicationContext;
+
+/**
+ * Entry point.
+ *
+ * &lt;p&gt;This is the only class that is Spring-aware (i.e. interacts with the application context).&lt;/p&gt;
+ *
+ * @author mlowery
+ */
+<span class="code-keyword">public</span> class Main {
+
+  <span class="code-keyword">public</span> <span class="code-keyword">static</span> void main(<span class="code-object">String</span>[] args) <span class="code-keyword">throws</span> Exception {
+    <span class="code-comment">// get the app context; must use <span class="code-quote">"file:"</span> prefix!
+</span>    FileSystemXmlApplicationContext appCtx = <span class="code-keyword">new</span> FileSystemXmlApplicationContext(<span class="code-quote">"file:beans.xml"</span>);
+
+    <span class="code-comment">// get the bean that does the work
+</span>    SpringDemo springDemo = (SpringDemo) appCtx.getBean(<span class="code-quote">"springDemo"</span>);
+
+    <span class="code-comment">// run the demo
+</span>    springDemo.doDemo();
+  }
+}
+</pre>
+</div></div>
+<p>Now is a good time to discuss the inputs to the reporting system. The minimal inputs (dependencies) to Pentaho Reporting are:</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> dependency </th>
+<th class='confluenceTh'> description </th>
+</tr>
+<tr>
+<td class='confluenceTd'> report definition </td>
+<td class='confluenceTd'> an XML file describing headers, row content, etc </td>
+</tr>
+<tr>
+<td class='confluenceTd'> data </td>
+<td class='confluenceTd'> accessed via a table model (see above definition in Prerequisites) </td>
+</tr>
+<tr>
+<td class='confluenceTd'> output&#42; </td>
+<td class='confluenceTd'> where to put the resulting report output </td>
+</tr>
+<tr>
+<td class='confluenceTd'> report parser </td>
+<td class='confluenceTd'> which implementation will parse the report definition </td>
+</tr>
+</tbody></table>
+</div>
+
+<p>&#42; For the purposes of this example, the output generator (the implementation that generates the report output) and the output format (e.g. PDF) are hard-coded.</p>
+
+<p>In <b>SpringDemo.java</b>, you'll see instance variables along with setter methods for each of these dependencies. The table below shows how the dependencies in the preceding table relate to instance variables in <b>SpringDemo.java</b>.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> dependency </th>
+<th class='confluenceTh'> instance variable </th>
+</tr>
+<tr>
+<td class='confluenceTd'> report definition </td>
+<td class='confluenceTd'> reportResource </td>
+</tr>
+<tr>
+<td class='confluenceTd'> data </td>
+<td class='confluenceTd'> tableDataFactory </td>
+</tr>
+<tr>
+<td class='confluenceTd'> output </td>
+<td class='confluenceTd'> outputResource </td>
+</tr>
+<tr>
+<td class='confluenceTd'> report parser </td>
+<td class='confluenceTd'> reportGenerator </td>
+</tr>
+</tbody></table>
+</div>
+
+<p>The <b>doDemo()</b> method parses the report definition, sets the data for the report, and generates the output.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>SpringDemo.java</b></div><div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">package</span> org.pentaho.reporting.springdemo;
+
+<span class="code-keyword">import</span> java.io.IOException;
+
+<span class="code-keyword">import</span> org.jfree.report.JFreeReport;
+<span class="code-keyword">import</span> org.jfree.report.TableDataFactory;
+<span class="code-keyword">import</span> org.jfree.report.modules.output.pageable.pdf.PdfReportUtil;
+<span class="code-keyword">import</span> org.jfree.report.modules.parser.base.ReportGenerator;
+<span class="code-keyword">import</span> org.jfree.xml.ParseException;
+<span class="code-keyword">import</span> org.springframework.beans.factory.annotation.Required;
+<span class="code-keyword">import</span> org.springframework.core.io.Resource;
+
+/**
+ * Uses Pentaho Reporting and Spring to generate a report.
+ *
+ * &lt;p&gt;An instance of <span class="code-keyword">this</span> class is instantiated and configured via Spring. Note that <span class="code-keyword">this</span> class uses Spring
+ * annotations.&lt;/p&gt;
+ *
+ * @author mlowery
+ */
+<span class="code-keyword">public</span> class SpringDemo {
+
+  <span class="code-keyword">private</span> Resource reportResource;
+
+  <span class="code-keyword">private</span> ReportGenerator reportGenerator;
+
+  <span class="code-keyword">private</span> Resource outputResource;
+
+  <span class="code-keyword">private</span> TableDataFactory tableDataFactory;
+
+  <span class="code-keyword">public</span> void doDemo() <span class="code-keyword">throws</span> ParseException, IOException {
+
+    JFreeReport report = <span class="code-keyword">null</span>;
+    <span class="code-keyword">try</span> {
+      <span class="code-comment">// Load and parse the report
+</span>      report = reportGenerator.parseReport(reportResource.getURL());
+    } <span class="code-keyword">catch</span> (Exception e) {
+      <span class="code-keyword">throw</span> <span class="code-keyword">new</span> ParseException(<span class="code-quote">"Failed to parse the report"</span>, e);
+
+
+    }
+
+    <span class="code-comment">// Set the source of data <span class="code-keyword">for</span> the report
+</span>    report.setDataFactory(tableDataFactory);
+
+    <span class="code-comment">// Create the report and export to the supplied output filename
+</span>    PdfReportUtil.createPDF(report, outputResource.getFile().getAbsolutePath());
+  }
+
+  @Required
+  <span class="code-keyword">public</span> void setReportResource(Resource reportResource) {
+    <span class="code-keyword">this</span>.reportResource = reportResource;
+  }
+
+  @Required
+  <span class="code-keyword">public</span> void setReportGenerator(ReportGenerator reportGenerator) {
+    <span class="code-keyword">this</span>.reportGenerator = reportGenerator;
+  }
+
+  @Required
+  <span class="code-keyword">public</span> void setOutputResource(Resource outputResource) {
+    <span class="code-keyword">this</span>.outputResource = outputResource;
+  }
+
+  @Required
+  <span class="code-keyword">public</span> void setTableDataFactory(TableDataFactory tableDataFactory) {
+    <span class="code-keyword">this</span>.tableDataFactory = tableDataFactory;
+  }
+
+}
+</pre>
+</div></div>
+<p>Here's the report definition.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>spring-demo-report-def.xml</b></div><div class="codeContent panelContent">
+<pre class="code-java">&lt;?xml version=<span class="code-quote">"1.0"</span> encoding=<span class="code-quote">"UTF-8"</span>?&gt;
+&lt;!DOCTYPE report PUBLIC <span class="code-quote">"-<span class="code-comment">//JFreeReport//DTD report definition//EN//simple/version 0.8.5"</span> <span class="code-quote">"http://jfreereport.sourceforge.net/report-085.dtd"</span>&gt;
+</span>
+&lt;report name=<span class="code-quote">"Country"</span> orientation=<span class="code-quote">"portrait"</span> pageformat=<span class="code-quote">"LETTER"</span> leftmargin=<span class="code-quote">"10"</span> rightmargin=<span class="code-quote">"10"</span> topmargin=<span class="code-quote">"10"</span> bottommargin=<span class="code-quote">"10"</span>&gt;
+  &lt;configuration&gt;
+    &lt;property name=<span class="code-quote">"org.jfree.report.modules.output.table.html.Encoding"</span>&gt;UTF-8&lt;/property&gt;
+    &lt;property name=<span class="code-quote">"org.jfree.report.modules.output.pageable.pdf.Encoding"</span>&gt;UTF-8&lt;/property&gt;
+  &lt;/configuration&gt;
+
+  &lt;groups&gt;
+    &lt;group name=<span class="code-quote">"fruit"</span>&gt;
+      &lt;fields&gt;
+        &lt;field&gt;fruit&lt;/field&gt;
+      &lt;/fields&gt;
+
+      &lt;groupheader name=<span class="code-quote">"GroupHeader"</span> repeat=<span class="code-quote">"<span class="code-keyword">false</span>"</span> pagebreak-before-print=<span class="code-quote">"<span class="code-keyword">false</span>"</span> pagebreak-after-print=<span class="code-quote">"<span class="code-keyword">false</span>"</span> color=<span class="code-quote">"#000000"</span> fontname=<span class="code-quote">"SansSerif"</span> \
+        fontsize=<span class="code-quote">"11"</span> fontstyle=<span class="code-quote">"bold"</span> height=<span class="code-quote">"38"</span>&gt;
+        &lt;rectangle color=<span class="code-quote">"#FFFFFF"</span> draw=<span class="code-quote">"<span class="code-keyword">false</span>"</span> fill=<span class="code-quote">"<span class="code-keyword">false</span>"</span> height=<span class="code-quote">"16"</span> width=<span class="code-quote">"100%"</span> x=<span class="code-quote">"0%"</span> y=<span class="code-quote">"0"</span>/&gt;
+        &lt;message-field height=<span class="code-quote">"16"</span> vertical-alignment=<span class="code-quote">"top"</span> alignment=<span class="code-quote">"left"</span> width=<span class="code-quote">"100%"</span> x=<span class="code-quote">"0%"</span> y=<span class="code-quote">"0"</span> nullstring=<span class="code-quote">"-"</span>&gt;Fruit: $(fruit)&lt;/message-field&gt;
+        &lt;rectangle color=<span class="code-quote">"#C0C0C0"</span> draw=<span class="code-quote">"<span class="code-keyword">false</span>"</span> fill=<span class="code-quote">"<span class="code-keyword">true</span>"</span> height=<span class="code-quote">"18"</span> width=<span class="code-quote">"100%"</span> x=<span class="code-quote">"0%"</span> y=<span class="code-quote">"18"</span>/&gt;
+        &lt;rectangle draw=<span class="code-quote">"<span class="code-keyword">false</span>"</span> fill=<span class="code-quote">"<span class="code-keyword">false</span>"</span> height=<span class="code-quote">"2"</span> width=<span class="code-quote">"100%"</span> x=<span class="code-quote">"0%"</span> y=<span class="code-quote">"16"</span>/&gt;
+        &lt;label color=<span class="code-quote">"#000000"</span> fontname=<span class="code-quote">"SansSerif"</span> fontsize=<span class="code-quote">"12"</span> fontstyle=<span class="code-quote">"bold"</span> height=<span class="code-quote">"18"</span> vertical-alignment=<span class="code-quote">"middle"</span> alignment=<span class="code-quote">"left"</span> width=<span class="code-quote">"50.0%"</span> \
+          x=<span class="code-quote">"0.0%"</span> y=<span class="code-quote">"18"</span>&gt;Fruit&lt;/label&gt;
+        &lt;label color=<span class="code-quote">"#000000"</span> fontname=<span class="code-quote">"SansSerif"</span> fontsize=<span class="code-quote">"12"</span> fontstyle=<span class="code-quote">"bold"</span> height=<span class="code-quote">"18"</span> vertical-alignment=<span class="code-quote">"middle"</span> alignment=<span class="code-quote">"left"</span> width=<span class="code-quote">"50.0%"</span> \
+          x=<span class="code-quote">"50.0%"</span> y=<span class="code-quote">"18"</span>&gt;<span class="code-object">Number</span>&lt;/label&gt;
+      &lt;/groupheader&gt;
+
+      &lt;groupfooter name=<span class="code-quote">"GroupFooter"</span> color=<span class="code-quote">"#000000"</span> fontname=<span class="code-quote">"SansSerif"</span> fontsize=<span class="code-quote">"11"</span> fontstyle=<span class="code-quote">"bold"</span> pagebreak-before-print=<span class="code-quote">"<span class="code-keyword">false</span>"</span> \
+        pagebreak-after-print=<span class="code-quote">"<span class="code-keyword">false</span>"</span>/&gt;
+    &lt;/group&gt;
+  &lt;/groups&gt;
+
+  &lt;items color=<span class="code-quote">"#000000"</span> fontname=<span class="code-quote">"SansSerif"</span> fontsize=<span class="code-quote">"9"</span> fontstyle=<span class="code-quote">"bold"</span>&gt;
+    &lt;rectangle name=<span class="code-quote">"rowBandingElement"</span> color=<span class="code-quote">"#E0E0E0"</span> draw=<span class="code-quote">"<span class="code-keyword">false</span>"</span> fill=<span class="code-quote">"<span class="code-keyword">true</span>"</span> height=<span class="code-quote">"14"</span> x=<span class="code-quote">"0%"</span> width=<span class="code-quote">"100%"</span> y=<span class="code-quote">"0"</span>/&gt;
+    &lt;string-field name=<span class="code-quote">"fruit"</span> nullstring=<span class="code-quote">"-"</span> fieldname=<span class="code-quote">"fruit"</span> vertical-alignment=<span class="code-quote">"middle"</span> alignment=<span class="code-quote">"left"</span> width=<span class="code-quote">"50.0%"</span> x=<span class="code-quote">"0.0%"</span> y=<span class="code-quote">"0"</span> height=<span class="code-quote">"14"</span> \
+      color=<span class="code-quote">"#000000"</span> fontname=<span class="code-quote">"Arial"</span> fontsize=<span class="code-quote">"10"</span> fontstyle=<span class="code-quote">"plain"</span>/&gt;
+    &lt;string-field name=<span class="code-quote">"number"</span> nullstring=<span class="code-quote">"-"</span> fieldname=<span class="code-quote">"number"</span> vertical-alignment=<span class="code-quote">"middle"</span> alignment=<span class="code-quote">"left"</span> width=<span class="code-quote">"50.0%"</span> x=<span class="code-quote">"50.0%"</span> y=<span class="code-quote">"0"</span> height=<span class="code-quote">"14"</span> \
+      color=<span class="code-quote">"#000000"</span> fontname=<span class="code-quote">"Arial"</span> fontsize=<span class="code-quote">"10"</span> fontstyle=<span class="code-quote">"plain"</span>/&gt;
+  &lt;/items&gt;
+&lt;/report&gt;
+</pre>
+</div></div>
+<p>For the purposes of this example, we've simply created a class (a table model) that directly contains the data.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>SpringDemoData.java</b></div><div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">package</span> org.pentaho.reporting.springdemo;
+
+<span class="code-keyword">import</span> javax.swing.table.AbstractTableModel;
+
+/**
+ * Static table model <span class="code-keyword">for</span> demo purposes.
+ *
+ * @author mlowery
+ */
+<span class="code-keyword">public</span> class SpringDemoData <span class="code-keyword">extends</span> AbstractTableModel {
+  <span class="code-keyword">private</span> <span class="code-keyword">static</span> <span class="code-object">String</span>[] COLUMN_NAMES = { <span class="code-quote">"fruit"</span>, <span class="code-quote">"number"</span>, <span class="code-quote">"fruit"</span> };
+
+  <span class="code-keyword">private</span> <span class="code-keyword">static</span> <span class="code-object">String</span>[][] DATA = { { <span class="code-quote">"Apple"</span>, <span class="code-quote">"One"</span>, <span class="code-quote">"Apple"</span> },
+      { <span class="code-quote">"Apple"</span>, <span class="code-quote">"Two"</span>, <span class="code-quote">"Apple"</span> }, { <span class="code-quote">"Apple"</span>, <span class="code-quote">"Three"</span>, <span class="code-quote">"Apple"</span> },
+     { <span class="code-quote">"Orange"</span>, <span class="code-quote">"Four"</span>, <span class="code-quote">"Orange"</span> }, { <span class="code-quote">"Orange"</span>, <span class="code-quote">"Five"</span>, <span class="code-quote">"Orange"</span> }, };
+
+  <span class="code-keyword">public</span> <span class="code-object">int</span> getRowCount() {
+    <span class="code-keyword">return</span> DATA.length;
+  }
+
+  <span class="code-keyword">public</span> <span class="code-object">int</span> getColumnCount() {
+    <span class="code-keyword">return</span> DATA[0].length;
+  }
+
+  <span class="code-keyword">public</span> <span class="code-object">Object</span> getValueAt(<span class="code-object">int</span> rowIndex, <span class="code-object">int</span> columnIndex) {
+    <span class="code-keyword">if</span> (rowIndex &gt;= 0 &amp;&amp; rowIndex &lt; DATA.length) {
+      <span class="code-keyword">if</span> (columnIndex &gt;= 0 &amp;&amp; columnIndex &lt; DATA[~mlowery:rowIndex].length) {
+        <span class="code-keyword">return</span> DATA[~mlowery:rowIndex][~mlowery:columnIndex];
+      }
+    }
+    <span class="code-keyword">return</span> <span class="code-keyword">null</span>;
+  }
+
+  <span class="code-keyword">public</span> <span class="code-object">String</span> getColumnName(<span class="code-keyword">final</span> <span class="code-object">int</span> column) {
+    <span class="code-keyword">if</span> (column &gt;= 0 &amp;&amp; column &lt; COLUMN_NAMES.length) {
+      <span class="code-keyword">return</span> COLUMN_NAMES[~mlowery:column];
+    }
+    <span class="code-keyword">return</span> <span class="code-keyword">null</span>;
+  }
+
+}
+</pre>
+</div></div>
+<p>Now how are all these things wired together? The Spring XML file below shows how.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>beans.xml</b></div><div class="codeContent panelContent">
+<pre class="code-java">&lt;?xml version=<span class="code-quote">"1.0"</span> encoding=<span class="code-quote">"UTF-8"</span>?&gt;
+&lt;beans xmlns=<span class="code-quote">"http:<span class="code-comment">//www.springframework.org/schema/beans"</span>
+</span>  xmlns:xsi=<span class="code-quote">"http:<span class="code-comment">//www.w3.org/2001/XMLSchema-instance"</span>
+</span>  xsi:schemaLocation=<span class="code-quote">"http:<span class="code-comment">//www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"</span>&gt;
+</span>  &lt;!-- reporting system --&gt;
+  &lt;bean id=<span class="code-quote">"jFreeReportBoot"</span> class=<span class="code-quote">"org.jfree.report.JFreeReportBoot"</span>
+    factory-method=<span class="code-quote">"getInstance"</span> init-method=<span class="code-quote">"start"</span> /&gt;
+  &lt;!-- report generator --&gt;
+  &lt;bean id=<span class="code-quote">"reportGenerator"</span> class=<span class="code-quote">"org.jfree.report.modules.parser.base.ReportGenerator"</span>
+    factory-method=<span class="code-quote">"getInstance"</span> /&gt;
+  &lt;!-- TableModel instance --&gt;
+  &lt;bean id=<span class="code-quote">"springDemoData"</span> class=<span class="code-quote">"org.pentaho.reporting.springdemo.SpringDemoData"</span> /&gt;
+  &lt;!-- table data factory --&gt;
+  &lt;bean id=<span class="code-quote">"tableDataFactory"</span> class=<span class="code-quote">"org.jfree.report.TableDataFactory"</span>&gt;
+    &lt;constructor-arg value=<span class="code-quote">"<span class="code-keyword">default</span>"</span> /&gt;
+    &lt;constructor-arg ref=<span class="code-quote">"springDemoData"</span> /&gt;
+  &lt;/bean&gt;
+  &lt;!--
+    depends-on attribute is to make sure that reporting system is
+    <span class="code-quote">"booted"</span> before <span class="code-keyword">this</span> bean is created
+  --&gt;
+  &lt;bean id=<span class="code-quote">"springDemo"</span> class=<span class="code-quote">"org.pentaho.reporting.springdemo.SpringDemo"</span>
+    depends-on=<span class="code-quote">"jFreeReportBoot"</span>&gt;
+    &lt;property name=<span class="code-quote">"reportGenerator"</span> ref=<span class="code-quote">"reportGenerator"</span> /&gt;
+    &lt;!-- uses resource framework of Spring --&gt;
+    &lt;property name=<span class="code-quote">"reportResource"</span> value=<span class="code-quote">"classpath:spring-demo-report-def.xml"</span> /&gt;
+    &lt;!-- uses resource framework of Spring --&gt;
+    &lt;property name=<span class="code-quote">"outputResource"</span> value=<span class="code-quote">"file:/tmp/spring-demo-report.pdf"</span> /&gt;
+    &lt;property name=<span class="code-quote">"tableDataFactory"</span> ref=<span class="code-quote">"tableDataFactory"</span> /&gt;
+  &lt;/bean&gt;
+&lt;/beans&gt;
+</pre>
+</div></div>
+
+<h1><a name="PentahoReportingandSpring-Results"></a>Results</h1>
+
+<p>Running the <b>Main</b> class will produce a file called <b>spring-demo-report.pdf</b>.</p>
+
+<p>This example demonstrates basic Spring Framework dependency injection, along with Spring annotations, resources, and depends-on. (See Related Items.)</p>
+
+<h1><a name="PentahoReportingandSpring-Troubleshooting"></a>Troubleshooting</h1>
+
+<ul>
+	<li>Report definition file cannot be found.<br/>
+The example assumes that spring-demo-report-def.xml is somewhere in your classpath.</li>
+	<li>Report output cannot be written.<br/>
+The example assumes that the PDF output will be written to /tmp. Either make sure that this is an accurate absolute path for your system (and you have write access) or change the value.</li>
+</ul>
+
+
+<h1><a name="PentahoReportingandSpring-RelatedItems"></a>Related Items</h1>
+
+<ul>
+	<li>Pentaho Reporting: <a href="http://www.pentaho.com/products/reporting/">&#104;ttp://www.pentaho.com/products/reporting/</a></li>
+	<li>Spring Framework: <a href="http://www.springframework.org/">&#104;ttp://www.springframework.org/</a></li>
+	<li>Spring Resources: <a href="http://static.springframework.org/spring/docs/2.5.x/reference/resources.html">&#104;ttp://static.springframework.org/spring/docs/2.5.x/reference/resources.html</a></li>
+	<li>Spring Annotations: <a href="http://static.springframework.org/spring/docs/2.5.x/reference/metadata.html">&#104;ttp://static.springframework.org/spring/docs/2.5.x/reference/metadata.html</a></li>
+	<li>Spring depends-on: <a href="http://static.springframework.org/spring/docs/2.5.x/reference/beans.html#beans-factory-dependson">&#104;ttp://static.springframework.org/spring/docs/2.5.x/reference/beans.html#beans-factory-dependson</a></li>
+</ul>
+
+
+<p>A runnable version of this example is attached to this page. A zip containing an Eclipse project containing this example is also attached to this page.</p>
+    </body>
+</html>

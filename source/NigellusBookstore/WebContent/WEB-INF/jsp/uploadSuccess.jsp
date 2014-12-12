@@ -11,11 +11,13 @@
 		<h5>
 			<c:if test="${sessionScope.ChangeImgSuccess != null}">
 				<font color="green">${sessionScope.ChangeImgSuccess }</font>
+				<a href="viewBooks?key=&author=">Back</a>
 			</c:if>
 			<c:if test="${sessionScope.ChangeImgError != null}">
 				<font color="red">${sessionScope.ChangeImgError }</font>
+				<a href="javascript:history.go(-1);">Back</a>
 			</c:if>
-			<a href="viewBooks?key=&author=">Back</a>
+			
 		</h5>
 	</div>
 </body>

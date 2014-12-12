@@ -11,7 +11,9 @@
 <body>
 	<div class="col-md-12">
 		<h2>ORDER DETAILS</h2>
-		<a href="javascript:history.go(-1)">Back</a><br /> Order No: <b>${param.id}</b><br />
+		<a href="javascript:history.go(-1)"><img alt="Nigellus Bookstore" width="20px"
+					src="<c:url value="/resources/images/go-back.png" />" /> Back</a>
+					<br /> Order No: <b>${param.id}</b><br />
 		Customer: <b>${sessionScope.customer }</b>
 		<table class="table table-striped" width="100%">
 			<tr>

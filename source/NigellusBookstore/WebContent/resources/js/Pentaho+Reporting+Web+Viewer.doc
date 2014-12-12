@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <!-- MS Word on Windows doesn't realise the encoding is UTF-8 unless this meta tag is present -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <base href="http://wiki.pentaho.com" />
+        <title>Pentaho Reporting Web Viewer</title>
+        <style>
+            body, p, td, table, tr, .bodytext, .stepfield {
+	            font-family: Verdana, arial, sans-serif;
+            }
+            .panel {
+                margin: 10px;
+                padding: 10px;
+                border: 1px solid #999;
+                background-color: #f0f0f0;
+            }
+            .noteMacro { border-style: solid; border-width: 1px; border-color: #F0C000; background-color: #FFFFCE; text-align:left;}
+            .warningMacro { border-style: solid; border-width: 1px; border-color: #c00; background-color: #fcc; text-align:left;}
+            .infoMacro { border-style: solid; border-width: 1px; border-color: #69c; background-color: #D8E4F1; text-align:left;}
+            .tipMacro { border-style: solid; border-width: 1px; border-color: #090; background-color: #dfd; text-align:left;}
+            .informationMacroPadding { padding: 5px 0 0 5px; }
+
+            table.infoMacro td, table.warningMacro td, table.tipMacro td, table.noteMacro td, table.sectionMacro td {
+                border: none;
+            }
+
+            .grid {
+                margin: 2px 0px 5px 0px;
+                border-collapse: collapse;
+            }
+            .grid th  {
+                border: 1px solid #ccc;
+                padding: 2px 4px 2px 4px;
+                background: #f0f0f0;
+                text-align: center;
+            }
+            .grid td  {
+                border: 1px solid #ccc;
+                padding: 3px 4px 3px 4px;
+            }            
+        </style>
+    </head>
+
+    <body style="background-color: white; padding: 10px;">
+        <h1>Pentaho Reporting Web Viewer</h1>
+        <p>The Pentaho Reporting Web Viewer is a web-based application that allows direct access to Pentaho Reports (*.prpt) saved within content repository of the Pentaho BI Server. It can be decomposed into two sections: the report prompt and the rendered report content. The report prompt leverages the power of <a href="http://cdf.webdetails.org/">Pentaho CDF</a> to dynamically create a collection of input controls for users to change report parameters values for a given report.</p>
+
+<p>The prompting piece of the equation is implemented as part of the Pentaho Common UI project. This JavaScript API allows the developer to build a collection of input components that work together to provide prompts for the parameters defined in a <a href="http://wiki.pentaho.com/display/Reporting/Specification+for+the+BI-Server+Plugin+Parameter-XML+format">Parameter XML Specification</a>.</p>
+
+<h3><a name="PentahoReportingWebViewer-ProjectLocation"></a>Project Location</h3>
+
+<p>The CDF-based Pentaho Reporting Web Viewer was introduced in Pentaho Platform Reporting Plugin version 4.5.0 and is included in the BI Server 4.5+.</p>
+
+<p>You can find the source code for the Pentaho Reporting Web Viewer project here:<br/>
+<a href="svn://source.pentaho.org/svnroot/platform-plugins/reporting-plugin/branches/4.5">svn://source.pentaho.org/svnroot/platform-plugins/reporting-plugin/branches/4.5</a></p>
+
+<p>The client-side JavaScript can be found at:<br/>
+<a href="svn://source.pentaho.org/svnroot/platform-plugins/reporting-plugin/branches/4.5/package-res/reportviewer">svn://source.pentaho.org/svnroot/platform-plugins/reporting-plugin/branches/4.5/package-res/reportviewer</a></p>
+
+<h3><a name="PentahoReportingWebViewer-ArchitecturalOverview"></a>Architectural Overview</h3>
+
+<p>The Pentaho Reporting Web Viewer is built from the ground up to be extensible. Every part of the Report Viewer from the prompting to report content display can be overridden easily to allow a tight integration or custom behavior where desired.</p>
+
+<p>From a high level the Reporting Web Viewer relies on a few different pieces:</p>
+
+<ul>
+	<li><a href="http://wiki.pentaho.com/display/ServerDoc2x/Pentaho+Prompting+API">Pentaho Prompting API</a>: Used to create the report prompt
+	<ul>
+		<li><a href="http://cdf.webdetails.org/">Pentaho CDF</a></li>
+	</ul>
+	</li>
+	<li>JSTextFormatter: <tt>java.text.Formatter</tt>-compatible GWT module with a clean JavaScript API. Resides in the common Pentaho GWT Widgets project and provides an easy way to convert number and data parameter values to/from the Pentaho Reporting Engine format and the display format the user expects to see.</li>
+	<li>JQuery</li>
+	<li>Dojo (various custom widgets)</li>
+	<li>RequireJS and Asynchronous Module Definitions (AMD) API: <a href="http://requirejs.org/docs/whyamd.html">&#104;ttp://requirejs.org/docs/whyamd.html</a></li>
+</ul>
+
+
+<p>A large majority of the code is pure JavaScript on the client with a small number of Java components on the server reponsible for rendering the report and generating suitable Parameter XML to define the client-side prompt. The entire reporting prompt is generated and rendered on the client side and can be manipulated at every step of the way.</p>
+
+<h3><a name="PentahoReportingWebViewer-CustomizingtheReportingWebViewer"></a>Customizing the Reporting Web Viewer</h3>
+
+<p>The core of the Reporting Web Viewer is the <tt>pentaho.reporting.Viewer</tt> and <tt>pentaho.reporting.Prompt</tt> objects; <tt>Viewer</tt> and <tt>Prompt</tt> from here on out. <tt>Prompt</tt> is designed to be a Pentaho Reporting-specific Pentaho Prompting implementation to provide the prompt for a report. It is where prompt refreshing (for cascading prompts), session timeout, and Pentaho Reporting prompt parsing is implemented. It contains the Pentaho Prompting <tt>pentaho.common.prompting.PromptPanel</tt> reference and is responsible for initializing it.</p>
+
+<p>The <tt>Viewer</tt> handles all interactions with the view: rendering the report as a styled page, updating the page control, providing localization, and providing hooks for report designers to use (<tt>window.reportViewer_openUrlInDialog</tt> and <tt>window.reportViewer_hide</tt>).</p>
+
+<h5><a name="PentahoReportingWebViewer-CustomPromptingComponents"></a>Custom Prompting Components</h5>
+
+<p>For information on how to define your own custom prompting component check out the <a href="http://wiki.pentaho.com/display/ServerDoc2x/Pentaho+Prompting+API">Pentaho Prompting Project</a> project page for more documentation.</p>
+
+<p>Custom prompt components are registered as external resources in the plugin's <tt>plugin.xml</tt>. See this file for an example component.</p>
+
+<h5><a name="PentahoReportingWebViewer-CustomPromptsforindividualreports"></a>Custom Prompts for individual reports</h5>
+
+<p>At this time we do not support embedding custom prompts within individual reports. Any custom components are defined for all reports or can be dynamically added on a per-report basis when the report viewer is loaded for a specific report. This logic can be done in a sample component so enable itself only under certain conditions.</p>
+    </body>
+</html>
