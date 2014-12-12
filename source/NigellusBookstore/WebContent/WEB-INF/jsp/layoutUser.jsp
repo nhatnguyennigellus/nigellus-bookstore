@@ -10,17 +10,32 @@
 <link rel="shortcut icon"
 	href="<c:url value='/resources/images/logo.png'/>" />
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/bootstrap.min.css'/> ">
-	
+	href="<c:url value='/resources/css/bootstrap.css'/> ">
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/bootstrap-theme.min.css'/> ">
+	href="<c:url value='/resources/css/bootstrap.min.css'/> ">
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/jquery.dataTables.min.css' />">
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/dataTables.bootstrap.css' />">
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/jquery-ui.css'/> ">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/full-slider.css'/> ">
-<script src="<c:url value='/resources/js/jquery.js'/> "></script>
-<script src="<c:url value='/resources/js/bootstrap.min.js'/> "></script>
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/bootstrap-theme.min.css'/> ">
 
-<link rel="stylesheet" type="text/css"
-	href="<c:url value='/resources/css/jquery-ui.css' />" />
+
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.dataTables.min.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/dataTables.bootstrap.js' />"></script>
+<script src="<c:url value='/resources/js/bootstrap.min.js'/> "></script>
 </head>
 <body
 	style="padding-top: 5px; background-repeat: no-repeat; background-attachment: fixed;"

@@ -10,7 +10,9 @@
 </head>
 <body>
 	<div class="col-md-12">
-		<h2>ORDER DETAILS</h2><a href="javascript:history.go(-1)">Back</a>
+		<h2>ORDER DETAILS</h2><a href="javascript:history.go(-1)">
+		<img alt="Nigellus Bookstore" width="20px"
+					src="<c:url value="/resources/images/go-back.png" />" /> Back</a>
 		<form action="updateOrderStatus?id=${param.id }" method="post" role="form">
 			<div class="form-group form-group-sm">
 				Order No: <b>${param.id}</b>

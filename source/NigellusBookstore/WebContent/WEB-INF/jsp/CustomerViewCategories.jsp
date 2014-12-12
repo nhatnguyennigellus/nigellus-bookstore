@@ -40,9 +40,44 @@
 						<c:forEach items="${model.selectedCategory.books }" var="book">
 
 							<tr>
-								<td align="center" width="35%"><img
-									alt="Nigellus Bookstore" width="150"
-									src="<c:url value="${book.imageUrl}" />" /></td>
+								<td align="center" width="35%" id="myCarousel"
+							class="carousel slide">
+
+							<ol class="carousel-indicators">
+
+								<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+								<c:forEach items="${sessionScope.GALLERY }" var="img"
+									varStatus="no">
+									<c:if test="${img.book.id == book.id }">
+										<li data-target="#myCarousel" data-slide-to="${no.count }"></li>
+									</c:if>
+								</c:forEach>
+
+							</ol> <!-- Wrapper for Slides -->
+							<div class="carousel-inner">
+								<div class="item active">
+									<!-- Set the first background image using inline CSS below. -->
+									<img alt="Nigellus Bookstore" width="150"
+										src="<c:url value="${book.imageUrl}" />" />
+
+								</div>
+								<c:forEach items="${sessionScope.GALLERY }" var="img"
+									varStatus="no">
+									<c:if test="${img.book.id == book.id }">
+										<div class="item">
+											<img alt="Nigellus Bookstore" width="150"
+											src="<c:url value="${img.imageUrl}" />" />
+										</div>
+									</c:if>
+								</c:forEach>
+
+							</div> <!-- Controls --> <a class="left carousel-control"
+							href="#myCarousel" data-slide="prev"> <span class="icon-prev"></span>
+						</a> <a class="right carousel-control" href="#myCarousel"
+							data-slide="next"> <span class="icon-next"></span>
+						</a>
+
+						</td>
 
 								<td>
 									<h2>${book.title}</h2> <i>${book.authorList}</i><br /> <u>Category:</u>

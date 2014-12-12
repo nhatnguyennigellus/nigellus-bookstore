@@ -195,8 +195,8 @@ public class BookstoreController {
 		ModelAndView mav = new ModelAndView("viewCategories", "model",
 				storeModel);
 		storeManager.getCategoryInfo(storeModel);
-		if (request.getSession().getAttribute("addCateSuccess") != null) {
-			request.getSession().removeAttribute("addCateSuccess");
+		if (request.getSession().getAttribute("addCategorySuccess") != null) {
+			request.getSession().removeAttribute("addCategorySuccess");
 		}
 		if (request.getSession().getAttribute("addBookSuccess") != null) {
 			request.getSession().removeAttribute("addBookSuccess");
@@ -360,7 +360,7 @@ public class BookstoreController {
 					storeManager.addCategory(cate);
 
 					request.getSession().removeAttribute("csvError");
-					request.getSession().setAttribute("addCateSuccess",
+					request.getSession().setAttribute("addCategorySuccess",
 							"Imported category successfully!");
 				}
 			} catch (Exception e) {
@@ -825,8 +825,8 @@ public class BookstoreController {
 		String key = request.getParameter("key");
 		String author = request.getParameter("author");
 		storeManager.getBookInfo(storeModel, key, author);
-		if (request.getSession().getAttribute("addCateSuccess") != null) {
-			request.getSession().removeAttribute("addCateSuccess");
+		if (request.getSession().getAttribute("addCategorySuccess") != null) {
+			request.getSession().removeAttribute("addCategorySuccess");
 		}
 		if (request.getSession().getAttribute("addBookSuccess") != null) {
 			request.getSession().removeAttribute("addBookSuccess");

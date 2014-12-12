@@ -71,7 +71,8 @@
 				${param.month }/${param.year }
 			</c:if>
 		</h2>
-		<a href="javascript:history.go(-1)">Back</a>
+		<a href="javascript:history.go(-1)"><img alt="Nigellus Bookstore" width="20px"
+					src="<c:url value="/resources/images/go-back.png" />" /> Back</a>
 		<c:choose>
 			<c:when
 				test="${sessionScope.ORDERLIST == null || sessionScope.ORDERLIST.size() == 0 }">

@@ -17,9 +17,7 @@
 				onclick="openForm()" value="Add by form" /> <input id="btnCSV"
 				type="button" value="Add by CSV" onclick="openCSVImport()"
 				class="btn btn-default" />
-			<c:if test="${sessionScope.addCateSuccess != null}">
-				<font color="green">${sessionScope.addCateSuccess }</font>
-			</c:if>
+			
 		</div>
 	</div>
 	<div class="col-md-12">
@@ -29,7 +27,24 @@
 
 			</c:if>
 			<c:if test="${sessionScope.addCategorySuccess != null}">
-				<font color="green">${sessionScope.addCategorySuccess }</font>
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">SUCCESS!</h4>
+							</div>
+							<div class="modal-body">Category added successfully!</div>
+							<div class="modal-footer">
+								<a href="viewCategories"><button type="button"
+										class="btn btn-primary">Back to Category</button></a>
+							</div>
+						</div>
+					</div>
+					</div>
 			</c:if>
 			<form:form role="form" id="mainForm" method="post"
 				commandName="model">
@@ -70,16 +85,13 @@
 
 </body>
 <script type="text/javascript"
-	src="<c:url value='/resources/js/jquery.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
-<script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
 <script type="text/javascript">
+$(window).load(function() {
+	$('#myModal').modal('show');
+});
 	function openForm() {
 		$('#mainForm').fadeIn();
 		$('#frmImportCSV').hide();

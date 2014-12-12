@@ -20,44 +20,83 @@
 				<div class="panel-body">
 
 					<c:if test="${sessionScope.registerFail != null}">
-						<font color="red">${sessionScope.registerFail}</font>
+
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel">FAILED</h4>
+									</div>
+									<div class="modal-body">Registered failed!</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">OK</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</c:if>
 					<c:if test="${sessionScope.registerSuccess != null}">
-						<font color="green">${sessionScope.registerSuccess}</font>
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel">SUCCESS!</h4>
+									</div>
+									<div class="modal-body">${sessionScope.registerSuccess}</div>
+									<div class="modal-footer">
+										<a href="index"><button type="button"
+												class="btn btn-primary">OK!</button></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<a href="viewBooks?key=&author=">Books</a>
 					</c:if>
 					<form action="register" method="get" role="form" id="frmRegister">
 						<div class="form-group">
-							<label for="username">Username</label> 
-							<font color="red"><input id="username"
-								name="username" placeholder="Username" class="form-control input-sm" /></font>
+							<label for="username">Username</label> <font color="red"><input
+								id="username" name="username" placeholder="Username"
+								class="form-control input-sm" /></font>
 						</div>
 						<div class="form-group">
-							<label for="fullname">Fullname</label> 
-							<font color="red"><input name="fullname"
-								id="Fullname" placeholder="Fullname" class="form-control input-sm" /></font>
+							<label for="fullname">Fullname</label> <font color="red"><input
+								name="fullname" id="Fullname" placeholder="Fullname"
+								class="form-control input-sm" /></font>
 						</div>
 						<div class="form-group">
-							<label for="password">Password</label> 
-							<font color="red">
-							<input id="password"
-								name="password" type="password" class="form-control input-sm" /></font> 
+							<label for="password">Password</label> <font color="red">
+								<input id="password" name="password" type="password"
+								class="form-control input-sm" />
+							</font>
 						</div>
 						<div class="form-group">
 							<label for="password">Confirm Password</label> <font color="red"><input
-								class="form-control input-sm" id="cfmPassword" name="cfmPassword"
-								type="password" /></font>
+								class="form-control input-sm" id="cfmPassword"
+								name="cfmPassword" type="password" /></font>
 						</div>
 						<div class="form-group">
-							<label for="address">Address</label> <font color="red"><input name="address"
-								id="address" placeholder="Address" class="form-control input-sm" /></font>
+							<label for="address">Address</label> <font color="red"><input
+								name="address" id="address" placeholder="Address"
+								class="form-control input-sm" /></font>
 						</div>
 						<div class="form-group">
-							<label for="email">Email</label><font color="red"> <input name="email" id="email"
-								placeholder="Email" class="form-control input-sm" /></font>
+							<label for="email">Email</label><font color="red"> <input
+								name="email" id="email" placeholder="Email"
+								class="form-control input-sm" /></font>
 						</div>
 						<div class="form-group">
-							<label for="address">Phone</label> <font color="red"><input name="phone" id="phone"
-								placeholder="Phone" class="form-control input-sm" /></font>
+							<label for="address">Phone</label> <font color="red"><input
+								name="phone" id="phone" placeholder="Phone"
+								class="form-control input-sm" /></font>
 						</div>
 						<input class="btn btn-success" name="submit" type="submit"
 							value="Register" /> <input class="btn btn-danger" name="reset"

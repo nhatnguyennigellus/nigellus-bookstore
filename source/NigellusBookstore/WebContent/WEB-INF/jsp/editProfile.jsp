@@ -16,7 +16,25 @@
 
 		<div style="padding: 10px 10px 10px 10px">
 			<c:if test="${sessionScope.editProfileSuccess != null}">
-				<font color="green">${sessionScope.editProfileSuccess}</font>
+				<!-- <font color="green">${sessionScope.editProfileSuccess}</font> -->
+				
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">EDIT SUCCESS</h4>
+							</div>
+							<div class="modal-body">Profile updated successfully!</div>
+							<div class="modal-footer">
+								<a href="index"><button type="button" class="btn btn-primary">Back to homepage</button></a>
+							</div>
+						</div>
+					</div>
+				</div>
 				<a href="index">Home page</a>
 			</c:if>
 			<form action="editProfile" method="get" id="frmEditProfile">
@@ -47,12 +65,6 @@
 	</div>
 
 </body>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
 <script type="text/javascript"
@@ -105,5 +117,8 @@
 							},
 						})
 	});
+	$(window).load(function(){
+        $('#myModal').modal('show');
+    });
 </script>
 </html>

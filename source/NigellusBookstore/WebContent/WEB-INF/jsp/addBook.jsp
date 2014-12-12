@@ -24,11 +24,46 @@
 
 		<div style="padding: 10px 10px 10px 10px">
 			<c:if test="${sessionScope.csvError != null}">
-				<font color="red" style="font-style: bold">${sessionScope.csvError  }</font>
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">FAILED</h4>
+							</div>
+							<div class="modal-body">Import CSV failed!</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
 			</c:if>
 			<c:if test="${sessionScope.addBookSuccess != null}">
-					<font color="green">${sessionScope.addBookSuccess }</font>
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">SUCCESS!</h4>
+							</div>
+							<div class="modal-body">Book added successfully!</div>
+							<div class="modal-footer">
+								<a href="viewBooks?key=&author="><button type="button"
+										class="btn btn-primary">Back to Books</button></a>
+							</div>
+						</div>
+					</div>
+					</div>
+				<a href="viewBooks?key=&author=">Books</a>
 				</c:if>
 			<form role="form" action="addBook" id="frmAddBook" method="get">
 				<div class="form-group">
@@ -86,17 +121,13 @@
 
 </body>
 <script type="text/javascript"
-	src="<c:url value='/resources/js/jquery.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
-<script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
 <script type="text/javascript">
-	
+	$(window).load(function() {
+		$('#myModal').modal('show');
+	});
 	function openForm() {
 		$('#frmAddBook').fadeIn();
 		$('#frmImportCSV').fadeOut();

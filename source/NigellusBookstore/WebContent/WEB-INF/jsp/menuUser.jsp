@@ -51,6 +51,18 @@
 					</p>
 				</div>
 			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<b>OUR CAREGORIES</b>
+				</div>
+				<div class="panel-body">
+					<ul>
+					<c:forEach items="${sessionScope.CATEINDEX }" var="cate">
+						<li>${cate.name }</li>
+					</c:forEach>
+					</ul>
+				</div>
+			</div>
 			<img alt="Nigellus Bookstore" height="180"
 								src="<c:url value="/resources/images/member_discount.jpg" />"
 		</div>
