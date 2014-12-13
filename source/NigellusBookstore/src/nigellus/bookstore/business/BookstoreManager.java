@@ -278,6 +278,10 @@ public class BookstoreManager {
 	public void updateOrder(Order order) {
 		orderDAO.updateOrder(order);
 	}
+	
+	public boolean bookOrdered(int bookId) {
+		return orderDetailDAO.bookOrdered(bookId);
+	}
 
 	public void submitOrder(Order order, 
 			List<OrderDetail> lstDetail, List<OrderPromotion> lstOrdPro) {

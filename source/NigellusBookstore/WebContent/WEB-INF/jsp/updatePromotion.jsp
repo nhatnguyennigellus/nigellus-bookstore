@@ -22,9 +22,29 @@
 
 		<div style="padding: 10px 10px 10px 10px">
 			<c:if test="${sessionScope.updatePromoteSuccess != null}">
-				<font color="green">${sessionScope.updatePromoteSuccess }</font>
-				<img alt="Nigellus Bookstore" width="20px"
-		src="<c:url value="/resources/images/go-back.png" />" />
+				
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">EDIT SUCCESS</h4>
+							</div>
+							<div class="modal-body">
+			 					<font color="green">${sessionScope.updatePromoteSuccess }</font>
+							</div>
+							<div class="modal-footer">
+								<a href="viewPromotions">
+								<button type="button" class="btn btn-primary"><img alt="Nigellus Bookstore" width="20px"
+		src="<c:url value="/resources/images/go-back.png" />" /> Back </button></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 				<a href="viewPromotions">Back</a>
 			</c:if>
 			<form role="form" action="updatePromotion?" id="frmUpdatePromote"
@@ -54,12 +74,7 @@
 				<div class="form-group">
 					<label for="amount">Condition</label> <font color="red"><input
 						name="condition" id="condition" placeholder="Discount Condition"
-						<c:if test="${sessionScope.promotion.conditionAmount == ''}">
-							value="${sessionScope.promotion.conditionAmount }"
-						</c:if>
-						<c:if test="${sessionScope.promotion.conditionAmount != ''}">
 							value="${sessionScope.promotion.conditionAmount.toString().replace(".0", "") }"
-						</c:if>
 						class="form-control" /></font>
 				</div>
 
@@ -125,7 +140,7 @@
 				
 				<input class="btn btn-success" name="submit" type="submit"
 					value="Update" /> <input name="reset" type="reset" value="Reset"
-					class="btn btn-danger" /> <a href="viewBooks?key=&author=">Back</a>
+					class="btn btn-danger" /> 
 
 			</form>
 		</div>
@@ -133,12 +148,6 @@
 	</div>
 
 </body>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
 <script type="text/javascript"
@@ -150,6 +159,9 @@
 <script type="text/javascript"
 	src="<c:url value='/resources/js/bootstrap-datetimepicker.min.js' />"></script>
 <script type="text/javascript">
+	$(window).load(function(){
+	    $('#myModal').modal('show');
+	});
 	function validateDatetime() {
 
 	}

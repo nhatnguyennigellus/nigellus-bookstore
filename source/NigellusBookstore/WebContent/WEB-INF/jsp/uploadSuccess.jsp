@@ -15,7 +15,6 @@
 			</c:if>
 			<c:if test="${sessionScope.ChangeImgError != null}">
 				<font color="red">${sessionScope.ChangeImgError }</font>
-				<a href="javascript:history.go(-1);">Back</a>
 			</c:if>
 			
 		</h5>

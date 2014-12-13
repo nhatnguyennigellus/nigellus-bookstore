@@ -28,7 +28,8 @@
 								</button>
 								<h4 class="modal-title" id="myModalLabel">EDIT SUCCESS</h4>
 							</div>
-							<div class="modal-body">Profile updated successfully!</div>
+							<div class="modal-body">
+			 		<font color="green">${sessionScope.editProfileSuccess}</font></div>
 							<div class="modal-footer">
 								<a href="index"><button type="button" class="btn btn-primary">Back to homepage</button></a>
 							</div>
@@ -40,22 +41,25 @@
 			<form action="editProfile" method="get" id="frmEditProfile">
 
 				<div class="form-group">
-					<label for="fullname">Fullname</label> <input name="fullname"
+					<label for="fullname">Fullname</label> 
+					<font color="red"><input name="fullname"
 						id="fullname" class="form-control"
-						value="${sessionScope.CUSTOMER.getFullname() }" />
+						value="${sessionScope.CUSTOMER.getFullname() }" /></font>
 				</div>
 				<div class="form-group">
-					<label for="address">Address</label> <input name="address"
+					<label for="address">Address</label> <font color="red">
+					<input name="address"
 						id="address" class="form-control"
-						value="${sessionScope.CUSTOMER.getAddress() }" />
+						value="${sessionScope.CUSTOMER.getAddress() }" /></font>
 				</div>
 				<div class="form-group">
-					<label for="email">Email</label> <input name="email" id="email"
-						class="form-control" value="${sessionScope.CUSTOMER.getEmail() }" />
+					<label for="email">Email</label> <font color="red">
+					<input name="email" id="email"
+						class="form-control" value="${sessionScope.CUSTOMER.getEmail() }" /> </font>
 				</div>
 				<div class="form-group">
-					<label for="phone">Phone</label> <input name="phone" id="phone"
-						class="form-control" value="${sessionScope.CUSTOMER.getPhone() }" />
+					<label for="phone">Phone</label> <font color="red"><input name="phone" id="phone"
+						class="form-control" value="${sessionScope.CUSTOMER.getPhone() }" /> </font>
 				</div>
 				<input name="submit" class="btn btn-success" type="submit"
 					value="Update" /> <input name="reset" type="reset"

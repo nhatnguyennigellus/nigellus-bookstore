@@ -46,7 +46,8 @@
 			src="<c:url value="/resources/images/img_add.gif" />" /> Add Book</a> <a
 			href="exportCSV"><img alt="Nigellus Bookstore"
 			src="<c:url value="/resources/images/221.png" />" /> Export CSV</a>
-			<c:if test="${sessionScope.exportSuccess != null}">
+			
+			<c:if test="${sessionScope.exportBookSuccess != null}">
 				
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 						aria-labelledby="myModalLabel" aria-hidden="true">
@@ -56,7 +57,7 @@
 									<button type="button" class="close" data-dismiss="modal">
 										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 									</button>
-									<h4 class="modal-title" id="myModalLabel">EDIT SUCCESS</h4>
+									<h4 class="modal-title" id="myModalLabel">EXPORT SUCCESS</h4>
 								</div>
 								<div class="modal-body">Exported CSV successfully!</div>
 								<div class="modal-footer">
@@ -67,13 +68,15 @@
 						</div>
 					</div>
 			</c:if>
+			<br/>
 		<form:form id="mainForm" method="post" commandName="model">
 			<c:choose>
 
 				<c:when test="${model.books.size() == 0 }">
-					<font color="red">No data</font>
+					<p><font color="red">No data</font></p>
 				</c:when>
 				<c:otherwise>
+					
 					<div class="table-responsive">
 						<table class="table table-striped" width="100%" id="myTable">
 							<thead>
@@ -93,15 +96,14 @@
 										<td>${book.title}</td>
 										<td>${book.authorList}</td>
 										<td>${book.unitPrice}</td>
-										<td id="myCarousel" class="carousel slide">
+										<td id="myCarousel${book.id }" class="carousel slide">
 											<ol class="carousel-indicators">
-
-												<li data-target="#myCarousel" data-slide-to="0"
+												<li data-target="#myCarousel${book.id}" data-slide-to="0"
 													class="active"></li>
 												<c:forEach items="${sessionScope.GALLERY }" var="img"
 													varStatus="no">
 													<c:if test="${img.book.id == book.id }">
-														<li data-target="#myCarousel" data-slide-to="${no.count }"></li>
+														<li data-target="#myCarousel${book.id}" data-slide-to="${no.count }"></li>
 													</c:if>
 												</c:forEach>
 
@@ -124,9 +126,9 @@
 												</c:forEach>
 
 											</div> <!-- Controls --> <a class="left carousel-control"
-											href="#myCarousel" data-slide="prev"> <span
+											href="#myCarousel${book.id }" data-slide="prev"> <span
 												class="icon-prev"></span>
-										</a> <a class="right carousel-control" href="#myCarousel"
+										</a> <a class="right carousel-control" href="#myCarousel${book.id }"
 											data-slide="next"> <span class="icon-next"></span>
 										</a> 
 										

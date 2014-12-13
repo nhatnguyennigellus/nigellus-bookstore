@@ -28,35 +28,38 @@
 			<h2>BOOKS</h2>
 		</div>
 		<div class="col-md-12">
+
 			<a href="addCategory"><img alt="Nigellus Bookstore"
 				src="<c:url value="/resources/images/img_add.gif" />" /> Add
 				Category</a> <a href="exportCSVCate"> <img alt="Nigellus Bookstore"
 				src="<c:url value="/resources/images/221.png" />" /> Export CSV
 			</a>
-			<c:if test="${sessionScope.exportSuccess != null}">
+			<c:if test="${sessionScope.exportCateSuccess != null}">
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-						aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal">
-										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-									</button>
-									<h4 class="modal-title" id="myModalLabel">EDIT SUCCESS</h4>
-								</div>
-								<div class="modal-body">Exported CSV successfully!</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">OK</button>
-								</div>
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">EXPORT SUCCESS</h4>
+							</div>
+							<div class="modal-body">Exported CSV successfully!</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">OK</button>
 							</div>
 						</div>
 					</div>
+				</div>
 			</c:if>
 			<c:choose>
 
 				<c:when test="${model.selectedCategory.books.size() == 0 }">
-					<font color="red">No data</font>
+					<p>
+						<font color="red">No book</font>
+					</p>
 				</c:when>
 				<c:otherwise>
 					<table width="100%" class="table table-striped" id="myTable">
@@ -89,11 +92,11 @@
 										</c:forEach></td>
 									<td>
 										<button type="button" class="btn btn-danger btn-xs"
-											data-toggle="modal" data-target="#myModal">
+											data-toggle="modal" data-target="#myModalRemove">
 											<img alt="Nigellus Bookstore"
 												src="<c:url value="/resources/images/del_icon.png" />" />
 										</button> <!-- Modal -->
-										<div class="modal fade" id="myModal" tabindex="-1"
+										<div class="modal fade" id="myModalRemove" tabindex="-1"
 											role="dialog" aria-labelledby="myModalLabel"
 											aria-hidden="true">
 											<div class="modal-dialog">
@@ -138,6 +141,9 @@
 	</form:form>
 </body>
 <script type="text/javascript">
+	$(window).load(function() {
+		$('#myModal').modal('show');
+	});
 	$(document).ready(function() {
 		$('#myTable').dataTable({
 			"bFilter" : false

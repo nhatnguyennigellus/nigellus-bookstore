@@ -18,4 +18,10 @@ public class OrderDetailDAO extends HibernateDaoSupport {
 				+ "where d.order.id = " + orderId;
 		return getHibernateTemplate().find(query);
 	}
+	
+	public boolean bookOrdered(int bookId) {
+		String query = "select d from OrderDetail d "
+				+ "where d.book.id = " + bookId;
+		return getHibernateTemplate().find(query).size() > 0;
+	}
 }

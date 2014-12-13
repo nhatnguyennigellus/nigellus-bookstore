@@ -31,7 +31,7 @@
 										</button>
 										<h4 class="modal-title" id="myModalLabel">FAILED</h4>
 									</div>
-									<div class="modal-body">Registered failed!</div>
+									<div class="modal-body">${sessionScope.registerFail}</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">OK</button>
@@ -59,7 +59,7 @@
 								</div>
 							</div>
 						</div>
-						<a href="viewBooks?key=&author=">Books</a>
+						<a href="index">Homepage</a>
 					</c:if>
 					<form action="register" method="get" role="form" id="frmRegister">
 						<div class="form-group">
@@ -108,16 +108,13 @@
 	</div>
 </body>
 <script type="text/javascript"
-	src="<c:url value='/resources/js/jquery.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
-<script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
 <script type="text/javascript">
+	$(window).load(function() {
+		$('#myModal').modal('show');
+	});
 	$(function() {
 		$("#frmRegister")
 				.validate(

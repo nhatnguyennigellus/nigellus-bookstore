@@ -10,7 +10,7 @@
 <body>
 	<div class="col-md-10">
 		<h2>UPLOAD IMAGE</h2>
-		<form method="POST" role="form" action="changeImage"
+		<form method="POST" role="form" action="changeImage" id="frmAddImage"
 			enctype="multipart/form-data">
 			<input type="hidden" value="${param.id }" name="id">
 
@@ -34,4 +34,26 @@
 	<br />
 
 </body>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#frmAddImage").validate({
+			rules : {
+				name : {
+					required : true,
+					rangelength : [ 1, 30 ]
+				}
+			},
+			messages : {
+				name : {
+					required : "Name must not be empty",
+					rangelength : "Name must be less than 30 characters length"
+				}
+			},
+		})
+	});
+</script>
 </html>

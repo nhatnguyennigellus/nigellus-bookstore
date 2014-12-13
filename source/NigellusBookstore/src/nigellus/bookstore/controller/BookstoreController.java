@@ -60,7 +60,12 @@ public class BookstoreController {
 		request.getSession().removeAttribute("changePassError");
 		request.getSession().removeAttribute("changePassSuccess");
 		request.getSession().removeAttribute("registerSuccess");
+		request.getSession().removeAttribute("registerFail");
 		request.getSession().removeAttribute("editProfileSuccess");
+		request.getSession().removeAttribute("passRecovered");
+		request.getSession().removeAttribute("usernameError");
+		request.getSession().removeAttribute("ChangeImgError");
+
 		// BookDAO daoBook = new BookDAO();
 		List<Book> lstBook = storeManager.getBookList();
 
@@ -88,12 +93,22 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/admin")
 	public ModelAndView admin(HttpServletRequest request) {
-		request.getSession().removeAttribute("uploadSuccess");
-		request.getSession().removeAttribute("addBookSuccess");
-		request.getSession().removeAttribute("changeImgSuccess");
-		request.getSession().removeAttribute("exportSuccess");
-		request.getSession().removeAttribute("addPromoteSuccess");
-		request.getSession().removeAttribute("updatePromoteSuccess");
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("uploadSuccess");
+		session.removeAttribute("addBookSuccess");
+		session.removeAttribute("changeImgSuccess");
+		session.removeAttribute("ChangeImgError");
+		session.removeAttribute("exportBookSuccess");
+		session.removeAttribute("exportCateSuccess");
+		session.removeAttribute("addPromoteSuccess");
+		session.removeAttribute("updatePromoteSuccess");
+		
+		session.setAttribute("CusNo", storeManager.getCustomerList().size());
+		session.setAttribute("BookNo", storeManager.getBookList().size());
+		session.setAttribute("OrderNo", storeManager.getOrderList().size());
+		session.setAttribute("CouponNo", storeManager.getPromotionList().size());
+		session.setAttribute("CateNo", storeManager.getCategoryList().size());
 		return new ModelAndView("admin");
 	}
 
@@ -107,9 +122,11 @@ public class BookstoreController {
 		request.getSession().removeAttribute("uploadSuccess");
 		request.getSession().removeAttribute("addBookSuccess");
 		request.getSession().removeAttribute("changeImgSuccess");
-		request.getSession().removeAttribute("exportSuccess");
+		request.getSession().removeAttribute("exportBookSuccess");
+		request.getSession().removeAttribute("exportCateSuccess");
 		request.getSession().removeAttribute("addPromoteSuccess");
 		request.getSession().removeAttribute("updatePromoteSuccess");
+		request.getSession().removeAttribute("ChangeImgError");
 		return new ModelAndView("changeImage");
 	}
 
@@ -232,17 +249,18 @@ public class BookstoreController {
 		}
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/toAddImage")
-	public ModelAndView toAddImage(HttpServletRequest request)
-	{
+	public ModelAndView toAddImage(HttpServletRequest request) {
 		return new ModelAndView("addImage");
 	}
-	
+
 	@RequestMapping(value = "/addImage")
 	public String addImage(@RequestParam("file") MultipartFile file,
-			@RequestParam("name") String name, HttpServletRequest request)
-	{
+			@RequestParam("name") String name, HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return "redirect:accessDeniedAd";
+		}
 		int id = Integer.parseInt(request.getParameter("id"));
 		if (!file.isEmpty()) {
 			try {
@@ -398,7 +416,7 @@ public class BookstoreController {
 			}
 			writer.flush();
 			writer.close();
-			request.getSession().setAttribute("exportSuccess",
+			request.getSession().setAttribute("exportBookSuccess",
 					"Exported data successfully!");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -418,7 +436,7 @@ public class BookstoreController {
 			}
 			writer.flush();
 			writer.close();
-			request.getSession().setAttribute("exportSuccess",
+			request.getSession().setAttribute("exportCateSuccess",
 					"Exported data successfully!");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -523,6 +541,7 @@ public class BookstoreController {
 			customer.setPhone(phone);
 			customer.setUsername(username);
 			storeManager.addCustomer(customer, username);
+			request.getSession().removeAttribute("registerFail");
 			request.getSession().setAttribute(
 					"registerSuccess",
 					"Account registered successfully! \nYou can login using username"
@@ -614,9 +633,7 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/forgotPassword")
 	public ModelAndView forgotPassword(HttpServletRequest request) {
-		if (request.getSession().getAttribute("customer") == null) {
-			return new ModelAndView("accessDenied");
-		}
+
 		return new ModelAndView("forgotPassword");
 	}
 
@@ -661,7 +678,7 @@ public class BookstoreController {
 
 		return new ModelAndView("addBook");
 	}
-	
+
 	@RequestMapping(value = "/addPromotion")
 	public ModelAndView addPromotion(HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null) {
@@ -669,7 +686,8 @@ public class BookstoreController {
 		}
 		String discountType = request.getParameter("type");
 		float discountAmount = Float.parseFloat(request.getParameter("amount"));
-		float conditionAmount = Float.parseFloat(request.getParameter("condition"));
+		float conditionAmount = Float.parseFloat(request
+				.getParameter("condition"));
 		String description = request.getParameter("description");
 		@SuppressWarnings("deprecation")
 		Date dateStart = new Date(request.getParameter("start"));
@@ -719,7 +737,8 @@ public class BookstoreController {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String discountType = request.getParameter("type");
 		float discountAmount = Float.parseFloat(request.getParameter("amount"));
-		float conditionAmount = Float.parseFloat(request.getParameter("condition"));
+		float conditionAmount = Float.parseFloat(request
+				.getParameter("condition"));
 		String description = request.getParameter("description");
 		@SuppressWarnings("deprecation")
 		Date dateStart = new Date(request.getParameter("startDate"));
@@ -734,11 +753,11 @@ public class BookstoreController {
 		promotion.setEndDate(dateEnd);
 		promotion.setDescription(description);
 		promotion.setStatus(status);
-		
+
 		storeManager.updatePromotion(promotion);
 		request.getSession().setAttribute("updatePromoteSuccess",
 				"Updated coupons successfully!");
-		
+
 		return new ModelAndView("updatePromotion");
 
 	}
@@ -750,7 +769,7 @@ public class BookstoreController {
 		}
 		return new ModelAndView("addPromotion");
 	}
-	
+
 	@RequestMapping(value = "/toAddBookImages")
 	public ModelAndView toAddBookImages(HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null) {
@@ -805,13 +824,19 @@ public class BookstoreController {
 				"Updated book successfully!");
 		return "redirect:uploadSuccess";
 	}
-	
+
 	@RequestMapping(value = "/deleteBook")
 	public String deleteBook(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
-		storeManager.deleteBook(id);
-		request.getSession().setAttribute("ChangeImgSuccess",
-				"Removed book successfully!");
+		if (storeManager.bookOrdered(id)) {
+			request.getSession().setAttribute("ChangeImgError",
+					"Unable to remove books ordered!");
+		} else {
+			storeManager.deleteBook(id);
+			request.getSession().removeAttribute("ChangeImgError");
+			request.getSession().setAttribute("ChangeImgSuccess",
+					"Removed book successfully!");
+		}
 		return "redirect:uploadSuccess";
 	}
 
@@ -955,20 +980,19 @@ public class BookstoreController {
 			customer = storeManager.getCustomerInfo(session.getAttribute(
 					"customer").toString());
 		}
-		
+
 		List<OrderPromotion> listOrdPro = new ArrayList<OrderPromotion>();
-		
-		
+
 		List<Cart> listCart = (List<Cart>) session.getAttribute("CART");
 		float totalAmount = (float) session.getAttribute("totalAmount");
-		
+
 		OrderPromotion ordpro = new OrderPromotion();
 		ordpro = new OrderPromotion();
 		ordpro.setValue(totalAmount * 10 / 100);
 		ordpro.setType("Shipping Fee");
 		ordpro.setDescription("10% Shipping Fee");
 		listOrdPro.add(ordpro);
-		
+
 		float promoteAmount = 0;
 		if (session.getAttribute("promote") != null) {
 			Promotion promote = (Promotion) session.getAttribute("promote");
@@ -1021,7 +1045,7 @@ public class BookstoreController {
 
 		}
 		order.setConfirmCode(buffer.toString());
-		//session.setAttribute("cfmCode", order.getConfirmCode());
+		// session.setAttribute("cfmCode", order.getConfirmCode());
 		List<OrderDetail> lstDetail = new ArrayList<OrderDetail>();
 		for (Cart cart : listCart) {
 			OrderDetail detail = new OrderDetail();
@@ -1031,10 +1055,10 @@ public class BookstoreController {
 			lstDetail.add(detail);
 		}
 		order.setOrderdetails(new HashSet<OrderDetail>(lstDetail));
-		
+
 		for (OrderPromotion orderPromotion : listOrdPro) {
 			orderPromotion.setOrder(order);
-			
+
 		}
 		storeManager.submitOrder(order, lstDetail, listOrdPro);
 		storeManager.sendConfirmEmail(order.getEmail(), order.getConfirmCode());
@@ -1044,7 +1068,7 @@ public class BookstoreController {
 		session.removeAttribute("promote");
 		return new ModelAndView("updatePaymentMethod");
 	}
-	
+
 	@RequestMapping(value = "/updatePaymentMethod")
 	public ModelAndView updatePaymentMethod(HttpServletRequest request) {
 		String method = request.getParameter("method");
@@ -1054,7 +1078,7 @@ public class BookstoreController {
 			String card = request.getParameter("card");
 			order.setPayCardId(card);
 		}
-		
+
 		storeManager.updateOrder(order);
 		return new ModelAndView("confirmOrder");
 	}
@@ -1063,7 +1087,7 @@ public class BookstoreController {
 	public ModelAndView toConfirmOrder(HttpServletRequest request) {
 		int orderId = Integer.parseInt(request.getParameter("id"));
 		Order order = storeManager.getOrderById(orderId);
-		//request.getSession().setAttribute("cfmCode", order.getConfirmCode());
+		// request.getSession().setAttribute("cfmCode", order.getConfirmCode());
 		request.getSession().setAttribute("order", order);
 		return new ModelAndView("confirmOrder");
 	}
@@ -1082,10 +1106,10 @@ public class BookstoreController {
 		String code = request.getParameter("code");
 		Order order = (Order) request.getSession().getAttribute("order");
 		if (code.equals(order.getConfirmCode())) {
-			
+
 			request.getSession().removeAttribute("order");
 			request.getSession().removeAttribute("confirmError");
-			
+
 			order.setStatus("Submitted");
 			storeManager.updateOrder(order);
 		} else {
@@ -1100,23 +1124,25 @@ public class BookstoreController {
 		HttpSession session = request.getSession();
 		String code = request.getParameter("proCode");
 		Promotion promote = storeManager.getPromoteByCode(code);
-		float totalAmount = Float.parseFloat
-				(session.getAttribute("totalAmount").toString());
+		float totalAmount = Float.parseFloat(session
+				.getAttribute("totalAmount").toString());
 		if (promote == null) {
 			session.setAttribute("promoteError", "Invalid code!");
 		} else if (promote.getStatus().equals("Inactive")) {
 			session.setAttribute("promoteError", "This code was deactivated!");
 		} else if (promote.getEndDate().compareTo(new Date()) < 0) {
 			session.setAttribute("promoteError", "This code was expired!");
-		} else if(totalAmount < promote.getConditionAmount()) {
-			session.setAttribute("promoteError", "This coupon is applicable for "
-					+ "order total amount more than " + promote.getConditionAmount());
+		} else if (totalAmount < promote.getConditionAmount()) {
+			session.setAttribute(
+					"promoteError",
+					"This coupon is applicable for "
+							+ "order total amount more than "
+							+ promote.getConditionAmount());
 		} else {
 			session.removeAttribute("promoteError");
 			session.setAttribute("promote", promote);
 		}
-		
-		
+
 		return new ModelAndView("submitOrder");
 	}
 
@@ -1140,8 +1166,9 @@ public class BookstoreController {
 		}
 		int id = Integer.parseInt(request.getParameter("id").toString());
 		List<OrderDetail> lstOrderDetail = storeManager.getOrderDetail(id);
-		
-		List<OrderPromotion> lstPromoteDetail = storeManager.getPromotionByOrder(id);
+
+		List<OrderPromotion> lstPromoteDetail = storeManager
+				.getPromotionByOrder(id);
 		request.getSession().setAttribute("PROMS", lstPromoteDetail);
 		request.getSession().setAttribute("DETAILS", lstOrderDetail);
 		return new ModelAndView("customerViewDetails");
@@ -1195,10 +1222,10 @@ public class BookstoreController {
 
 		request.getSession().setAttribute("DETAILS", lstOrderDetail);
 
-
-		List<OrderPromotion> lstPromoteDetail = storeManager.getPromotionByOrder(id);
+		List<OrderPromotion> lstPromoteDetail = storeManager
+				.getPromotionByOrder(id);
 		request.getSession().setAttribute("PROMS", lstPromoteDetail);
-		
+
 		return new ModelAndView("viewDetails");
 	}
 
@@ -1218,6 +1245,8 @@ public class BookstoreController {
 		if (request.getSession().getAttribute("admin") == null) {
 			return new ModelAndView("accessDeniedAd");
 		}
+		request.getSession().removeAttribute("updatePromoteSuccess");
+		request.getSession().removeAttribute("addPromoteSuccess");
 		List<Promotion> lstPromotion = storeManager.getPromotionList();
 
 		request.getSession().setAttribute("PROMOTIONLIST", lstPromotion);

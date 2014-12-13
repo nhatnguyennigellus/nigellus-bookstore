@@ -13,7 +13,7 @@
 		<div style="padding: 10px 10px 10px 10px">
 			<h3>Payment Method</h3>
 			<p>Select your payment method:</p>
-			<form action="updatePaymentMethod">
+			<form action="updatePaymentMethod" id="frmPaymentMethod">
 				<div class="form-group">
 					<div class="form-group col-md-6">
 						<select name="method" id="method" class="form-control">
@@ -40,7 +40,7 @@
 						<div class="form-group">
 							<label for="phone" class="col-sm-6 control-label">Card ID</label>
 							<div class="col-sm-8">
-								<input name="card" id="card" class="form-control" />
+								<font color="red"><input name="card" id="card" class="form-control" /></font>
 							</div>
 						</div>
 						<div class="form-group">
@@ -61,12 +61,6 @@
 
 </body>
 <script type="text/javascript"
-	src="<c:url value='/resources/js/jquery.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
-<script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
@@ -80,6 +74,18 @@
 
 	});
 	$(function() {
+		$("#frmPaymentMethod").validate({
+			rules : {
+				card : {
+					required : true,
+				},
+			},
+			messages: {
+				card : {
+					required : "Please enter your card ID"
+				},
+			}
+		});
 	});
 </script>
 </html>

@@ -23,14 +23,78 @@
 			</form>
 
 			<c:if test="${sessionScope.usernameError != null}">
-				<font color="red" style="font-style: bold">${sessionScope.usernameError }</font>
-
+				
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">FAILED</h4>
+							</div>
+							<div class="modal-body">
+								<font color="red" style="font-style: bold">${sessionScope.usernameError }</font>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</c:if>
 			<c:if test="${sessionScope.passRecovered != null}">
-				<font color="green" style="font-style: bold">${sessionScope.passRecovered }</font>
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">EDIT SUCCESS</h4>
+							</div>
+							<div class="modal-body">
+								<font color="green" style="font-style: bold">${sessionScope.passRecovered }</font>
+							</div>
+							<div class="modal-footer">
+								<a href="index"><button type="button"
+										class="btn btn-primary">Back to homepage</button></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 
 			</c:if>
 		</div>
 	</div>
 </body>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#frmRegister")
+				.validate(
+						{
+							rules : {
+								username : {
+									required : true,
+								}
+							},
+							messages : {
+								username : {
+									required : "Please enter a username!",
+								}
+							}
+						})
+	});
+	$(window).load(function() {
+		$('#myModal').modal('show');
+	});
+</script>
 </html>

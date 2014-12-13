@@ -54,11 +54,5 @@
 
 		</div>
 	</c:if>
-
-	<c:if test="${sessionScope.adminLoginErr != null}">
-		<font color="red" style="font-style: bold">${sessionScope.adminLoginErr }</font>
-
-	</c:if>
-
 </body>
 </html>

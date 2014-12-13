@@ -19,9 +19,9 @@
 			<c:otherwise>
 				<div class="col-md-12">
 					<div style="padding: 3px 3px 3px 3px">
-					
+
 						<form action="login" method="get" class="form-inline" role="form">
-						<label>Login</label>
+							<label>Login</label>
 							<div class="form-group">
 								<input id="user" placeholder="Username"
 									class="form-control input-sm" name="user" />
@@ -34,6 +34,10 @@
 								value="Login" /> <input name="reset" type="reset" value="Reset"
 								class="btn btn-danger btn-xs" />
 						</form>
+						<c:if test="${sessionScope.adminLoginErr != null}">
+							<font color="red" style="font-style: bold">${sessionScope.adminLoginErr }</font>
+
+						</c:if>
 					</div>
 				</div>
 			</c:otherwise>

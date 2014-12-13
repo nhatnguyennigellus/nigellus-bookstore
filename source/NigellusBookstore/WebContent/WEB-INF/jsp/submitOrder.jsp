@@ -19,29 +19,29 @@
 				<div class="form-group">
 					<label for="fullname" class="col-sm-6 control-label">Fullname</label>
 					<div class="col-sm-8">
-						<input name="fullname" id="fullname" class="form-control"
-							value="${sessionScope.CUSTOMER.getFullname() }" />
+						<font color="red"><input name="fullname" id="fullname" class="form-control"
+							value="${sessionScope.CUSTOMER.getFullname() }" /></font>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="address" class="col-sm-6 control-label">Address</label>
 					<div class="col-sm-8">
-						<input name="address" id="address" class="form-control"
-							value="${sessionScope.CUSTOMER.getAddress() }" />
+						<font color="red"><input name="address" id="address" class="form-control"
+							value="${sessionScope.CUSTOMER.getAddress() }" /></font>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="email" class="col-sm-6 control-label">Email</label>
 					<div class="col-sm-8">
-						<input name="email" id="email" class="form-control"
-							value="${sessionScope.CUSTOMER.getEmail() }" />
+						<font color="red"><input name="email" id="email" class="form-control"
+							value="${sessionScope.CUSTOMER.getEmail() }" /></font>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="phone" class="col-sm-6 control-label">Phone</label>
 					<div class="col-sm-8">
-						<input name="phone" id="phone" class="form-control "
-							value="${sessionScope.CUSTOMER.getPhone() }" />
+						<font color="red"><input name="phone" id="phone" class="form-control "
+							value="${sessionScope.CUSTOMER.getPhone() }" /></font>
 					</div>
 				</div>
 

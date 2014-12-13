@@ -59,18 +59,21 @@
 			<form role="form" action="changePassword" method="get"
 				enctype="multipart/form-data" id="frmRegister">
 				<div class="form-group">
-					<label for="oldPassword">Old Password</label> <input
+					<label for="oldPassword">Old Password</label> 
+					<font color="red"><input
 						class="form-control" id="oldPassword" name="oldPassword"
-						type="password" />
+						type="password" /></font>
 				</div>
 				<div class="form-group">
-					<label for="newPassword">New Password</label> <input
+					<label for="newPassword">New Password</label> 
+					<font color="red"><input
 						class="form-control" id="newPassword" name="newPassword"
-						type="password" />
+						type="password" /></font>
 				</div>
 				<div class="form-group">
-					<label for="cfmPassword">Confirm Password</label> <input
-						class="form-control" name="cfmPassword" type="password" />
+					<label for="cfmPassword">Confirm Password</label> 
+					<font color="red"><input
+						class="form-control" name="cfmPassword" type="password" /></font>
 				</div>
 				<input class="btn btn-success" name="submit" type="submit"
 					value="Submit" /> <input class="btn btn-danger" name="reset"
