@@ -1,7 +1,9 @@
 package nigellus.bookstore.dao;
 
+import java.awt.Image;
 import java.util.List;
 
+import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.ImageGallery;
 import nigellus.bookstore.entity.OrderDetail;
 
@@ -23,5 +25,15 @@ public class ImageGalleryDAO extends HibernateDaoSupport {
 	public List<ImageGallery> getImageGallery() {
 		String query = "select g from ImageGallery g";
 		return getHibernateTemplate().find(query);
+	}
+	
+	public void deleteImage(int id) {
+		getHibernateTemplate().delete(getImage(id));
+	}
+	
+	public ImageGallery getImage(int id) {
+
+		String query = "select i from ImageGallery i where i.id = " + id;
+		return (ImageGallery) getHibernateTemplate().find(query).get(0);
 	}
 }

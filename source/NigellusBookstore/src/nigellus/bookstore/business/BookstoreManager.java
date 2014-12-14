@@ -338,6 +338,10 @@ public class BookstoreManager {
 		imageGalleryDAO.addImage(image);
 	}
 	
+	public void deleteImage(int id) {
+		imageGalleryDAO.deleteImage(id);
+	}
+	
 	public Promotion getPromoteByCode(String code) {
 		return promotionDAO.getPromotionByCode(code);
 	}

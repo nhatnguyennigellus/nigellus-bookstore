@@ -40,7 +40,8 @@
 						<div class="form-group">
 							<label for="phone" class="col-sm-6 control-label">Card ID</label>
 							<div class="col-sm-8">
-								<font color="red"><input name="card" id="card" class="form-control" /></font>
+								<font color="red"><input name="card" id="card"
+									class="form-control" /></font>
 							</div>
 						</div>
 						<div class="form-group">
@@ -74,18 +75,26 @@
 
 	});
 	$(function() {
-		$("#frmPaymentMethod").validate({
-			rules : {
-				card : {
-					required : true,
-				},
-			},
-			messages: {
-				card : {
-					required : "Please enter your card ID"
-				},
-			}
-		});
+		$("#frmPaymentMethod")
+				.validate(
+						{
+							rules : {
+								card : {
+									required : function() {
+										return $('select[name="method"]').val() === 'Debit Card'
+												|| $(
+														'#frmPaymentMethod select[name="method"]')
+														.val() === 'Credit Card'
+
+									}
+								}
+							},
+							messages : {
+								card : {
+									required : "Please enter your card ID"
+								},
+							}
+						});
 	});
 </script>
 </html>

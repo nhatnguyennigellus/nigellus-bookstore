@@ -18,15 +18,7 @@
 				<label for="fileUpload">File to upload: </label> <input type="file"
 					id="fileUpload" name="file">
 			</div>
-			<div class="form-group">
-				<label for="name">Name</label> <input id="name" type="text"
-					name="name" class="form-control"
-					<%String title = request.getParameter("title");
-			String author = request.getParameter("author");
-			String imgName = title.toLowerCase().replace(" ", "") + "-"
-					+ author.toLowerCase().replace(" ", "");%>
-					value="<%=imgName%>">
-			</div>
+			
 			<input class="btn btn-success" type="submit" value="Upload">
 			Press here to upload the file!
 		</form>

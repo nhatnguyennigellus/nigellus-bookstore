@@ -18,13 +18,13 @@
 			<div class="form-group">
 				<label for="key" class="col-sm-2 control-label">Title:</label>
 				<div class="col-sm-6">
-					<input id="key" name="key" class="form-control" />
+					<input id="key" name="key" class="form-control input-sm" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="author" class="col-sm-2 control-label">Author:</label>
 				<div class="col-sm-6">
-					<input id="author" name="author" class="form-control" />
+					<input id="author" name="author" class="form-control input-sm" />
 				</div>
 			</div>
 
@@ -32,7 +32,7 @@
 			<div class="form-group">
 
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="submit" value="Search" class="btn btn-primary" />
+					<input type="submit" value="Search" class="btn btn-primary btn-sm" />
 				</div>
 			</div>
 
@@ -69,6 +69,7 @@
 					</div>
 			</c:if>
 			<br/>
+			<h3>BOOKS</h3>
 		<form:form id="mainForm" method="post" commandName="model">
 			<c:choose>
 
@@ -142,7 +143,7 @@
 												<c:param name="id" value="${book.id}" />
 												<c:param name="title" value="${book.title}" />
 												<c:param name="author" value="${book.authorList}" />
-											</c:url> <br /> <a href="${urlAdd }">Add Image Gallery</a>
+											</c:url> <br /> <a href="${urlAdd }">Image Gallery</a>
 										</td>
 										<td><c:forEach items="${book.categories }" var="category">
 							${category.name}<br />

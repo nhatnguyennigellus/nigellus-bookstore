@@ -2,6 +2,7 @@ package nigellus.bookstore.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.awt.Image;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -93,7 +94,7 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/admin")
 	public ModelAndView admin(HttpServletRequest request) {
-		
+
 		HttpSession session = request.getSession();
 		session.removeAttribute("uploadSuccess");
 		session.removeAttribute("addBookSuccess");
@@ -103,7 +104,7 @@ public class BookstoreController {
 		session.removeAttribute("exportCateSuccess");
 		session.removeAttribute("addPromoteSuccess");
 		session.removeAttribute("updatePromoteSuccess");
-		
+
 		session.setAttribute("CusNo", storeManager.getCustomerList().size());
 		session.setAttribute("BookNo", storeManager.getBookList().size());
 		session.setAttribute("OrderNo", storeManager.getOrderList().size());
@@ -252,23 +253,36 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/toAddImage")
 	public ModelAndView toAddImage(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		int id = Integer.parseInt(request.getParameter("id"));
+		List<ImageGallery> list = storeManager.getImageGalleryBook(id);
+		request.getSession().setAttribute("BOOKIMAGES", list);
 		return new ModelAndView("addImage");
 	}
 
 	@RequestMapping(value = "/addImage")
 	public String addImage(@RequestParam("file") MultipartFile file,
-			@RequestParam("name") String name, HttpServletRequest request) {
+			HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null) {
 			return "redirect:accessDeniedAd";
 		}
 		int id = Integer.parseInt(request.getParameter("id"));
 		if (!file.isEmpty()) {
+			StringBuffer buffer = new StringBuffer();
+			String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+			for (int i = 0; i < 15; i++) {
+				double index = Math.random() * characters.length();
+				buffer.append(characters.charAt((int) index));
+
+			}
+			String imageName = buffer.toString();
 			try {
 				byte[] bytes = file.getBytes();
 				File serverFile = new File(request.getSession()
 						.getServletContext().getRealPath("/resources/images")
-						+ File.separator
-						+ name
+						+ File.separator + imageName
 						+ file.getOriginalFilename().substring(
 								file.getOriginalFilename().lastIndexOf(".")));
 
@@ -281,7 +295,7 @@ public class BookstoreController {
 				ImageGallery image = new ImageGallery();
 				image.setBook(b);
 				image.setImageUrl("/resources/images/"
-						+ name
+						+ imageName
 						+ file.getOriginalFilename().substring(
 								file.getOriginalFilename().lastIndexOf(".")));
 
@@ -445,16 +459,23 @@ public class BookstoreController {
 	}
 
 	@RequestMapping(value = "/changeImage", method = RequestMethod.POST)
-	public String changeImage(@RequestParam("name") String name,
-			@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+	public String changeImage(@RequestParam("file") MultipartFile file, 
+			HttpServletRequest request) {
 		if (!file.isEmpty()) {
+			StringBuffer buffer = new StringBuffer();
+			String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+			for (int i = 0; i < 15; i++) {
+				double index = Math.random() * characters.length();
+				buffer.append(characters.charAt((int) index));
+
+			}
+			String imageName = buffer.toString();
 			try {
 				byte[] bytes = file.getBytes();
 				File serverFile = new File(request.getSession()
 						.getServletContext().getRealPath("/resources/images")
-
 						+ File.separator
-						+ name
+						+ imageName
 						+ file.getOriginalFilename().substring(
 								file.getOriginalFilename().lastIndexOf(".")));
 
@@ -468,7 +489,7 @@ public class BookstoreController {
 				Book b = storeManager.getBookById(id);
 				System.out.println(id);
 				b.setImageUrl("/resources/images/"
-						+ name
+						+ imageName
 						+ file.getOriginalFilename().substring(
 								file.getOriginalFilename().lastIndexOf(".")));
 
@@ -840,6 +861,16 @@ public class BookstoreController {
 		return "redirect:uploadSuccess";
 	}
 
+	@RequestMapping(value = "/deleteImage")
+	public String deleteImage(HttpServletRequest request) {
+		int id = Integer.parseInt(request.getParameter("id"));
+		storeManager.deleteImage(id);
+		request.getSession().removeAttribute("ChangeImgError");
+		request.getSession().setAttribute("ChangeImgSuccess",
+				"Removed image successfully!");
+		return "redirect:uploadSuccess";
+	}
+
 	@RequestMapping(value = "/viewBooks")
 	public ModelAndView viewBooks(BookstoreModel storeModel,
 			HttpServletRequest request) {
@@ -1045,7 +1076,6 @@ public class BookstoreController {
 
 		}
 		order.setConfirmCode(buffer.toString());
-		// session.setAttribute("cfmCode", order.getConfirmCode());
 		List<OrderDetail> lstDetail = new ArrayList<OrderDetail>();
 		for (Cart cart : listCart) {
 			OrderDetail detail = new OrderDetail();
@@ -1102,9 +1132,10 @@ public class BookstoreController {
 	}
 
 	@RequestMapping(value = "/confirmOrder")
-	public String confirmOrder(HttpServletRequest request) {
+	public ModelAndView confirmOrder(HttpServletRequest request) {
 		String code = request.getParameter("code");
 		Order order = (Order) request.getSession().getAttribute("order");
+		
 		if (code.equals(order.getConfirmCode())) {
 
 			request.getSession().removeAttribute("order");
@@ -1114,9 +1145,9 @@ public class BookstoreController {
 			storeManager.updateOrder(order);
 		} else {
 			request.getSession().setAttribute("confirmError", "Invalid code");
-			return "redirect:confirmOrder";
+			return new ModelAndView("confirmOrder");
 		}
-		return "redirect:orderSuccess";
+		return new ModelAndView("orderSuccess");
 	}
 
 	@RequestMapping(value = "/verifyCode")

@@ -18,20 +18,53 @@
 				<label for="fileUpload">File to upload: </label> <input type="file"
 					id="fileUpload" name="file">
 			</div>
-			<div class="form-group">
-				<label for="name">Name</label> <font color="red"><input id="name" type="text"
-					name="name" class="form-control"
-					<%String title = request.getParameter("title");
-			String author = request.getParameter("author");
-			String imgName = title.toLowerCase().replace(" ", "") + "-"
-					+ author.toLowerCase().replace(" ", "");%>
-					value="<%=imgName%>"></font>
-			</div>
+			
 			<input class="btn btn-success" type="submit" value="Upload">
 			Press here to upload the file!
 		</form>
 	</div>
-	<br />
+	<div class="col-md-10">
+		<h3>GALLERY</h3>
+		<c:if test="${sessionScope.BOOKIMAGES.size() == 0 }">
+			<br/> <font color="red">No image in gallery</font>
+		</c:if>
+		<table class="table table-hover">
+			<c:forEach items="${sessionScope.BOOKIMAGES }" var="image">
+				<tr>
+					<td><img alt="Nigellus Bookstore" width="150"
+						src="<c:url value="${image.imageUrl}" />" /></td>
+					<td>
+						<button type="button" class="btn btn-danger btn-xs"
+							data-toggle="modal" data-target="#myModalDel"
+							data-id="${image.id}">
+							<img alt="Nigellus Bookstore" class="img-thumbnail"
+								src="<c:url value="/resources/images/del_icon.png" />" />
+						</button>
+						<div class="modal fade" id="myModalDel" tabindex="-1"
+							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel">Delete image</h4>
+									</div>
+									<div class="modal-body">Are you sure you want to delete
+										this image?</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">No</button>
+										<a id="del"><button type="button" class="btn btn-primary">Yes</button></a>
+									</div>
+								</div>
+							</div>
+						</div> </a>
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 
 </body>
 <script type="text/javascript"
@@ -60,6 +93,14 @@
 				}
 			},
 		})
+	});
+	
+	$(document).on("click", ".btn-danger", function() {
+
+		$("a").attr("href", "deleteImage?id=" + $(this).data('id'));
+	});
+	$(window).load(function() {
+		$('#myModalDel').modal('show');
 	});
 </script>
 </html>
