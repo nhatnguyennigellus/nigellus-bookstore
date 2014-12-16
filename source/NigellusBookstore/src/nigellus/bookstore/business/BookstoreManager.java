@@ -161,6 +161,24 @@ public class BookstoreManager {
 		storeModel.setCategories(categories);
 		storeModel.setSelectedCategory(selectedCategory);
 	}
+	
+	public void getCategoryInfo(BookstoreModel storeModel, int id) {
+		Category selectedCategory = categoryDAO.getCategoryById(id);
+		List<Category> categories = categoryDAO.getCategoryList();
+		if (selectedCategory != null) {
+			Integer cateId = selectedCategory.getId();
+			for (Category category : categories) {
+				if (category.getId().equals(cateId)) {
+					selectedCategory = category;
+					break;
+				}
+			}
+		} else {
+			selectedCategory = categories.get(0);
+		}
+		storeModel.setCategories(categories);
+		storeModel.setSelectedCategory(selectedCategory);
+	}
 
 	public List<Category> getSelectedCateById(String[] selectedCateId) {
 		List<Category> selCates = new ArrayList<Category>();
@@ -208,6 +226,14 @@ public class BookstoreManager {
 	public void getCategoryList(AddBookModel addBookModel) {
 		List<Category> categories = categoryDAO.getCategoryList();
 		addBookModel.setCategories(categories);
+	}
+	
+	public List<Book> getBookByCategory(int cateId) {
+		Category cate = categoryDAO.getCategoryById(cateId);
+		
+		List<Book> list = new ArrayList<Book>(cate.getBooks());
+		
+		return list;
 	}
 
 	public void getBookInfo(BookstoreModel storeModel, String key, String author) {

@@ -58,7 +58,9 @@
 				<div class="panel-body">
 					<ul>
 					<c:forEach items="${sessionScope.CATEINDEX }" var="cate">
-						<li>${cate.name }</li>
+						<li>
+							<a href="customerViewBookCategories?id=${cate.id}">${cate.name }</a>
+						</li>
 					</c:forEach>
 					</ul>
 				</div>

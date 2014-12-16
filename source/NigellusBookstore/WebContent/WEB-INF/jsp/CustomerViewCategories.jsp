@@ -12,19 +12,7 @@
 </head>
 <body>
 	<form:form id="mainForm" method="post" commandName="model">
-		<div class="form-group form-group-sm">
-			<label for="selCate" class="col-sm-2 control-label"> Select
-				category:</label>
-			<div class="col-xs-6">
-				<form:select id="selCate" path="selectedCategory.id"
-					onchange="submitForm()" class="form-control">
-
-					<form:options items="${model.categories}" itemValue="id"
-						itemLabel="name" />
-				</form:select>
-
-			</div>
-		</div>
+		
 		<div class="col-md-8">
 
 			<h2>BOOKS</h2>
@@ -40,16 +28,16 @@
 						<c:forEach items="${model.selectedCategory.books }" var="book">
 
 							<tr>
-								<td align="center" width="35%" id="myCarousel"
+								<td align="center" width="35%" id="myCarousel${book.id }"
 							class="carousel slide">
 
 							<ol class="carousel-indicators">
 
-								<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+								<li data-target="#myCarousel${book.id }" data-slide-to="0" class="active"></li>
 								<c:forEach items="${sessionScope.GALLERY }" var="img"
 									varStatus="no">
 									<c:if test="${img.book.id == book.id }">
-										<li data-target="#myCarousel" data-slide-to="${no.count }"></li>
+										<li data-target="#myCarousel${book.id }" data-slide-to="${no.count }"></li>
 									</c:if>
 								</c:forEach>
 
@@ -72,8 +60,8 @@
 								</c:forEach>
 
 							</div> <!-- Controls --> <a class="left carousel-control"
-							href="#myCarousel" data-slide="prev"> <span class="icon-prev"></span>
-						</a> <a class="right carousel-control" href="#myCarousel"
+							href="#myCarousel${book.id }" data-slide="prev"> <span class="icon-prev"></span>
+						</a> <a class="right carousel-control" href="#myCarousel${book.id }"
 							data-slide="next"> <span class="icon-next"></span>
 						</a>
 
@@ -84,8 +72,9 @@
 									<c:forEach items="${book.categories }" var="category">
 									- ${category.name}
 								</c:forEach> <br /> <br /> ${book.description }<br />
-									<h2 style="color: green; font-weight: bold; text-align: right;">${book.unitPrice}
-										VND</h2> <c:url var="urlCart" value="addToCart">
+									<h2 style="color: green; font-weight: bold; text-align: right;">
+									${book.unitPrice.toString().replace('.0','')}&nbsp;VND</h2> 
+									<c:url var="urlCart" value="addToCart">
 										<c:param name="bookId" value="${book.id}" />
 									</c:url>
 									<div style="text-align: right;">

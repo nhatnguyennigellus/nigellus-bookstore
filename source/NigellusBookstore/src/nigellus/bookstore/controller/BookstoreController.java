@@ -228,6 +228,22 @@ public class BookstoreController {
 		ModelAndView mav = new ModelAndView("CustomerViewCategories", "model",
 				storeModel);
 		storeManager.getCategoryInfo(storeModel);
+		List<ImageGallery> gallery = storeManager.getImageGallery();
+		request.getSession().setAttribute("GALLERY", gallery);
+		return mav;
+		
+	}
+	
+	@RequestMapping(value = "/customerViewBookCategories")
+	public ModelAndView customerViewBookCategories(BookstoreModel storeModel,
+			HttpServletRequest request) {
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		ModelAndView mav = new ModelAndView("CustomerViewCategories", "model",
+												storeModel);
+		storeManager.getCategoryInfo(storeModel, id);
+		List<ImageGallery> gallery = storeManager.getImageGallery();
+		request.getSession().setAttribute("GALLERY", gallery);
 		return mav;
 	}
 

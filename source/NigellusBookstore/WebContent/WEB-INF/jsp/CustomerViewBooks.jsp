@@ -93,8 +93,8 @@
 							<c:forEach items="${book.categories }" var="category">
 									- ${category.name}
 								</c:forEach> <br /> <br /> ${book.description }<br />
-							<h2 style="color: green; font-weight: bold; text-align: right;">${book.unitPrice}
-								VND</h2> <c:url var="urlCart" value="addToCart">
+							<h2 style="color: green; font-weight: bold; text-align: right;">
+							${book.unitPrice.toString().replace('.0','')}&nbsp;VND</h2> <c:url var="urlCart" value="addToCart">
 								<c:param name="bookId" value="${book.id}" />
 							</c:url>
 							<div style="text-align: right;">
