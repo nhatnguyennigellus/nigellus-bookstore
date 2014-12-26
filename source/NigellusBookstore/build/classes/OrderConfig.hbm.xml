@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 10, 2014 3:42:09 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="nigellus.bookstore.entity.OrderConfig" table="orderconfig" catalog="bookonline">
+        <id name="id" type="java.lang.Integer">
+            <column name="Id" />
+        </id>
+        <property name="min" type="float">
+            <column name="Min" not-null="true" />
+        </property>
+        <property name="max" type="float">
+            <column name="Max" not-null="true" />
+        </property>
+        <property name="active" type="java.lang.Integer">
+            <column name="Active" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

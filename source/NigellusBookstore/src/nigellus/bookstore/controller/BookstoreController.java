@@ -28,6 +28,7 @@ import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
 import nigellus.bookstore.entity.ImageGallery;
 import nigellus.bookstore.entity.Order;
+import nigellus.bookstore.entity.OrderConfig;
 import nigellus.bookstore.entity.OrderDetail;
 import nigellus.bookstore.entity.OrderPromotion;
 import nigellus.bookstore.entity.Promotion;
@@ -104,6 +105,7 @@ public class BookstoreController {
 		session.removeAttribute("exportCateSuccess");
 		session.removeAttribute("addPromoteSuccess");
 		session.removeAttribute("updatePromoteSuccess");
+		session.removeAttribute("configSuccess");
 
 		session.setAttribute("CusNo", storeManager.getCustomerList().size());
 		session.setAttribute("BookNo", storeManager.getBookList().size());
@@ -1006,6 +1008,18 @@ public class BookstoreController {
 	public ModelAndView toSubmitOrder(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Customer customer = null;
+		OrderConfig config = storeManager.getOrderConfig();
+		float totalAmount = (float) session.getAttribute("totalAmount");
+		if ((totalAmount < config.getMin() || totalAmount > config.getMax())
+				&& config.getActive() == 1) {
+			session.setAttribute("OrderOutOfRange", 
+					"You cannot order more than " + config.getMax() + 
+					" VND or less than " + config.getMin() + " VND");
+		}
+		else {
+			session.removeAttribute("OrderOutOfRange");
+
+		}
 		if (session.getAttribute("customer") == null) {
 			customer = storeManager.getCustomerInfo("guest");
 		} else {
@@ -1013,10 +1027,35 @@ public class BookstoreController {
 					"customer").toString());
 		}
 		session.setAttribute("CUSTOMER", customer);
-
 		return new ModelAndView("submitOrder");
 	}
 
+	@RequestMapping(value = "/toOrderConfig")
+	public ModelAndView toOrderConfig(HttpServletRequest request) {
+		OrderConfig config = storeManager.getOrderConfig();
+		HttpSession session = request.getSession();
+		session.setAttribute("config", config);
+		return new ModelAndView("configOrder");
+	}
+	
+	@RequestMapping(value = "/configOrder")
+	public ModelAndView configOrder(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		int min = Integer.parseInt(request.getParameter("min"));
+		int max = Integer.parseInt(request.getParameter("max"));
+		int active = 0;
+		if (request.getParameter("active") != null) {
+			active = 1;
+		}
+		OrderConfig config = storeManager.getOrderConfig();
+		config.setMin(min);
+		config.setMax(max);
+		config.setActive(active);
+		storeManager.updateConfig(config);
+		session.setAttribute("configSuccess", "Configured success");
+		return new ModelAndView("configOrder");
+	}
+	
 	@RequestMapping(value = "/order")
 	public ModelAndView order(HttpServletRequest request) {
 		HttpSession session = request.getSession();

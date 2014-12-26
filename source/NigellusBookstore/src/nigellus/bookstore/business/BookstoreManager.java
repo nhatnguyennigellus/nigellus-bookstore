@@ -19,6 +19,7 @@ import nigellus.bookstore.dao.BookDAO;
 import nigellus.bookstore.dao.CategoryDAO;
 import nigellus.bookstore.dao.CustomerDAO;
 import nigellus.bookstore.dao.ImageGalleryDAO;
+import nigellus.bookstore.dao.OrderConfigDAO;
 import nigellus.bookstore.dao.OrderDAO;
 import nigellus.bookstore.dao.OrderDetailDAO;
 import nigellus.bookstore.dao.OrderPromotionDAO;
@@ -28,6 +29,7 @@ import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
 import nigellus.bookstore.entity.ImageGallery;
 import nigellus.bookstore.entity.Order;
+import nigellus.bookstore.entity.OrderConfig;
 import nigellus.bookstore.entity.OrderDetail;
 import nigellus.bookstore.entity.OrderPromotion;
 import nigellus.bookstore.entity.Promotion;
@@ -64,6 +66,17 @@ public class BookstoreManager {
 	
 	@Autowired
 	private ImageGalleryDAO imageGalleryDAO;
+
+	@Autowired
+	private OrderConfigDAO orderConfigDAO;
+	
+	public OrderConfigDAO getOrderConfigDAO() {
+		return orderConfigDAO;
+	}
+
+	public void setOrderConfigDAO(OrderConfigDAO orderConfigDAO) {
+		this.orderConfigDAO = orderConfigDAO;
+	}
 
 	public ImageGalleryDAO getImageGalleryDAO() {
 		return imageGalleryDAO;
@@ -394,6 +407,14 @@ public class BookstoreManager {
 	
 	public void addPromoteOrder(OrderPromotion ordpro) {
 		orderPromotionDAO.addPromoteOrder(ordpro);
+	}
+	
+	public OrderConfig getOrderConfig() {
+		return orderConfigDAO.getOrderConfig();
+	}
+	
+	public void updateConfig(OrderConfig config) {
+		orderConfigDAO.updateConfig(config);
 	}
 	public void sendConfirmEmail(String email, String code) {
 		Properties props = new Properties();

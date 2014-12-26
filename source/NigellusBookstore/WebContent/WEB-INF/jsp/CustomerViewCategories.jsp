@@ -12,10 +12,9 @@
 </head>
 <body>
 	<form:form id="mainForm" method="post" commandName="model">
-		
 		<div class="col-md-8">
-
-			<h2>BOOKS</h2>
+			<br/><h3>${model.selectedCategory.name.toUpperCase() }</h3>
+			${model.selectedCategory.description}
 		</div>
 		<div class="col-md-12">
 			<c:choose>

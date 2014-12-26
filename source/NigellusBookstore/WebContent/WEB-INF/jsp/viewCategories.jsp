@@ -24,6 +24,10 @@
 			</div>
 		</div>
 		<div class="col-md-8">
+			<br/>
+			${model.selectedCategory.description }
+		</div>
+		<div class="col-md-8">
 
 			<h2>BOOKS</h2>
 		</div>

@@ -79,6 +79,10 @@
 		<put-attribute name="title" value="Book Image Gallery"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/addImage.jsp"></put-attribute>
 	</definition> 
+	<definition name="configOrder" extends="base.admin">
+		<put-attribute name="title" value="Order Configuration"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/configOrder.jsp"></put-attribute>
+	</definition>
 	<!-- USER'S PAGES -->
 	
 	

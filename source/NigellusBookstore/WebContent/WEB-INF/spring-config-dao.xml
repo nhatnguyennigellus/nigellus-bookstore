@@ -53,4 +53,7 @@ http://www.springframework.org/schema/context
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+	<bean id="orderConfigDAO" class="nigellus.bookstore.dao.OrderConfigDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 </beans>  

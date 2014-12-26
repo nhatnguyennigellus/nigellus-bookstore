@@ -18,32 +18,7 @@
 			<div class="col-md-6">You have to login as administrator</div>
 		</c:if>
 		<c:if test="${sessionScope.admin != null }">
-			<!-- <div class="col-md-6">
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title">MANAGEMENT</h3>
-					</div>
-					<div class="panel-body">
-						<p>
-							<a href="viewBooks?key=&author=">Books</a>
-						</p>
-						<p>
-							<a href="viewCategories">Categories</a>
-						</p>
-						<p>
-							<a href="viewCustomers">Customers</a>
-						</p>
-						<p>
-							<a href="viewOrder">Order</a>
-						</p>
-						<p>
-							<a href="viewPromotions">Coupons
-							</a>
-						</p>
-					</div>
-				</div>
-			</div>
-			-->
+			
 			<div class="row">
 				<div class="col-lg-3 col-md-6">
 					<div class="panel panel-primary">
@@ -108,6 +83,14 @@
 						<a href="viewOrder">
 							<div class="panel-body">
 								<span class="pull-left">View Orders</span>
+								<span class="pull-right">
+									<i class="glyphicon glyphicon-circle-arrow-right"></i>
+								</span>
+							</div>
+						</a>
+						<a href="toOrderConfig">
+							<div class="panel-body">
+								<span class="pull-left">Configure Order</span>
 								<span class="pull-right">
 									<i class="glyphicon glyphicon-circle-arrow-right"></i>
 								</span>

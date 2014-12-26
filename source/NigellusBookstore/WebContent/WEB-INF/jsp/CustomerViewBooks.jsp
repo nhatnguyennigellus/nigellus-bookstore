@@ -46,7 +46,6 @@
 
 			<table width="100%" class="table table-striped tablesorter"
 				id="tableBook">
-
 				<c:forEach items="${model.books }" var="book">
 					<tr>
 						<td align="center" width="35%" id="myCarousel${book.id }"

@@ -10,7 +10,28 @@
 </head>
 <body>
 	<div class="col-md-12">
+		
 		<div style="padding: 10px 10px 10px 10px">
+			<c:if test="${sessionScope.OrderOutOfRange != null}">
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">Order out of range</h4>
+							</div>
+							<div class="modal-body">${sessionScope.OrderOutOfRange}</div>
+							<div class="modal-footer">
+								<a href="javascript:history.go(-1);"><button type="button"
+										class="btn btn-primary">OK!</button></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:if>
 			<h3>SUBMIT ORDER</h3>
 			<form action="order" method="get" enctype="multipart/form-data"
 				id="frmOrder" role="form">
@@ -19,28 +40,31 @@
 				<div class="form-group">
 					<label for="fullname" class="col-sm-6 control-label">Fullname</label>
 					<div class="col-sm-8">
-						<font color="red"><input name="fullname" id="fullname" class="form-control"
+						<font color="red"><input name="fullname" id="fullname"
+							class="form-control"
 							value="${sessionScope.CUSTOMER.getFullname() }" /></font>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="address" class="col-sm-6 control-label">Address</label>
 					<div class="col-sm-8">
-						<font color="red"><input name="address" id="address" class="form-control"
+						<font color="red"><input name="address" id="address"
+							class="form-control"
 							value="${sessionScope.CUSTOMER.getAddress() }" /></font>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="email" class="col-sm-6 control-label">Email</label>
 					<div class="col-sm-8">
-						<font color="red"><input name="email" id="email" class="form-control"
-							value="${sessionScope.CUSTOMER.getEmail() }" /></font>
+						<font color="red"><input name="email" id="email"
+							class="form-control" value="${sessionScope.CUSTOMER.getEmail() }" /></font>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="phone" class="col-sm-6 control-label">Phone</label>
 					<div class="col-sm-8">
-						<font color="red"><input name="phone" id="phone" class="form-control "
+						<font color="red"><input name="phone" id="phone"
+							class="form-control "
 							value="${sessionScope.CUSTOMER.getPhone() }" /></font>
 					</div>
 				</div>
@@ -129,47 +153,42 @@
 					<td colspan="4" align="right">Total:</td>
 					<td colspan="2"
 						style="color: green; font-weight: bold; font-size: 20px"
-						align="right">
-						<c:choose>
+						align="right"><c:choose>
 							<c:when test="${sessionScope.customer != null }">
 								<c:if test="${sessionScope.promote == null}">
-						<c:set var="total" scope="application" value="${sessionScope.totalAmount * 105 / 100}"/>
+									<c:set var="total" scope="application"
+										value="${sessionScope.totalAmount * 105 / 100}" />
 								</c:if>
 								<c:if test="${sessionScope.promote.discountType eq 'Fee' }">
-						<c:set var="total" scope="application" 
-						value="${sessionScope.totalAmount * 105 / 100 - sessionScope.promote.discountAmount}"/>
-						
+									<c:set var="total" scope="application"
+										value="${sessionScope.totalAmount * 105 / 100 - sessionScope.promote.discountAmount}" />
+
 								</c:if>
 								<c:if test="${sessionScope.promote.discountType eq 'Percent' }">
-						<c:set var="total" scope="application" 
-						value="${sessionScope.totalAmount * 105 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}" />
+									<c:set var="total" scope="application"
+										value="${sessionScope.totalAmount * 105 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}" />
 								</c:if>
 							</c:when>
 							<c:otherwise>
 								<c:if test="${sessionScope.promote == null}">
-						<c:set var="total" scope="application" 
-						value="${sessionScope.totalAmount * 110 / 100}" />
+									<c:set var="total" scope="application"
+										value="${sessionScope.totalAmount * 110 / 100}" />
 								</c:if>
 								<c:if test="${sessionScope.promote.discountType eq 'Fee' }">
-						<c:set var="total" scope="application" 
-						value="${sessionScope.totalAmount * 110 / 100 - sessionScope.promote.discountAmount}" />
+									<c:set var="total" scope="application"
+										value="${sessionScope.totalAmount * 110 / 100 - sessionScope.promote.discountAmount}" />
 								</c:if>
 								<c:if test="${sessionScope.promote.discountType eq 'Percent' }">
-						<c:set var="total" scope="application" 
-						value="${sessionScope.totalAmount * 110 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}" />
+									<c:set var="total" scope="application"
+										value="${sessionScope.totalAmount * 110 / 100 - sessionScope.totalAmount * sessionScope.promote.discountAmount / 100}" />
 								</c:if>
 
 							</c:otherwise>
-						</c:choose>
-						<c:if test="${total <= 0}">
+						</c:choose> <c:if test="${total <= 0}">
 							0
-						</c:if>
-						<c:if test="${total > 0}">
+						</c:if> <c:if test="${total > 0}">
 							${total }
-						</c:if>
-						
-						
-						</td>
+						</c:if></td>
 
 				</tr>
 
@@ -198,22 +217,16 @@
 
 </body>
 <script type="text/javascript"
-	src="<c:url value='/resources/js/jquery.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
-<script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
 <script type="text/javascript">
 	$('#chkAgree').click(function() {
-
 		$('#btnSubmitOrder').attr("disabled", !this.checked);
-
 	});
-
+	$(window).load(function() {
+		$('#myModal').modal('show');
+	});
 	$(function() {
 		$("#frmOrder")
 				.validate(

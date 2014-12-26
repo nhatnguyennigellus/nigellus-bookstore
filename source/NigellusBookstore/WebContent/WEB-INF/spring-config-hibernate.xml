@@ -42,6 +42,7 @@ http://www.springframework.org/schema/context
 				<value>Promotion.hbm.xml</value>
 				<value>OrderPromotion.hbm.xml</value>
 				<value>ImageGallery.hbm.xml</value>
+				<value>OrderConfig.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
