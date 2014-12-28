@@ -9,9 +9,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/bootstrap-datetimepicker.min.css'/> ">
-<link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap-datetimepicker.css'/> ">
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/bootstrap-datetimepicker.min.css'/> ">
+
 </head>
 <body>
 
@@ -51,6 +52,40 @@
 				method="get" onsubmit="validateDatetime()">
 				<input name="id" type="hidden" value="${sessionScope.promotion.id }" />
 				<div class="form-group">
+					<label for="start">Start date</label> <font color="red">
+						<div class="input-group date form_datetime col-md-8"
+							data-date-format="mm/dd/yyyy hh:ii:00"
+							data-link-field="dtp_input1">
+							<input class="form-control" size="16" type="hidden" 
+								readonly name="start" id="start" placeholder="Start date"
+								pattern="MM/dd/yyyy HH:mm:ss" />  <input readonly="readonly"
+								value="<fmt:formatDate value="${sessionScope.promotion.startDate }"
+									pattern="MM/dd/yyyy HH:mm:ss" />" class="form-control"
+								id="startDate" name="startDate"><span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-th"></span></span>
+						</div>
+					</font>
+				</div>
+
+				<div class="form-group">
+					<label for="start">End date</label> <font color="red">
+						<div class="input-group date form_datetime col-md-8"
+							data-date-format="mm/dd/yyyy hh:ii:00"
+							data-link-field="dtp_input1">
+							<input class="form-control" size="16" type="hidden" 
+								readonly name="end" id="end" placeholder="End date"
+								pattern="MM/dd/yyyy HH:mm:ss" /> <input readonly="readonly"
+								value="<fmt:formatDate value="${sessionScope.promotion.endDate }"
+									pattern="MM/dd/yyyy HH:mm:ss" />" class="form-control"
+								id="endDate" name="endDate"><span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-th"></span></span> 
+
+						</div></font>
+				</div>
+				
+				<div class="form-group">
 					<label for="type">Discount Type</label> <font color="red"> <select
 						name="type" id="type" placeholder="Title" class="form-control">
 							<option value="Percent"
@@ -85,39 +120,6 @@
 							class="form-control"/>${sessionScope.promotion.description }</textarea></font>
 				</div>
 
-				<div class="form-group">
-					<label for="start">Start date</label> <font color="red">
-						<div class="input-group date form_datetime col-md-8"
-							data-date-format="mm/dd/yyyy hh:ii:00"
-							data-link-field="dtp_input1">
-							<input class="form-control" size="16" type="hidden" 
-								readonly name="start" id="start" placeholder="Start date"
-								pattern="MM/dd/yyyy HH:mm:ss" /> <span
-								class="input-group-addon"><span
-								class="glyphicon glyphicon-th"></span></span> <input
-								value="<fmt:formatDate value="${sessionScope.promotion.startDate }"
-									pattern="MM/dd/yyyy HH:mm:ss" />" class="form-control"
-								id="startDate" name="startDate">
-						</div>
-					</font>
-				</div>
-
-				<div class="form-group">
-					<label for="start">End date</label> <font color="red">
-						<div class="input-group date form_datetime col-md-8"
-							data-date-format="mm/dd/yyyy hh:ii:00"
-							data-link-field="dtp_input1">
-							<input class="form-control" size="16" type="hidden" 
-								readonly name="end" id="end" placeholder="End date"
-								pattern="MM/dd/yyyy HH:mm:ss" /> <span
-								class="input-group-addon"><span
-								class="glyphicon glyphicon-th"></span></span> <input
-								value="<fmt:formatDate value="${sessionScope.promotion.endDate }"
-									pattern="MM/dd/yyyy HH:mm:ss" />" class="form-control"
-								id="endDate" name="endDate">
-
-						</div>
-				</div>
 				
 				
 				<div id="dateNoti" class="form-group"
@@ -139,8 +141,9 @@
 				</div>
 				
 				<input class="btn btn-success" name="submit" type="submit"
-					value="Update" /> <input name="reset" type="reset" value="Reset"
-					class="btn btn-danger" /> 
+					value="Update" /> <a href="viewPromotions">
+								<button type="button" class="btn btn-primary"><img alt="Nigellus Bookstore" width="20px"
+		src="<c:url value="/resources/images/go-back.png" />" /> Back </button></a>
 
 			</form>
 		</div>
@@ -152,8 +155,6 @@
 	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/bootstrap-datepicker.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/bootstrap-datetimepicker.js' />"></script>
 <script type="text/javascript"
@@ -223,10 +224,11 @@
 	$('.form_datetime').datetimepicker({
 		weekStart : 1,
 		todayBtn : 1,
-		autoclose : 1,
 		todayHighlight : 1,
 		startView : 2,
 		forceParse : 0
+	}).on('changeDate', function(ev){
+	    $(this).datetimepicker('hide');
 	});
 	$("#start").datetimepicker({
 		format: "mm/dd/yyyy HH:mm:00"

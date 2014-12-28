@@ -53,6 +53,21 @@
 			</div>
 			<div class="panel panel-info">
 				<div class="panel-heading">
+				<img src="<c:url value="/resources/images/facebook.png" />" width="16px"/>
+					<b>CONNECT TO FACEBOOK!</b>
+				</div>
+				<div class="panel-body">
+					<div class="fb-like" data-href="https://www.facebook.com/NigellusBookstore" 
+								data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+								<br/>
+					<a id="fb_login_link" href="" onclick="loginFacebook(); return false;">
+					Login</a>
+					<img id="avatar" ></img>&nbsp;<label id="name"></label>
+					
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
 					<b>OUR CAREGORIES</b>
 				</div>
 				<div class="panel-body">

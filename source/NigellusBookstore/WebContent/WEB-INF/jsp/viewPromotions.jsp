@@ -88,8 +88,9 @@
 										</div>
 										<button type="button" class="btn btn-primary btn-xs"
 											data-toggle="modal" data-target="#myModal" data-code="${promote.promotionCode}"
-											data-amount="${promote.discountAmount}" data-condition="${promote.conditionAmount}"
-											data-type="<c:if test="${promote.discountType eq 'Fee'}">VND</c:if>
+											data-amount="${promote.discountAmount.toString().replace('.0','')}" 
+											data-condition="${promote.conditionAmount.toString().replace('.0','')}"
+											data-type="<c:if test="${promote.discountType eq 'Fee'}"> VND</c:if>
 														<c:if test="${promote.discountType eq 'Percent'}">%</c:if>" data-desc="${promote.description}">
 											<img alt="Nigellus Bookstore"
 												src="<c:url value="/resources/images/221.png" />" />

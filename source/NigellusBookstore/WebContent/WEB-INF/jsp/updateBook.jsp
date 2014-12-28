@@ -29,17 +29,17 @@
 
 				<div class="form-group">
 					<label for="unitPrice">Unit Price</label>
-					<fmt:parseNumber var="i" integerOnly="true" 
-                       type="number" value="${sessionScope.book.getUnitPrice() }" />
-					 <input name="unitPrice"
-						id="unitPrice" placeholder="Unit Price"
-						value="${sessionScope.book.getUnitPrice().toString().replace(".0", "") }" class="form-control" />
+					<fmt:parseNumber var="i" integerOnly="true" type="number"
+						value="${sessionScope.book.getUnitPrice().toString().replace('.0', '') }" />
+					<input name="unitPrice" id="unitPrice" placeholder="Unit Price"
+						value="${sessionScope.book.getUnitPrice().toString().replace('.0', '') }" class="form-control" />
 				</div>
 
 				<div class="form-group">
 					<label for="description">Description</label>
 					<textarea rows="3" name="description" id="description"
-						placeholder="[Use HTML tag to edit] Description" class="form-control">${sessionScope.book.getDescription() }</textarea>
+						placeholder="[Use HTML tag to edit] Description"
+						class="form-control">${sessionScope.book.getDescription() }</textarea>
 				</div>
 
 				<div class="form-group">
@@ -72,24 +72,42 @@
 				<input class="btn btn-success" name="submit" type="submit"
 					value="Update" /> <input name="reset" type="reset" value="Reset"
 					class="btn btn-danger" /> <a href="viewBooks?key=&author=">Back</a>
-				<c:if test="${sessionScope.updateBookSuccess != null}">
-					<font color="green">${sessionScope.updateBookSuccess }</font>
-				</c:if>
+
 			</form>
 		</div>
 	</div>
+	<c:if test="${sessionScope.updateBookSuccess != null}">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">SUCCESS!</h4>
+					</div>
+					<div class="modal-body">
+						<font color="green">${sessionScope.updateBookSuccess }</font>
+					</div>
+					<div class="modal-footer">
+						<a href="viewBooks?key=&author="><button type="button"
+								class="btn btn-primary">Back to Books</button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a href="viewBooks?key=&author=">Books</a>
+	</c:if>
 </body>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/js/jquery-1.10.2.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.validate.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.additional-methods.js' />"></script>
 <script type="text/javascript">
+	$(window).load(function() {
+		$('#myModal').modal('show');
+	});
 	$(function() {
 		$("#frmAddBook")
 				.validate(

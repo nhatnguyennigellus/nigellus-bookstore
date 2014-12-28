@@ -47,6 +47,31 @@
 			</c:if>
 			<form role="form" action="addPromotion" id="frmAddPromote"
 				method="get" onsubmit="validateDatetime()">
+				
+				<div class="form-group">
+					<label for="start">Start date</label> <font color="red">
+						<div class="input-group date form_datetime col-md-8"
+							data-date-format="mm/dd/yyyy hh:ii:00"
+							data-link-field="dtp_input1">
+							<input class="form-control" size="16" type="text" value=""
+								readonly name="start" id="start" placeholder="Start date">
+							<span class="input-group-addon"><span
+								class="glyphicon glyphicon-th"></span></span>
+						</div>
+					</font>
+				</div>
+
+				<div class="form-group">
+					<label for="start">End date</label> <font color="red">
+						<div class="input-group date form_datetime col-md-8"
+							data-date-format="mm/dd/yyyy hh:ii:00"
+							data-link-field="dtp_input1">
+							<input class="form-control" size="16" type="text" value=""
+								readonly name="end" id="end" placeholder="End date"> <span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-th"></span></span>
+						</div></font>
+				</div>
 				<div class="form-group">
 					<label for="type">Discount Type</label> <font color="red"> <select
 						name="type" id="type" placeholder="Title" class="form-control">
@@ -74,30 +99,6 @@
 							class="form-control"></textarea></font>
 				</div>
 
-				<div class="form-group">
-					<label for="start">Start date</label> <font color="red">
-						<div class="input-group date form_datetime col-md-8"
-							data-date-format="mm/dd/yyyy hh:ii:00"
-							data-link-field="dtp_input1">
-							<input class="form-control" size="16" type="text" value=""
-								readonly name="start" id="start" placeholder="Start date">
-							<span class="input-group-addon"><span
-								class="glyphicon glyphicon-th"></span></span>
-						</div>
-					</font>
-				</div>
-
-				<div class="form-group">
-					<label for="start">End date</label> <font color="red">
-						<div class="input-group date form_datetime col-md-8"
-							data-date-format="mm/dd/yyyy hh:ii:00"
-							data-link-field="dtp_input1">
-							<input class="form-control" size="16" type="text" value=""
-								readonly name="end" id="end" placeholder="End date"> <span
-								class="input-group-addon"><span
-								class="glyphicon glyphicon-th"></span></span>
-						</div>
-				</div>
 				<div id="dateNoti" class="form-group"
 					style="color: red; display: none;">Start date must be before
 					end date</div>
@@ -128,8 +129,11 @@
 		todayBtn : 1,
 		todayHighlight : 1,
 		startView : 2,
-		forceParse : 0
+		forceParse : 0,
+		orientation: "auto"
 
+	}).on('changeDate', function(ev){
+	    $(this).datetimepicker('hide');
 	});
 	$(function() {
 		$("#frmAddPromote").validate({

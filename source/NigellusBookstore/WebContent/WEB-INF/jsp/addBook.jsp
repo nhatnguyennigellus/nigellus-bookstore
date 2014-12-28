@@ -42,7 +42,6 @@
 						</div>
 					</div>
 				</div>
-
 			</c:if>
 			<c:if test="${sessionScope.addBookSuccess != null}">
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"

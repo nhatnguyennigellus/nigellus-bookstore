@@ -10,7 +10,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Nigellus Bookstore - Homepage</title>
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/full-slider.css'/> ">
+	href="<c:url value='/resources/css/full-slider.css'/> " />
+<style>
+.slider-size {
+	height: 350px; /* This is your slider height */
+}
+
+.carousel {
+	width: 100%;
+}
+</style>
 </head>
 <body>
 
@@ -27,7 +36,7 @@
 					<a href="CustomerViewBooks?key=&author=">PRODUCTS</a>
 				</div>
 				<div class="panel-body carousel slide" id="myCarousel"
-					style="height: 250">
+					style="height: 250; display: block;">
 					<ol class="carousel-indicators">
 
 						<li data-target="#myCarousel" data-slide-to="1" class="active"></li>
@@ -41,11 +50,11 @@
 					<!-- Wrapper for Slides -->
 					<div class="carousel-inner">
 						<div class="item active" style="background-color: #848484;">
-							<!-- Set the first background image using inline CSS below. -->
-							<center>
-								<img alt="Nigellus Bookstore" width="80%"
-									src="<c:url value="${sessionScope.BOOKINDEX.get(sessionScope.BOOKINDEX.size() - 1).imageUrl}" />" />
-							</center>
+							<div
+									style="background:url(<c:url value="${sessionScope.BOOKINDEX.get(sessionScope.BOOKINDEX.size() - 1).imageUrl}" />) center center; 
+          background-size:cover;"
+									class="slider-size"></div>
+							
 							<div class="carousel-caption">
 								<h3>${sessionScope.BOOKINDEX.get(sessionScope.BOOKINDEX.size() - 1).title }</h3>
 							</div>
@@ -53,10 +62,11 @@
 						<c:forEach items="${sessionScope.BOOKINDEX }" var="book"
 							varStatus="no">
 							<div class="item" style="background-color: #848484;">
-								<center>
-									<img alt="Nigellus Bookstore" width="80%"
-										src="<c:url value="${book.imageUrl}" />" />
-								</center>
+
+								<div
+									style="background:url(<c:url value="${book.imageUrl}" />) center center; 
+          background-size:cover;"
+									class="slider-size"></div>
 								<div class="carousel-caption">
 									<h3>${book.title }</h3>
 								</div>
@@ -78,8 +88,7 @@
 		<div class="col-md-7">
 			<div class="panel panel-info" style="height: 75">
 				<div class="panel-heading">PREFERENCE</div>
-				<div class="panel-body carousel slide" id="myCarousel1"
-					style="height: 250">
+				<div class="panel-body carousel slide" id="myCarousel1">
 					<ol class="carousel-indicators">
 
 						<li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
@@ -89,45 +98,57 @@
 					<!-- Wrapper for Slides -->
 					<div class="carousel-inner">
 						<div class="item active">
-							<!-- Set the first background image using inline CSS below. -->
+							<!-- Set the first background image using inline CSS below. 
 							<center>
 								<img alt="Nigellus Bookstore" width="80%"
 									src="<c:url value="/resources/images/member_discount.jpg" />" />
-							</center>
+							</center>-->
+							<div
+								style="background:url(<c:url value="/resources/images/member_discount.jpg" />) center center; 
+          background-size:cover;"
+								class="slider-size"></div>
 						</div>
 						<div class="item">
-							<center>
+							<!--<center>
 								<img alt="Nigellus Bookstore" width="80%"
 									src="<c:url value="/resources/images/CouponP.jpg" />" />
 							</center>
-
+-->
+							<div
+								style="background:url(<c:url value="/resources/images/CouponP.jpg" />) center center; 
+          background-size:cover;"
+								class="slider-size"></div>
 						</div>
 						<div class="item">
-							<center>
+							<!-- 	<center>
 								<img alt="Nigellus Bookstore" width="80%"
 									src="<c:url value="/resources/images/CouponF.jpg" />" />
-							</center>
+							</center> -->
+							<div
+								style="background:url(<c:url value="/resources/images/CouponF.jpg" />) center center; 
+          background-size:cover;"
+								class="slider-size"></div>
 
 						</div>
+						<!-- Controls -->
+						<a class="left carousel-control" href="javascript:void(0)"
+							data-target="#myCarousel1" data-slide="prev"> <span
+							class="icon-prev"></span>
+						</a> <a class="right carousel-control" href="javascript:void(0)"
+							data-target="#myCarousel1" data-slide="next"> <span
+							class="icon-next"></span>
+						</a>
 
 					</div>
-					<!-- Controls -->
-					<a class="left carousel-control" href="#myCarousel1"
-						data-slide="prev"> <span class="icon-prev"></span>
-					</a> <a class="right carousel-control" href="#myCarousel1"
-						data-slide="next"> <span class="icon-next"></span>
-					</a>
-
 				</div>
-			</div>
 
-		</div>
-		<script type="text/javascript">
-			/*		$(".btn").click($(function() {
-						$('#myModal').modal({
-							keyboard : true
-						})
-					}));*/
-		</script>
+			</div>
+			<script type="text/javascript">
+				/*		$(".btn").click($(function() {
+							$('#myModal').modal({
+								keyboard : true
+							})
+						}));*/
+			</script></div>
 </body>
 </html>

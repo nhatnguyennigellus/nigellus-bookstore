@@ -34,26 +34,31 @@
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.dataTables.min.js' />"></script>
 <script type="text/javascript"
+	src="<c:url value='/resources/js/all.js' />"></script>
+<script type="text/javascript"
 	src="<c:url value='/resources/js/dataTables.bootstrap.js' />"></script>
 <script src="<c:url value='/resources/js/bootstrap.min.js'/> "></script>
 </head>
 <body
 	style="padding-top: 5px; background-repeat: no-repeat; background-attachment: fixed;"
 	background="<c:url value='/resources/images/background.jpg'/>">
-	<table border="0" style="border-style:solid ; margin-bottom: 5px" cellpadding="2"
-		cellspacing="2" align="center" width="90%">
+	<table border="0" style="border-style: solid; margin-bottom: 5px"
+		cellpadding="2" cellspacing="2" align="center" width="90%">
 		<tr>
-			<td height="30" colspan="2"
-				style="background-color: #FFDFDF;"><tiles:insertAttribute
+			<td height="30" colspan="2" style="background-color: #FFDFDF;"><tiles:insertAttribute
 					name="header" /></td>
 		</tr>
 		<tr>
 			<td height="600"
 				style="background-color: #FFFFB7; vertical-align: top;" width="18%">
+				<div id="fb-root"></div>
 				<tiles:insertAttribute name="menu" />
 			</td>
 			<td style="vertical-align: top; background-color: #FFFFFF;"><tiles:insertAttribute
-					name="body" /></td>
+					name="body" />
+			<div class="fb-comments col-lg-12" data-href="http://localhost:8080/NigellusBookstore/" data-numposts="5" data-colorscheme="light"></div>
+			</td>
+					
 		</tr>
 		<tr>
 			<td height="50" colspan="2"
@@ -62,7 +67,72 @@
 		</tr>
 	</table>
 </body>
-<script>
-   
+<script type="text/javascript">
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId : '345755782258353',
+			channelUrl : '//localhost:8080/NigellusBookstore/channel.html',
+			status : true,
+			cookie : true,
+			xfbml : true
+		});
+
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				$('#fb_status').text('Connected!');
+				$('#user_auth_info').css('display', 'block');
+                $('#fb_login_link').css('display', 'none');
+				testAPI();
+				getProfilePicture();
+			} else if (response.status === 'not_authorized') {
+				$('#fb_status').text('Not Authorize');
+
+			} else {
+				$('#fb_status').text('Not logged in');
+			}
+		});
+	};
+	(function(d) {
+        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement('script');
+        js.id = id;
+        js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=345755782258353";
+        ref.parentNode.insertBefore(js, ref);
+    }(document));
+	
+</script>
+<script type="text/javascript">
+	function loginFacebook() {
+		FB.login(function (response) {
+			if (response.authResponse) {
+				loginStatusInfo();
+				testAPI();
+				getProfilePicture();
+			}
+		}, {scope: 'public_profile,user_about_me,user_birthday,user_videos,user_activities,user_interests,email,user_status,publish_stream'});
+	}
+	
+	
+	function testAPI() {
+		console.log('Welcome! Fetching your information');
+		FB.api('/me', function(response) {
+			$('#name').text(response.name);
+			var image = document.getElementById('avatar');
+			image.src = 'https://graph.facebook.com/' + response.id + '/picture';
+		});
+	}
+	
+	function loginStatusInfo() {
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				$('#fb_status').text('Connected');
+				getProfilePicture();
+			}
+		});
+	}
 </script>
 </html>

@@ -233,16 +233,16 @@ public class BookstoreController {
 		List<ImageGallery> gallery = storeManager.getImageGallery();
 		request.getSession().setAttribute("GALLERY", gallery);
 		return mav;
-		
+
 	}
-	
+
 	@RequestMapping(value = "/customerViewBookCategories")
 	public ModelAndView customerViewBookCategories(BookstoreModel storeModel,
 			HttpServletRequest request) {
-		
+
 		int id = Integer.parseInt(request.getParameter("id"));
 		ModelAndView mav = new ModelAndView("CustomerViewCategories", "model",
-												storeModel);
+				storeModel);
 		storeManager.getCategoryInfo(storeModel, id);
 		List<ImageGallery> gallery = storeManager.getImageGallery();
 		request.getSession().setAttribute("GALLERY", gallery);
@@ -300,7 +300,8 @@ public class BookstoreController {
 				byte[] bytes = file.getBytes();
 				File serverFile = new File(request.getSession()
 						.getServletContext().getRealPath("/resources/images")
-						+ File.separator + imageName
+						+ File.separator
+						+ imageName
 						+ file.getOriginalFilename().substring(
 								file.getOriginalFilename().lastIndexOf(".")));
 
@@ -477,7 +478,7 @@ public class BookstoreController {
 	}
 
 	@RequestMapping(value = "/changeImage", method = RequestMethod.POST)
-	public String changeImage(@RequestParam("file") MultipartFile file, 
+	public String changeImage(@RequestParam("file") MultipartFile file,
 			HttpServletRequest request) {
 		if (!file.isEmpty()) {
 			StringBuffer buffer = new StringBuffer();
@@ -859,9 +860,9 @@ public class BookstoreController {
 		List<Category> selCates = storeManager
 				.getSelectedCateById(selectedCateId);
 		storeManager.updateBook(selCates, b);
-		request.getSession().setAttribute("ChangeImgSuccess",
+		request.getSession().setAttribute("updateBookSuccess",
 				"Updated book successfully!");
-		return "redirect:uploadSuccess";
+		return "updateBook";
 	}
 
 	@RequestMapping(value = "/deleteBook")
@@ -899,12 +900,10 @@ public class BookstoreController {
 		String key = request.getParameter("key");
 		String author = request.getParameter("author");
 		storeManager.getBookInfo(storeModel, key, author);
-		if (request.getSession().getAttribute("addCategorySuccess") != null) {
-			request.getSession().removeAttribute("addCategorySuccess");
-		}
-		if (request.getSession().getAttribute("addBookSuccess") != null) {
-			request.getSession().removeAttribute("addBookSuccess");
-		}
+		request.getSession().removeAttribute("addCategorySuccess");
+		request.getSession().removeAttribute("addBookSuccess");
+		request.getSession().removeAttribute("updateBookSuccess");
+
 		List<ImageGallery> gallery = storeManager.getImageGallery();
 		request.getSession().setAttribute("GALLERY", gallery);
 		return mav;
@@ -1012,11 +1011,10 @@ public class BookstoreController {
 		float totalAmount = (float) session.getAttribute("totalAmount");
 		if ((totalAmount < config.getMin() || totalAmount > config.getMax())
 				&& config.getActive() == 1) {
-			session.setAttribute("OrderOutOfRange", 
-					"You cannot order more than " + config.getMax() + 
-					" VND or less than " + config.getMin() + " VND");
-		}
-		else {
+			session.setAttribute("OrderOutOfRange",
+					"You cannot order more than " + config.getMax()
+							+ " VND or less than " + config.getMin() + " VND");
+		} else {
 			session.removeAttribute("OrderOutOfRange");
 
 		}
@@ -1037,7 +1035,7 @@ public class BookstoreController {
 		session.setAttribute("config", config);
 		return new ModelAndView("configOrder");
 	}
-	
+
 	@RequestMapping(value = "/configOrder")
 	public ModelAndView configOrder(HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -1055,7 +1053,7 @@ public class BookstoreController {
 		session.setAttribute("configSuccess", "Configured success");
 		return new ModelAndView("configOrder");
 	}
-	
+
 	@RequestMapping(value = "/order")
 	public ModelAndView order(HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -1190,7 +1188,7 @@ public class BookstoreController {
 	public ModelAndView confirmOrder(HttpServletRequest request) {
 		String code = request.getParameter("code");
 		Order order = (Order) request.getSession().getAttribute("order");
-		
+
 		if (code.equals(order.getConfirmCode())) {
 
 			request.getSession().removeAttribute("order");
