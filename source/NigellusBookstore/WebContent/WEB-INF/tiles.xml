@@ -83,6 +83,12 @@
 		<put-attribute name="title" value="Order Configuration"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/configOrder.jsp"></put-attribute>
 	</definition>
+	<definition name="viewStock" extends="base.admin">
+		<put-attribute name="title" value="Stock Management"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/viewStock.jsp"></put-attribute>
+	</definition>
+	
+	
 	<!-- USER'S PAGES -->
 	
 	

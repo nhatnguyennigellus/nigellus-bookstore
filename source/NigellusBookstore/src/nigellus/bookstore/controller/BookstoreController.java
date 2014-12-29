@@ -32,6 +32,7 @@ import nigellus.bookstore.entity.OrderConfig;
 import nigellus.bookstore.entity.OrderDetail;
 import nigellus.bookstore.entity.OrderPromotion;
 import nigellus.bookstore.entity.Promotion;
+import nigellus.bookstore.entity.Warehouse;
 import nigellus.bookstore.model.AddCategoryModel;
 import nigellus.bookstore.model.BookstoreModel;
 import nigellus.bookstore.model.LoginModel;
@@ -425,6 +426,7 @@ public class BookstoreController {
 		}
 		return "redirect:addCategory";
 	}
+	
 
 	@RequestMapping(value = "/exportCSV")
 	public String exportCSV(HttpServletRequest request) {
@@ -1132,9 +1134,12 @@ public class BookstoreController {
 		List<OrderDetail> lstDetail = new ArrayList<OrderDetail>();
 		for (Cart cart : listCart) {
 			OrderDetail detail = new OrderDetail();
-			detail.setBook(cart.getBook());
+			Book book = cart.getBook();
+			detail.setBook(book);
 			detail.setQuantity(cart.getQuantity());
 			detail.setOrder(order);
+			book.setQuantity(book.getQuantity() - cart.getQuantity());
+			storeManager.updateBook(book);
 			lstDetail.add(detail);
 		}
 		order.setOrderdetails(new HashSet<OrderDetail>(lstDetail));
@@ -1319,11 +1324,45 @@ public class BookstoreController {
 			return new ModelAndView("accessDeniedAd");
 		}
 		List<Customer> lstCustomer = storeManager.getCustomerList();
-
+		
 		request.getSession().setAttribute("CUSTOMERLIST", lstCustomer);
+		
 		return new ModelAndView("viewCustomers");
 	}
+	
+	@RequestMapping(value = "/warehouse")
+	public String warehouse(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return "redirect:accessDeniedAd";
+		}
+		int bookId = Integer.parseInt(request.getParameter("id"));
+		int quantity = Integer.parseInt(request.getParameter("quantity"));
+		Book book = storeManager.getBookById(bookId);
+		book.setQuantity(book.getQuantity() + quantity);
+		Warehouse wh = new Warehouse(new Date(), quantity, book);
+		storeManager.warehouseBook(wh, book);
+		
+		request.getSession().setAttribute("warehouseSuccess", 
+				"Warehoused successfully!");
+		return "redirect:viewStock?wh=0";
+	}
 
+	@RequestMapping(value = "/viewStock")
+	public ModelAndView viewWarehouse(HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") == null) {
+			return new ModelAndView("accessDeniedAd");
+		}
+		/*if (request.getParameter("wh") == null) {
+			request.getSession().removeAttribute("warehouseSuccess");
+		}*/
+		List<Warehouse> lstWarehouse = storeManager.getWarehousingHistory();
+		request.getSession().setAttribute("WAREHOUSE", lstWarehouse);
+		List<Book> lstBook = storeManager.getBookList();
+		request.getSession().setAttribute("BOOK", lstBook);
+		
+		return new ModelAndView("viewStock");
+	}
+	
 	@RequestMapping(value = "/viewPromotions")
 	public ModelAndView viewPromotions(HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null) {

@@ -24,6 +24,7 @@ import nigellus.bookstore.dao.OrderDAO;
 import nigellus.bookstore.dao.OrderDetailDAO;
 import nigellus.bookstore.dao.OrderPromotionDAO;
 import nigellus.bookstore.dao.PromotionDAO;
+import nigellus.bookstore.dao.WarehouseDAO;
 import nigellus.bookstore.entity.Book;
 import nigellus.bookstore.entity.Category;
 import nigellus.bookstore.entity.Customer;
@@ -33,6 +34,7 @@ import nigellus.bookstore.entity.OrderConfig;
 import nigellus.bookstore.entity.OrderDetail;
 import nigellus.bookstore.entity.OrderPromotion;
 import nigellus.bookstore.entity.Promotion;
+import nigellus.bookstore.entity.Warehouse;
 import nigellus.bookstore.model.AddBookModel;
 import nigellus.bookstore.model.BookstoreModel;
 import nigellus.bookstore.model.LoginModel;
@@ -70,6 +72,17 @@ public class BookstoreManager {
 	@Autowired
 	private OrderConfigDAO orderConfigDAO;
 	
+	@Autowired
+	private WarehouseDAO warehouseDAO;
+	
+	public WarehouseDAO getWarehouseDAO() {
+		return warehouseDAO;
+	}
+
+	public void setWarehouseDAO(WarehouseDAO warehouseDAO) {
+		this.warehouseDAO = warehouseDAO;
+	}
+
 	public OrderConfigDAO getOrderConfigDAO() {
 		return orderConfigDAO;
 	}
@@ -416,6 +429,16 @@ public class BookstoreManager {
 	public void updateConfig(OrderConfig config) {
 		orderConfigDAO.updateConfig(config);
 	}
+	
+	public void warehouseBook(Warehouse whItem, Book book) {
+		warehouseDAO.warehousing(whItem);
+		updateBook(book);
+	}
+	
+	public List<Warehouse> getWarehousingHistory() {
+		return warehouseDAO.getWarehousingLog();
+	}
+	
 	public void sendConfirmEmail(String email, String code) {
 		Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", true);

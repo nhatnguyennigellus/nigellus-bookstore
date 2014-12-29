@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 30, 2014 2:46:01 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="nigellus.bookstore.entity.Warehouse" table="warehouse" catalog="bookonline">
+        <id name="id" type="java.lang.Integer">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="book" class="nigellus.bookstore.entity.Book" lazy="false" fetch="select">
+            <column name="BookId" not-null="true" />
+        </many-to-one>
+        <property name="dateWarehousing" type="timestamp">
+            <column name="DateWarehousing" not-null="true" length="19"/>
+        </property>
+        <property name="quantityWarehousing" type="java.lang.Integer">
+            <column name="QuantityWarehousing" not-null="true" />
+        </property>
+        
+    </class>
+</hibernate-mapping>

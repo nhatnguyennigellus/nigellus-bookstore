@@ -46,9 +46,6 @@
 					<p>
 						<a href="CustomerViewBooks?key=&author=">Our library</a>
 					</p>
-					<p>
-						<a href="CustomerViewCategories">Categories</a>
-					</p>
 				</div>
 			</div>
 			<div class="panel panel-info">

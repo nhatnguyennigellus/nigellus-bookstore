@@ -142,13 +142,9 @@
 					</div>
 				</div>
 
-			</div>
-			<script type="text/javascript">
-				/*		$(".btn").click($(function() {
-							$('#myModal').modal({
-								keyboard : true
-							})
-						}));*/
-			</script></div>
+			</div></div>
+			<div class="col-md-12">
+	<div class="fb-comments col-lg-12" data-href="http://localhost:8080/NigellusBookstore/" data-numposts="5" data-colorscheme="light"></div>
+	</div>
 </body>
 </html>

@@ -23,6 +23,9 @@
         <property name="imageUrl" type="string">
             <column name="ImageUrl" length="70" not-null="true" />
         </property>
+        <property name="quantity" type="java.lang.Integer">
+            <column name="Quantity" not-null="true" />
+        </property>
         <property name="status" type="java.lang.Integer">
             <column name="Status" not-null="true" />
         </property>

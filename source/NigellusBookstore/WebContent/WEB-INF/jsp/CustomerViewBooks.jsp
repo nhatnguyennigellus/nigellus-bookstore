@@ -47,6 +47,7 @@
 			<table width="100%" class="table table-striped tablesorter"
 				id="tableBook">
 				<c:forEach items="${model.books }" var="book">
+				<c:if test="${book.status == 1 }">
 					<tr>
 						<td align="center" width="35%" id="myCarousel${book.id }"
 							class="carousel slide">
@@ -100,28 +101,31 @@
 							</c:url>
 							<div id="img${book.id}" style="display: none;">${book.imageUrl}</div>
 							<div style="text-align: right;">
-								<c:if test="${book.status == 1 }">
-									<a href="${urlCart}"><img alt="Nigellus Bookstore" width="30"
+								<c:if test="${book.quantity > 0 }">
+									<a href="${urlCart}"><img alt="Nigellus Bookstore" width="16px"
 										src="<c:url value="/resources/images/basket.png" />" /></a>
-									<a onclick="shareProduct(${book.id }, ${book.unitPrice})">
+									
+								</c:if>
+								<c:if test="${book.quantity == 0 }">
+									<font color="red">Sold out</font>
+								</c:if>
+								<a onclick="shareProduct(${book.id }, ${book.unitPrice})">
 									<img src="<c:url value="/resources/images/facebook.png" />" width="16px"/>
 									
 									</a>
-								</c:if>
-								<c:if test="${book.status == 0 }">
-									<font color="red">Sold out</font>
-								</c:if>
 							</div>
 
 						</td>
-					</tr>
+					</tr></c:if>
 				</c:forEach>
 			</table>
 			<br />
 
 		</form:form>
 	</div>
-
+	<div class="col-md-12">
+	<div class="fb-comments col-lg-12" data-href="http://localhost:8080/NigellusBookstore/" data-numposts="5" data-colorscheme="light"></div>
+	</div>
 </body>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/all.js' />"></script>

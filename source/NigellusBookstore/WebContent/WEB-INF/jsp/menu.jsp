@@ -48,6 +48,9 @@
 						<p>
 							<a href="viewPromotions">Coupons </a>
 						</p>
+						<p>
+							<a href="viewStock">Stock </a>
+						</p>
 					</div>
 				</div>
 			</div>

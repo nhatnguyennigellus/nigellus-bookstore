@@ -16,7 +16,16 @@ public class Book implements java.io.Serializable {
 	private String description;
 	private String authorList;
 	private String imageUrl;
+	private Integer quantity;
 	private Integer status;
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
 
 	public Integer getStatus() {
 		return status;

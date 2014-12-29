@@ -73,7 +73,7 @@
 					<div class="col-sm-offset-2 col-sm-10">
 						<div class="checkbox">
 							<label> <input type="checkbox" id="chkAgree" /> I have
-								read and accept the Terms and Conditions
+								read and accept the <a href="term" target="_blank">Term & Condition</a>
 							</label>
 						</div>
 

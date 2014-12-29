@@ -56,7 +56,7 @@
 			</td>
 			<td style="vertical-align: top; background-color: #FFFFFF;"><tiles:insertAttribute
 					name="body" />
-			<div class="fb-comments col-lg-12" data-href="http://localhost:8080/NigellusBookstore/" data-numposts="5" data-colorscheme="light"></div>
+			
 			</td>
 					
 		</tr>
