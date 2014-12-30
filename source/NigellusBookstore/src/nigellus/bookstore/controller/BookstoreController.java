@@ -36,6 +36,7 @@ import nigellus.bookstore.entity.Warehouse;
 import nigellus.bookstore.model.AddCategoryModel;
 import nigellus.bookstore.model.BookstoreModel;
 import nigellus.bookstore.model.LoginModel;
+import nigellus.bookstore.reports.ReportManagement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,6 +57,17 @@ public class BookstoreController {
 
 	public void setStoreManager(BookstoreManager storeManager) {
 		this.storeManager = storeManager;
+	}
+	
+	@Autowired
+	private ReportManagement reportManager;
+
+	public ReportManagement getReportManager() {
+		return reportManager;
+	}
+
+	public void setReportManager(ReportManagement reportManager) {
+		this.reportManager = reportManager;
 	}
 
 	@RequestMapping(value = "/index")
@@ -96,8 +108,10 @@ public class BookstoreController {
 
 	@RequestMapping(value = "/admin")
 	public ModelAndView admin(HttpServletRequest request) {
-
 		HttpSession session = request.getSession();
+		if (request.getParameter("rp") == null) {
+			session.removeAttribute("ReportNoti");
+		}
 		session.removeAttribute("uploadSuccess");
 		session.removeAttribute("addBookSuccess");
 		session.removeAttribute("changeImgSuccess");
@@ -107,12 +121,15 @@ public class BookstoreController {
 		session.removeAttribute("addPromoteSuccess");
 		session.removeAttribute("updatePromoteSuccess");
 		session.removeAttribute("configSuccess");
-
-		session.setAttribute("CusNo", storeManager.getCustomerList().size());
-		session.setAttribute("BookNo", storeManager.getBookList().size());
-		session.setAttribute("OrderNo", storeManager.getOrderList().size());
-		session.setAttribute("CouponNo", storeManager.getPromotionList().size());
-		session.setAttribute("CateNo", storeManager.getCategoryList().size());
+		if (session.getAttribute("admin") != null) {
+			session.setAttribute("CusNo", storeManager.getCustomerList().size());
+			session.setAttribute("BookNo", storeManager.getBookList().size());
+			session.setAttribute("OrderNo", storeManager.getOrderList().size());
+			session.setAttribute("CouponNo", storeManager.getPromotionList().size());
+			session.setAttribute("CateNo", storeManager.getCategoryList().size());
+			session.setAttribute("Stock", storeManager.getStockSum());
+				
+		}
 		return new ModelAndView("admin");
 	}
 
@@ -1352,9 +1369,9 @@ public class BookstoreController {
 		if (request.getSession().getAttribute("admin") == null) {
 			return new ModelAndView("accessDeniedAd");
 		}
-		/*if (request.getParameter("wh") == null) {
+		if (request.getParameter("wh") == null) {
 			request.getSession().removeAttribute("warehouseSuccess");
-		}*/
+		}
 		List<Warehouse> lstWarehouse = storeManager.getWarehousingHistory();
 		request.getSession().setAttribute("WAREHOUSE", lstWarehouse);
 		List<Book> lstBook = storeManager.getBookList();
@@ -1389,5 +1406,37 @@ public class BookstoreController {
 
 		request.getSession().setAttribute("ORDERLIST", lstOrder);
 		return new ModelAndView("viewOrder");
+	}
+	
+	private String REPORT_OUTPUT_FOLDER = "D:/Nigellus Bookstore/Reports/"; 
+	@RequestMapping(value = "/reportYearIncome")
+	public String reportYearIncome(HttpServletRequest request) {
+		String year = request.getParameter("yearIncome");
+		String outputFile = REPORT_OUTPUT_FOLDER + year + "IncomeReport.pdf";
+		try {
+			reportManager.yearIncomePerMonth(year, outputFile);
+			request.getSession().setAttribute
+				("ReportNoti", "Report exported successfully");
+		} catch (Exception e) {
+			request.getSession().setAttribute
+				("ReportNoti", e.getMessage());
+		}
+		
+		return "redirect:admin?rp=0";
+	}
+	
+	@RequestMapping(value = "/reportTop5BestSeller")
+	public String reportTop5BestSeller(HttpServletRequest request) {
+		String outputFile = REPORT_OUTPUT_FOLDER + "Top 5 Best-sellers.pdf";
+		try {
+			reportManager.top5BestSeller(outputFile);
+			request.getSession().setAttribute
+				("ReportNoti", "Report exported successfully");
+		} catch (Exception e) {
+			request.getSession().setAttribute
+				("ReportNoti", e.getMessage());
+		}
+		
+		return "redirect:admin?rp=0";
 	}
 }

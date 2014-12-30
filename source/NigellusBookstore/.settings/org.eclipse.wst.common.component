@@ -4,6 +4,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/hibernate"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/report"/>
         <property name="context-root" value="NigellusBookstore"/>
         <property name="java-output-path" value="/NigellusBookstore/build/classes"/>
     </wb-module>

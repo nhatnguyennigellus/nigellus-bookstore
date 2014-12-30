@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="hibernate"/>
 	<classpathentry kind="src" path="resources"/>
+	<classpathentry kind="src" path="report"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
@@ -55,5 +56,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/java-mail-1.4.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-social-facebook-1.0.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jasperreports-5.0.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/itext-2.1.7.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

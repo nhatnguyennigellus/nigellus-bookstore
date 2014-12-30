@@ -25,4 +25,5 @@ public class WarehouseDAO extends HibernateDaoSupport {
 				+ " and MONTH(w.dateWarehousing) = " + month;
 		return getHibernateTemplate().find(query);
 	}
+	
 }

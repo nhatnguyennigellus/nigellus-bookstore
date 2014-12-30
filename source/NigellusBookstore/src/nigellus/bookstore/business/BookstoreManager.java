@@ -435,6 +435,10 @@ public class BookstoreManager {
 		updateBook(book);
 	}
 	
+	public long getStockSum() {
+		return bookDAO.getStockSum();
+	}
+	
 	public List<Warehouse> getWarehousingHistory() {
 		return warehouseDAO.getWarehousingLog();
 	}

@@ -41,4 +41,10 @@ public class BookDAO extends HibernateDaoSupport {
 		String query = "select b from Book b where b.id = " + id;
 		return (Book) getHibernateTemplate().find(query).get(0);
 	}
+	
+
+	public long getStockSum() {
+		String query = "select sum(b.quantity) from Book b";
+		return (long) getHibernateTemplate().find(query).get(0);
+	}
 }
