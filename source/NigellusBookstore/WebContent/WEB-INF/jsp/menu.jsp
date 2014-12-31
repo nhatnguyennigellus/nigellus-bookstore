@@ -12,7 +12,9 @@
 <body>
 	<c:if test="${sessionScope.admin != null}">
 		<div style="padding: 10px 0px 10px 0px">
-			<div class="col-md-12">
+			<div class="col-md-12"><center>
+				<img alt="Nigellus Bookstore" width="120"
+					src="<c:url value="/resources/images/logo.png" />" /></center>
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<b>SITES</b>

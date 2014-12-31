@@ -25,9 +25,6 @@
 					</select>
 
 				</div>
-
-
-
 				<div class="form-group">
 					<select name="month" class="form-control">
 						<option>1</option>

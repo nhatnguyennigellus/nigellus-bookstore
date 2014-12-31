@@ -1425,11 +1425,47 @@ public class BookstoreController {
 		return "redirect:admin?rp=0";
 	}
 	
+	@RequestMapping(value = "/warehouseReport")
+	public String warehouseReport(HttpServletRequest request) {
+		String year = request.getParameter("yearWh");
+		String month = request.getParameter("monthWh");
+		String outputFile = REPORT_OUTPUT_FOLDER 
+				+ year + "_" + month + "_" + "Warehouse.pdf";
+		try {
+			reportManager.monthWarehouse(year, month, outputFile);
+			request.getSession().setAttribute
+				("ReportNoti", "Report exported successfully");
+		} catch (Exception e) {
+			request.getSession().setAttribute
+				("ReportNoti", e.getMessage());
+		}
+		
+		return "redirect:admin?rp=0";
+	}
+	
 	@RequestMapping(value = "/reportTop5BestSeller")
 	public String reportTop5BestSeller(HttpServletRequest request) {
 		String outputFile = REPORT_OUTPUT_FOLDER + "Top 5 Best-sellers.pdf";
 		try {
 			reportManager.top5BestSeller(outputFile);
+			request.getSession().setAttribute
+				("ReportNoti", "Report exported successfully");
+		} catch (Exception e) {
+			request.getSession().setAttribute
+				("ReportNoti", e.getMessage());
+		}
+		
+		return "redirect:admin?rp=0";
+	}
+	
+	@RequestMapping(value = "/exportReceipt")
+	public String exportReceipt(HttpServletRequest request) {
+		String orderId = request.getParameter("id");
+		String cus = request.getParameter("cus");
+		String outputFile = REPORT_OUTPUT_FOLDER + 
+				"Order_" + orderId + "_" + cus.replace(" ", "") + ".pdf";
+		try {
+			reportManager.printOrderReceipt(orderId, outputFile);
 			request.getSession().setAttribute
 				("ReportNoti", "Report exported successfully");
 		} catch (Exception e) {

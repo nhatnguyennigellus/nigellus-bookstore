@@ -55,6 +55,66 @@ public class ReportManagement {
 		}
 	}
 	
+	public void printOrderReceipt(String id, String outputPath) 
+	{
+		Connection cnn = null;
+		try {
+			String source = "D:\\jasper\\exportOrder.jrxml";
+			System.out.println(this.getClass().getCanonicalName());
+			JasperReport jr = JasperCompileManager.compileReport(source);
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("id", id);
+			
+			cnn = getConnection();
+			JasperPrint jp = JasperFillManager.fillReport(jr, params, cnn);
+			OutputStream os = new FileOutputStream(outputPath);
+			JasperExportManager.exportReportToPdfStream(jp, os);
+			
+			os.flush();
+			os.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (cnn != null && !cnn.isClosed()) {
+					cnn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void monthWarehouse(String year, String month, String outputPath) {
+		Connection cnn = null;
+		try {
+			String source = "D:\\jasper\\warehouseReport.jrxml";
+			System.out.println(this.getClass().getCanonicalName());
+			JasperReport jr = JasperCompileManager.compileReport(source);
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("month", month);
+			params.put("year", year);
+			
+			cnn = getConnection();
+			JasperPrint jp = JasperFillManager.fillReport(jr, params, cnn);
+			OutputStream os = new FileOutputStream(outputPath);
+			JasperExportManager.exportReportToPdfStream(jp, os);
+			
+			os.flush();
+			os.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (cnn != null && !cnn.isClosed()) {
+					cnn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void yearIncomePerMonth(String year, String outputPath) {
 		Connection cnn = null;
 		try {

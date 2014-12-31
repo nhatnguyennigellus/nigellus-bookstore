@@ -12,7 +12,11 @@
 	<div class="col-md-12">
 		<h2>ORDER DETAILS</h2><a href="javascript:history.go(-1)">
 		<img alt="Nigellus Bookstore" width="20px"
-					src="<c:url value="/resources/images/go-back.png" />" /> Back</a>
+					src="<c:url value="/resources/images/go-back.png" />" /> Back </a>
+		<a href="exportReceipt?id=${param.id}&cus=${param.fullname}">
+		<img alt="Nigellus Bookstore" width="20px"
+					src="<c:url value="/resources/images/124.png" />" /> Print
+					</a>
 		<form action="updateOrderStatus?id=${param.id }" method="post" role="form">
 			<div class="form-group form-group-sm">
 				Order No: <b>${param.id}</b>
@@ -40,7 +44,7 @@
 					<option value="Delivered"
 						<c:if test="${param.status eq 'Delivered'}">selected</c:if>>Delivered</option>
 				</select> 
-				</div><input value="Update status" class="btn btn-default" type="submit" />
+				</div><input value="Update status" class="btn btn-default btn-sm" type="submit" />
 			</div>
 		</form>
 
@@ -74,7 +78,6 @@
 				<td colspan="2"
 					style="color: green; font-weight: bold; font-size: 20px"
 					align="right">${param.total}</td>
-
 			</tr>
 		</table>
 	</div>

@@ -44,7 +44,5 @@
 		</c:choose>
 
 	</div>
-	<img alt="Nigellus Bookstore" width="100%"
-		src="<c:url value="/resources/images/banner.gif"/>" />
 </body>
 </html>

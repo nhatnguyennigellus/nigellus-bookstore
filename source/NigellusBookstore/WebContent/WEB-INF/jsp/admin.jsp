@@ -60,50 +60,45 @@
 								</div>
 							</div>
 						</div>
-						<a>
-
-							<div class="modal fade" id="modalIncome" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal">
-												<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-											</button>
-											<h4 class="modal-title" id="myModalLabel">Income Report</h4>
-										</div>
-										<form action="reportYearIncome" method="post" id="frmWare">
-											<div class="modal-body col-md-6">
-
-												<input type="hidden" name="id" id="id" />
-												<div class="form-group">
-													<label for="quantity">Year</label> <font color="red">
-														<input type="number" min="2010" max="2020"
-														name="yearIncome" id="yearIncome" class="form-control"
-														value="2014" />
-													</font>
-												</div>
-
-
-											</div>
-											<div class="modal-footer">
-												<button type="submit" class="btn btn-success">Submit</button>
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">Cancel</button>
-
-											</div>
-										</form>
+						<div class="modal fade" id="modalIncome" tabindex="-1"
+							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel">Income Report</h4>
 									</div>
+									<form action="reportYearIncome" method="post" id="frmWare">
+										<div class="modal-body col-md-6">
+											<div class="form-group">
+												<label for="quantity">Year</label> <font color="red">
+													<input type="number" min="2010" max="2020"
+													name="yearIncome" id="yearIncome" class="form-control"
+													value="2014" />
+												</font>
+											</div>
+
+
+										</div>
+										<div class="modal-footer">
+											<button type="submit" class="btn btn-success">Submit</button>
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">Cancel</button>
+
+										</div>
+									</form>
 								</div>
 							</div>
-
-							<div class="panel-body" data-toggle="modal"
-								data-target="#modalIncome">
-								<span class="pull-left">Report</span> <span class="pull-right">
-									<i class="glyphicon glyphicon-circle-arrow-right"></i>
-								</span>
-							</div>
-						</a>
+						</div>
+						<a>
+						<div class="panel-body" data-toggle="modal"
+							data-target="#modalIncome">
+							<span class="pull-left">Report</span> <span class="pull-right">
+								<i class="glyphicon glyphicon-circle-arrow-right"></i>
+							</span>
+						</div></a>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
@@ -128,6 +123,54 @@
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
+					<div class="modal fade" id="modalWare" tabindex="-1"
+						role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">
+										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+									</button>
+									<h4 class="modal-title" id="myModalLabel">Warehouse and Stock Report</h4>
+								</div>
+								<form action="warehouseReport" method="post" role="form"
+									id="frmWare" class="form form-inline">
+									<div class="modal-body col-md-6">
+
+										<div class="form-group">
+											<label for="quantity">Month</label> <select name="monthWh"
+												class="form-control">
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+												<option>6</option>
+												<option>7</option>
+												<option>8</option>
+												<option>9</option>
+												<option>10</option>
+												<option>11</option>
+												<option>12</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="quantity">Year</label> <font color="red">
+												<input type="number" min="2010" max="2020" name="yearWh"
+												id="yearIncome" class="form-control" value="2014" />
+											</font>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-success">Submit</button>
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Cancel</button>
+
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
 					<div class="panel panel-primary">
 						<div class="panel-heading">
 							<div class="row">
@@ -135,17 +178,17 @@
 									<i class="glyphicon glyphicon-barcode fa-4x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<h3>WAREHOUSE</h3>
+									<h3>WAREHOUSE & STOCK</h3>
 								</div>
 							</div>
 						</div>
-						<a href="reportYearIncome?yearIncome=2014">
-							<div class="panel-body">
-								<span class="pull-left">Report</span> <span class="pull-right">
-									<i class="glyphicon glyphicon-circle-arrow-right"></i>
-								</span>
-							</div>
-						</a>
+						<a>
+						<div class="panel-body" data-toggle="modal"
+							data-target="#modalWare">
+							<span class="pull-left">Report</span> <span class="pull-right">
+								<i class="glyphicon glyphicon-circle-arrow-right"></i>
+							</span>
+						</div></a>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
