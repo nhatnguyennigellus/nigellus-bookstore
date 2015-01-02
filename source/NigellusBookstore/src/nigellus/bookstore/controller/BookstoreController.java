@@ -566,6 +566,7 @@ public class BookstoreController {
 		book.setUnitPrice(price);
 		book.setImageUrl("/resources/images/noimage.png");
 		book.setDescription(description);
+		book.setQuantity(0);
 		book.setStatus(1);
 		List<Category> selCates = storeManager
 				.getSelectedCateById(selectedCateId);
@@ -1408,9 +1409,16 @@ public class BookstoreController {
 		return new ModelAndView("viewOrder");
 	}
 	
-	private String REPORT_OUTPUT_FOLDER = "D:/Nigellus Bookstore/Reports/"; 
+	private String REPORT_OUTPUT_FOLDER = "D:/Nigellus Bookstore/Reports/";
+	public void makeReportDir() {
+		File dir = new File (REPORT_OUTPUT_FOLDER);
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+	}
 	@RequestMapping(value = "/reportYearIncome")
 	public String reportYearIncome(HttpServletRequest request) {
+		makeReportDir();
 		String year = request.getParameter("yearIncome");
 		String outputFile = REPORT_OUTPUT_FOLDER + year + "IncomeReport.pdf";
 		try {
@@ -1427,6 +1435,7 @@ public class BookstoreController {
 	
 	@RequestMapping(value = "/warehouseReport")
 	public String warehouseReport(HttpServletRequest request) {
+		makeReportDir();
 		String year = request.getParameter("yearWh");
 		String month = request.getParameter("monthWh");
 		String outputFile = REPORT_OUTPUT_FOLDER 
@@ -1445,6 +1454,7 @@ public class BookstoreController {
 	
 	@RequestMapping(value = "/reportTop5BestSeller")
 	public String reportTop5BestSeller(HttpServletRequest request) {
+		makeReportDir();
 		String outputFile = REPORT_OUTPUT_FOLDER + "Top 5 Best-sellers.pdf";
 		try {
 			reportManager.top5BestSeller(outputFile);
@@ -1460,6 +1470,7 @@ public class BookstoreController {
 	
 	@RequestMapping(value = "/exportReceipt")
 	public String exportReceipt(HttpServletRequest request) {
+		makeReportDir();
 		String orderId = request.getParameter("id");
 		String cus = request.getParameter("cus");
 		String outputFile = REPORT_OUTPUT_FOLDER + 

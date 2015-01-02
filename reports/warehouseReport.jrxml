@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="warehouseReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d77b3d20-fa31-45e8-9f72-0cca5dcd4f2f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#D2691E">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFDABF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#006400">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFFFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#00CED1">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFFEFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#FF7F50">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#73B0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#FFD700">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#FFF5BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dsTotalWarehouse" uuid="24349fa7-f55e-4c8f-9e54-34006c76747d">
+		<parameter name="month" class="java.lang.String"/>
+		<parameter name="year" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select sum(w.QuantityWarehousing) as Warehouse
+from bookonline.warehouse w
+where MONTH(w.DateWarehousing) = $P{month} and YEAR(w.DateWarehousing) = $P{year};]]>
+		</queryString>
+		<field name="Warehouse" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="dsTotalSold" uuid="9c65b0cc-f42d-4081-8a26-83ccf75ef1c1">
+		<parameter name="month" class="java.lang.String"/>
+		<parameter name="year" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select sum(d.Quantity) as Sold
+from bookonline.orderdetails d, bookonline.order o
+where o.Id = d.OrderId and MONTH(o.OrderDate) = $P{month} and YEAR(o.OrderDate) = $P{year}]]>
+		</queryString>
+		<field name="Sold" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="dsTotalRemain" uuid="c0f78e7a-2ba0-4e71-a9b8-4b8cbf8d8963">
+		<queryString language="SQL">
+			<![CDATA[select sum(b.Quantity) as Remaining
+from bookonline.book b;]]>
+		</queryString>
+		<field name="Remaining" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="dsWarehouseList" uuid="4f900567-5fd0-45de-8c69-0e2e57c2ae82">
+		<parameter name="month" class="java.lang.String"/>
+		<parameter name="year" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select b.Title, sum(w.QuantityWarehousing) as Warehouse
+from bookonline.book b, bookonline.warehouse w
+where b.Id = w.BookId and MONTH(w.DateWarehousing) = $P{month} and YEAR(w.DateWarehousing) = $P{year}
+group by b.Id;]]>
+		</queryString>
+		<field name="Title" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Warehouse" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="dsSoldList" uuid="00c12367-057b-41a0-a7e0-a0a767eac791">
+		<parameter name="month" class="java.lang.String"/>
+		<parameter name="year" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select b.Title as Product, sum(d.Quantity) as Sold
+from bookonline.orderdetails d, bookonline.order o, bookonline.book b
+where o.Id = d.OrderId and d.BookId = b.Id and MONTH(o.OrderDate) = $P{month} and YEAR(o.OrderDate) = $P{year}
+group by b.Id;]]>
+		</queryString>
+		<field name="Product" class="java.lang.String"/>
+		<field name="Sold" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="dsRemainList" uuid="7389c284-bc87-48b6-934d-ae293c7d7672">
+		<queryString language="SQL">
+			<![CDATA[select b.Title as Product, sum(b.Quantity) as Remaining
+from bookonline.book b
+group by b.Id;]]>
+		</queryString>
+		<field name="Product" class="java.lang.String"/>
+		<field name="Remaining" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="year" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select 1]]>
+	</queryString>
+	<field name="1" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<image>
+				<reportElement x="57" y="0" width="53" height="79" uuid="bdd1c288-6dd6-482b-89f8-cdaf0ce284a9"/>
+				<imageExpression><![CDATA["E:\\FOTOS\\2014\\logoNewGoogle.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="133" y="2" width="342" height="41" uuid="d7dd2e13-c363-474e-8b58-df7f1d56dd38"/>
+				<textElement>
+					<font fontName="Calibri" size="30" isBold="true"/>
+				</textElement>
+				<text><![CDATA[WAREHOUSING REPORT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="315" y="47" width="59" height="20" uuid="74af8d26-7057-4257-928d-f9d5a936f677"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{month}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="386" y="47" width="46" height="20" uuid="e72106aa-9882-469f-ae90-9828acc5b9c6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="377" y="47" width="9" height="20" uuid="0253ef25-0894-45aa-9e6b-6e2fd500c12d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="422" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" style="table" positionType="Float" x="42" y="22" width="121" height="20" uuid="23ece851-7a82-4b08-b882-80c4f4827958"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsTotalWarehouse" uuid="7e11248e-8410-48f7-b9eb-a02dc1e17639">
+						<datasetParameter name="month">
+							<datasetParameterExpression><![CDATA[$P{month}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="124" uuid="9cfadf52-0d44-4997-adcc-d987f72646b3">
+						<jr:detailCell style="table_CH" height="32" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="124" height="32" uuid="9c43c9c4-8711-4e08-9fdb-6fcfccb63c04"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Warehouse}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="42" y="2" width="121" height="20" uuid="41cfd7ad-5fc9-4e66-b5dd-44a40c166ec5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total Warehousing]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="2" width="107" height="20" uuid="d6d29909-ee37-406f-9cbe-2fc337df65ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total Sold]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="2" width="107" height="20" uuid="6f94ca39-4d32-41e1-bc34-107f31c4286a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Remaining in stock]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" positionType="Float" x="204" y="22" width="134" height="20" uuid="310d88dc-9037-4bed-8d87-ba2342ef2799"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsTotalSold" uuid="dae9c3a1-57c3-4f75-ba3e-65f220503de8">
+						<datasetParameter name="month">
+							<datasetParameterExpression><![CDATA[$P{month}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="133" uuid="fdcc9001-44c4-4dc2-ba83-51a738e24cda">
+						<jr:detailCell style="table 1_CH" height="32" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="133" height="32" uuid="fca7cd4a-61ec-4833-89d7-2b0bbd7ba785"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Sold}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" positionType="Float" x="386" y="22" width="107" height="20" uuid="7fb106d0-c42b-4e2e-8bef-3c97103c0d79"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsTotalRemain" uuid="1298b428-b0f7-43a9-bf91-f3dbb4fab200">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="124" uuid="6b58b4ba-410b-4cc2-b105-74b23bcee1fa">
+						<jr:detailCell style="table 2_CH" height="32" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="124" height="32" uuid="456f155d-9200-4d62-9498-47612af179e5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Remaining}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 3" style="table 3" positionType="Float" x="85" y="53" width="378" height="77" uuid="fd650198-307e-48a4-9145-e6ef475518d3"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsWarehouseList" uuid="02484afd-b276-4153-9ee3-0c6f0a023d78">
+						<datasetParameter name="month">
+							<datasetParameterExpression><![CDATA[$P{month}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="275" uuid="1a1fa358-1b92-4784-a61e-d1b31c2d5b50">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="275" height="30" uuid="f5809b01-0698-42a4-99b9-3a9ea3d8dd4f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Title]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="21" y="0" width="254" height="20" uuid="8ed9aa89-c3c0-4e15-92b3-6cc4f5f01e86"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Title}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="104" uuid="c7776bde-33f3-4783-b266-b7896d6d5fe4">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="104" height="30" uuid="2bd80fba-fd4c-43a8-b37d-e948615041f3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Quantity]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="104" height="20" uuid="da09c895-a638-4a9a-a5e9-428b2a08097b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Warehouse}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 4" style="table 4" positionType="Float" x="85" y="130" width="378" height="50" uuid="720310fa-55c7-4eaf-a732-d45fc657be5a"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsSoldList" uuid="4b5152b1-1c02-44f8-894d-a4662b1f9b92">
+						<datasetParameter name="month">
+							<datasetParameterExpression><![CDATA[$P{month}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="271" uuid="525bee0e-3552-4917-b6d0-3650b04c1091">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="271" height="30" uuid="0dc519d9-14f2-4a2d-82f8-fe80598e22aa"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Product]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="20" y="0" width="251" height="20" uuid="49b2b7e4-5f58-45e6-8272-b607110d2240"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Product}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="108" uuid="7a4d958c-dc04-4602-a5a8-3ac9210a3b2b">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="108" height="30" uuid="bf8e040b-004e-4620-a0f6-979ddb6e7a11"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Sold]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="108" height="20" uuid="80e626b9-f880-4dec-b33c-a1ee2538b943"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Sold}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 5" style="table 5" positionType="Float" x="85" y="180" width="378" height="50" uuid="9053619f-a733-4c86-8cb4-aa57280668e4"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsRemainList" uuid="cd572aaa-7a5d-4ec3-b40a-ffc693697720">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="271" uuid="0f379ba7-c560-4b0a-b799-58ac79d3e05e">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
+							<box>
+								<leftPen lineStyle="Double"/>
+								<rightPen lineStyle="Double"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="271" height="30" uuid="8d20bb1c-3ca5-4e71-a000-9b4a1e2b8781"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Product]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="17" y="0" width="254" height="20" uuid="c3cc3c81-6980-4330-8b82-26352ab57e24"/>
+								<textElement textAlignment="Justified" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Product}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="108" uuid="28240b50-b03e-49ba-b7db-8bbcd38b0089">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
+							<box>
+								<pen lineStyle="Dotted"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineStyle="Dotted"/>
+								<rightPen lineWidth="0.0"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="108" height="30" uuid="dd5823c5-a123-48bc-960e-d8cd038d8d30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Remaining]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<box>
+								<leftPen lineWidth="0.0"/>
+								<rightPen lineWidth="0.0"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="108" height="20" uuid="12349899-3b7b-4fb1-910b-bce7db39b445"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Remaining}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

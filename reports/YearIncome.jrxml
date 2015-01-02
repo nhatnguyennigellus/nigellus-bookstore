@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="YearIncome" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="201fd67c-f682-45ab-816a-7747f5b6d59c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#3366FF"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#3366FF"/>
+			<bottomPen lineWidth="0.5" lineColor="#3366FF"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#3366FF"/>
+			<bottomPen lineWidth="0.5" lineColor="#3366FF"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#3366FF"/>
+			<bottomPen lineWidth="0.5" lineColor="#3366FF"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#73B0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dsMonthlyIncome" uuid="cbcb5ca7-99f7-4cde-a577-dda5985881a9">
+		<parameter name="year" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select MONTH(o.OrderDate) as 'Month', sum(o.TotalAmount) as Income from bookonline.order o where YEAR(o.OrderDate) = $P{year} group by MONTH(o.OrderDate)]]>
+		</queryString>
+		<field name="Month" class="java.lang.Integer"/>
+		<field name="Income" class="java.lang.Double"/>
+		<group name="Income">
+			<groupExpression><![CDATA[$F{Income}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Table Dataset 1" uuid="24b67b7d-2cdf-45e0-b997-a58ed2936d3a"/>
+	<subDataset name="dsYearIncome" uuid="8804066d-bac1-43cd-9cdc-e3109eab0151">
+		<parameter name="year" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select sum(o.TotalAmount) as Income from bookonline.order o where YEAR(o.OrderDate) = $P{year}]]>
+		</queryString>
+		<field name="Income" class="java.lang.Double"/>
+		<group name="Income">
+			<groupExpression><![CDATA[$F{Income}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="dsQuarter1Income" uuid="6c44917b-c930-43e0-bb37-ffd292974f48">
+		<parameter name="year" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select sum(o.TotalAmount) as Income from bookonline.order o
+where YEAR(o.OrderDate) = $P{year}
+and (month(o.OrderDate) >= 1 and month(o.OrderDate) <= 3)]]>
+		</queryString>
+		<field name="Income" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="dsQuarter1Income_1" uuid="8be79829-eaf3-4ecc-bcda-6c7946b80427">
+		<parameter name="year" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select sum(o.TotalAmount) as Income from bookonline.order o
+where YEAR(o.OrderDate) = $P{year}
+and (month(o.OrderDate) >= 4 and month(o.OrderDate) <= 6)]]>
+		</queryString>
+		<field name="Income" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="dsQuarter1Income_1_1" uuid="82cfffff-4a54-4531-b0d5-162c135d5197">
+		<parameter name="year" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select sum(o.TotalAmount) as Income from bookonline.order o
+where YEAR(o.OrderDate) = $P{year}
+and (month(o.OrderDate) >= 7 and month(o.OrderDate) <= 9)]]>
+		</queryString>
+		<field name="Income" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="dsQuarter1Income_1_2" uuid="c83cbb95-f004-48bb-ba82-c026a08aa5ce">
+		<parameter name="year" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select sum(o.TotalAmount) as Income from bookonline.order o
+where YEAR(o.OrderDate) = $P{year}
+and (month(o.OrderDate) >= 10 and month(o.OrderDate) <= 12)]]>
+		</queryString>
+		<field name="Income" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="year" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select 1]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="94" splitType="Stretch">
+			<image>
+				<reportElement x="16" y="15" width="53" height="79" uuid="c743aa43-b6c8-42a2-aed4-8d7fb7bd5b5a"/>
+				<imageExpression><![CDATA["E:\\FOTOS\\2014\\logoNewGoogle.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="358" y="74" width="100" height="20" uuid="bed63281-20f7-4e26-9ea2-84021df53e76"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="328" y="74" width="30" height="20" uuid="da87b939-2487-49ed-a249-737d7d9313b5"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<text><![CDATA[Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="126" y="27" width="190" height="33" uuid="8d005a19-27cb-47ca-be00-493c5a69f702"/>
+				<textElement>
+					<font fontName="Calibri" size="24"/>
+				</textElement>
+				<text><![CDATA[YEAR INCOME]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="336" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" positionType="Float" x="84" y="225" width="400" height="62" uuid="fd91cc85-00ea-42f5-b174-527c35624b9c"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsMonthlyIncome" uuid="46051d4b-0e2c-4049-9f3e-5d3aee725577">
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="d1eb8b40-641c-45a3-a0a1-f4bc71bbb7bd">
+						<jr:columnHeader style="table 2_CH" height="31" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="1" width="90" height="30" uuid="4defefa2-6a70-4c34-b9f5-8b6c95599ca3"/>
+								<textElement textAlignment="Center">
+									<font fontName="Calibri" size="16" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Month]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="af91afa3-0a76-4a3f-8b2d-21505a58dee1"/>
+								<textElement textAlignment="Center">
+									<font fontName="Calibri" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Month}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="270" uuid="013c3627-05aa-455a-b3c9-65fd0bbdd79e">
+						<jr:columnHeader style="table 2_CH" height="31" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="1" width="163" height="29" uuid="47b25eb5-1c0e-40d8-b37d-a33782099dc2"/>
+								<textElement textAlignment="Center">
+									<font fontName="Calibri" size="16" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Income]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="21" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="163" height="20" uuid="b67409a8-e203-45fe-aa98-8d04b30a5de0"/>
+								<textElement textAlignment="Right" verticalAlignment="Top">
+									<font fontName="Calibri" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Income}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="84" y="205" width="100" height="20" uuid="5dd9564e-73a5-43c9-b0c9-20937059d37a"/>
+				<textElement>
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monthly]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="14" width="100" height="20" uuid="4d05b46e-4df8-4eb7-b12c-21b042e8f02c"/>
+				<textElement>
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quarterly]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 5" style="table 5" positionType="Float" x="84" y="34" width="400" height="31" uuid="799c8bca-64d4-4e3c-b37e-e0f80ca44936"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsQuarter1Income" uuid="46f31001-d4da-4e2a-b521-0642636585ad">
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="340e144f-a514-4027-bb78-4b4865a6840a">
+						<jr:detailCell style="table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30" forecolor="#000000" backcolor="#99FF99" uuid="4439e6bf-a35a-47de-b99d-67b991617d03"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Quarter I]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="205" uuid="abbeefcd-34f3-4669-a815-73d4f642890c">
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="170" height="30" uuid="048d1ced-0638-4dbf-b418-b77b1b556485"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Calibri" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Income}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 5" style="table 5" positionType="Float" x="84" y="65" width="400" height="31" uuid="110f300a-5b03-4e22-83ae-f04464292b3e"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsQuarter1Income_1" uuid="efba7050-568c-4a25-8215-0fc5b4db30f3">
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="e3943cf5-1a8e-4fba-85f1-318dd0b36c25">
+						<jr:detailCell style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30" forecolor="#000000" backcolor="#99FF99" uuid="b5b6f27d-809f-4c2d-9e52-8ac87f58b37a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Quarter II]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="205" uuid="55ec4790-64d8-4dc5-9203-047b85d4f419">
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="170" height="30" uuid="5458f52c-7f3e-458e-8e9b-dc66852f053d"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Calibri" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Income}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 5" style="table 5" positionType="Float" x="84" y="96" width="400" height="31" uuid="7f6c5c6e-820b-47c3-a51d-3ccd58bb4291"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsQuarter1Income_1_1" uuid="0d179c41-6502-4e0a-9bef-601470e17551">
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="0f3ba134-a1ef-4ae1-b8c9-3970673b37d2">
+						<jr:detailCell style="table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30" forecolor="#000000" backcolor="#99FF99" uuid="95f9a872-e606-49f7-ab89-07b827060c99"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Quarter III]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="205" uuid="d80acc6d-b440-478c-8ecf-3521bfb169fc">
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="170" height="30" uuid="dc2d8b7b-0dae-4fca-8e23-6e739978e66d"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Calibri" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Income}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 5" style="table 5" positionType="Float" x="84" y="127" width="400" height="31" uuid="212f2f05-73f8-4230-bd41-7cfdecc8c2ca"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsQuarter1Income_1_2" uuid="2f255b58-200b-4a23-b650-f3254c2134d6">
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="624a9a7c-cf10-4b75-b92f-26165b5cb243">
+						<jr:detailCell style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30" forecolor="#000000" backcolor="#99FF99" uuid="de820b8c-3db6-4805-9429-7262c50ca651"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Quarter IV]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="205" uuid="71f398a4-c625-4c7c-814d-7add015102ab">
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="170" height="30" uuid="a1957983-d97f-4713-b5e9-c04adfd62e65"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Calibri" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Income}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<summary>
+		<band height="53" splitType="Stretch">
+			<staticText>
+				<reportElement x="137" y="15" width="64" height="20" uuid="c3ab0067-c3ff-4d02-8282-7187e282ad1c"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 4" style="table 4" x="221" y="9" width="180" height="35" uuid="fe20cfe6-9133-405c-8a7f-9704360b3692"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dsYearIncome" uuid="b559d115-936a-4745-8d28-7383a0b7c779">
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="120" uuid="9f0bf335-dd21-440e-89d5-52d9beb18fea">
+						<jr:detailCell style="table 4_TD" height="35" rowSpan="1">
+							<textField>
+								<reportElement x="10" y="2" width="110" height="33" uuid="33b140c5-44db-412a-af79-d069b9220636"/>
+								<textElement>
+									<font fontName="Calibri" size="18" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Income}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>
