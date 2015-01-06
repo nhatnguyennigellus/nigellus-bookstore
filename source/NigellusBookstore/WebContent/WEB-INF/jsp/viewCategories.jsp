@@ -25,7 +25,10 @@
 		</div>
 		<div class="col-md-8">
 			<br/>
+			<div class="panel panel-info">
+				<div class="panel-body">
 			${model.selectedCategory.description }
+			</div></div>
 		</div>
 		<div class="col-md-8">
 

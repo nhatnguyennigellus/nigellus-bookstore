@@ -37,7 +37,7 @@
 						<button type="button" class="btn btn-danger btn-xs"
 							data-toggle="modal" data-target="#myModalDel"
 							data-id="${image.id}">
-							<img alt="Nigellus Bookstore" class="img-thumbnail"
+							<img alt="Nigellus Bookstore"
 								src="<c:url value="/resources/images/del_icon.png" />" />
 						</button>
 						<div class="modal fade" id="myModalDel" tabindex="-1"

@@ -40,7 +40,7 @@
 	style="padding-top: 5px; background-repeat: no-repeat; background-attachment: fixed;"
 	background="<c:url value='/resources/images/background.jpg'/>">
 	<table border="1" style="border-style: ridge; margin-bottom: 5px" cellpadding="2"
-		cellspacing="2" align="center" width="90%">
+		cellspacing="2" align="center" width="98%">
 		<tr>
 			<td height="30" colspan="2" style="background-color: #FFDFDF; color: #FF5500;"><tiles:insertAttribute
 					name="header" /></td>
